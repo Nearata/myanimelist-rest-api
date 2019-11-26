@@ -20,7 +20,7 @@ Clone or download zip
 
 ## Usage example
 
-Coming soon
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/18acc4272e58f2755282)
 
 ## Features
 
