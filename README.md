@@ -24,22 +24,7 @@ Coming soon
 
 ## Features
 
-- Anime
-  - Characters
-  - Clubs
-  - Details
-  - Episodes
-  - Featured
-  - More info
-  - News
-  - Pictures
-  - Recommendations
-  - Reviews
-  - Staff
-  - Stats
-
-- Search
-  - Anime
+[Wiki](https://github.com/Nearata/myanimelist-rest-api/wiki/Features)
 
 ## License
 
