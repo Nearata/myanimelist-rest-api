@@ -26,6 +26,8 @@ Clone or download zip
 
 [Wiki](https://github.com/Nearata/myanimelist-rest-api/wiki/Features)
 
+_Please refer to the [Wiki](https://github.com/Nearata/myanimelist-rest-api/wiki) for more info about anything._
+
 ## License
 
 Distributed under the MIT license. See ``LICENSE`` for more information.
