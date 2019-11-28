@@ -1,6 +1,7 @@
 from re import match
 from falcon import HTTPBadRequest
 from falcon import HTTPMissingParam
+from falcon import HTTPInvalidParam
 from mal.spiders import AnimeSpiders
 
 
@@ -19,9 +20,16 @@ class ValidateRoute:
                 if not match(anime_regex + r"(reviews|episodes)\/(\d+)", request.path):
                     raise HTTPMissingParam("page_number")
         elif match(r"\/(search/anime)", request.path):
-            if request.get_param_as_bool("query") and len(request.get_param("query")) < 3:
-                raise HTTPBadRequest(
-                    description="Query param must be minimum 3 letters."
+            if request.get_param("query", required=True):
+                if len(request.get_param("query")) < 3:
+                    raise HTTPInvalidParam(
+                        msg="Must be minimum 3 letters.",
+                        param_name="query"
+                    )
+            else:
+                raise HTTPInvalidParam(
+                    msg="It cannot be empty.",
+                    param_name="query"
                 )
         else:
             raise HTTPBadRequest(

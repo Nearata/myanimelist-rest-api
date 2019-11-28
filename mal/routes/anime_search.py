@@ -5,7 +5,7 @@ from mal.spiders.anime.search import search
 class AnimeSearch:
     def on_get(self, request, response):
         results = search(
-            request.get_param("query", required=True),
+            request.get_param("query"),
             request.get_param("type", default=0),
             request.get_param("score", default=0),
             request.get_param("status", default=0),
