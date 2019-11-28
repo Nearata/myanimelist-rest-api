@@ -19,10 +19,7 @@ class ValidateRoute:
                 if not match(anime_regex + r"(reviews|episodes)\/(\d+)", request.path):
                     raise HTTPMissingParam("page_number")
         elif match(r"\/(search/anime)", request.path):
-            if "query" not in request.params:
-                raise HTTPMissingParam("query")
-
-            if len(request.params["query"]) < 3:
+            if request.get_param("query") and len(request.get_param("query")) < 3:
                 raise HTTPBadRequest(
                     description="Query param must be minimum 3 letters."
                 )
