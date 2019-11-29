@@ -18,7 +18,8 @@ class AnimeSearch:
             request.get_param("end_month", default=0),
             request.get_param("end_year", default=0),
             request.get_param("genres", default=0),
-            request.get_param("genres_exclude", default=0)
+            request.get_param("genres_exclude", default=0),
+            request.get_param("columns", default=0)
         )
         response.content_type = "application/json"
         response.body = dumps(results)
