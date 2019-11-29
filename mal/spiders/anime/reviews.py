@@ -14,12 +14,12 @@ def get_reviews(mal_id, page_number):
                 datetime.strptime(
                     i.select_one(
                         ".spaceit:first-child > div.mb8:first-child > div:first-child"
-                    ).text,
+                    ).get_text(),
                     "%b %d, %Y"
                 ).date()),
             "helpful_count": int(i.select_one(
                 ".spaceit:first-child > div:nth-child(2) td:last-child > div span"
-            ).text),
+            ).get_text()),
             "url": i.select_one(
                 "div:last-child > div > div > a"
             ).get("href"),
@@ -32,26 +32,26 @@ def get_reviews(mal_id, page_number):
                 ).get("data-src"),
                 "username": i.select_one(
                     ".spaceit:first-child > div:last-child td:last-child > a"
-                ).text,
+                ).get_text(),
                 "scores": {
                     "overall": int(i.select_one(
                         ".textReadability tr:nth-child(1) > td:last-child > strong"
-                    ).text),
+                    ).get_text()),
                     "story": int(i.select_one(
                         ".textReadability tr:nth-child(2) > td:last-child"
-                    ).text),
+                    ).get_text()),
                     "animation": int(i.select_one(
                         ".textReadability tr:nth-child(3) > td:last-child"
-                    ).text),
+                    ).get_text()),
                     "sound": int(i.select_one(
                         ".textReadability tr:nth-child(4) > td:last-child"
-                    ).text),
+                    ).get_text()),
                     "character": int(i.select_one(
                         ".textReadability tr:nth-child(5) > td:last-child"
-                    ).text),
+                    ).get_text()),
                     "enjoyment": int(i.select_one(
                         ".textReadability tr:nth-child(6) > td:last-child"
-                    ).text)
+                    ).get_text())
                 }
             }
         } for i in selector

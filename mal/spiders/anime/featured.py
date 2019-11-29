@@ -9,12 +9,12 @@ def get_featured(mal_id):
         {
             "image": i.select_one("a > img").get("data-src"),
             "url": i.select_one("div > p.title > a").get("href"),
-            "title": i.select_one("div > p.title > a").text,
-            "content": i.select_one("div > .text").text.strip(),
-            "writer": i.select_one("div > .information > p.info > a").text,
+            "title": i.select_one("div > p.title > a").get_text(),
+            "content": i.select_one("div > .text").get_text(strip=True),
+            "writer": i.select_one("div > .information > p.info > a").get_text(),
             "tags": [
                 {
-                    "name": tag.text
+                    "name": tag.get_text()
                 } for tag in i.select(
                     "div > .information > .tags > .tags-inner .tag"
                 )

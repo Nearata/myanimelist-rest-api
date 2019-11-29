@@ -110,7 +110,7 @@ def search(
         anime["image_url"] = i.select_one(
             "td:nth-child(1)>.picSurround>a>img"
         ).get("data-src").replace("r/50x70/", "")
-        anime["title"] = i.select_one("td:nth-child(2)>a>strong").text
+        anime["title"] = i.select_one("td:nth-child(2)>a>strong").get_text()
         if type_index:
             anime["type"] = i.select_one(
                 f"td:nth-child({type_index})"

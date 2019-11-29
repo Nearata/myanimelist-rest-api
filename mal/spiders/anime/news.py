@@ -22,17 +22,17 @@ def get_news(mal_id):
             "image_url": i.select_one(
                 ".picSurround > a > img"
             ).get("data-src"),
-            "title": i.select_one(".spaceit > a > strong").text,
+            "title": i.select_one(".spaceit > a > strong").get_text(),
             "content": i.select_one(
                 ".clearfix > .clearfix > p > a"
             ).previous_sibling.strip(),
-            "author": i.select_one(".lightLink > a:first-child").text,
+            "author": i.select_one(".lightLink > a:first-child").get_text(),
             "author_profile": f"""
             https://myanimelist.net{
                 i.select_one('.lightLink > a:first-child').get('href')
             }
             """.strip(),
-            "comments": comments(i.select_one(".lightLink > a:last-child").text),
+            "comments": comments(i.select_one(".lightLink > a:last-child").get_text()),
             "forum_url": f"""
             https://myanimelist.net{
                 i.select_one('.lightLink > a:last-child').get('href')

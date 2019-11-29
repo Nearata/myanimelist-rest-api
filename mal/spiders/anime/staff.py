@@ -13,8 +13,8 @@ def get_staff(mal_id):
             "image": i.select_one(
                 "td:first-child > .picSurround > a > img"
             ).get("data-src"),
-            "name": i.select_one("td:last-child > a").text,
-            "role": i.select_one("td:last-child > div").text.strip()
+            "name": i.select_one("td:last-child > a").get_text(),
+            "role": i.select_one("td:last-child > div").get_text(strip=True)
         } for i in selector
     ]
 

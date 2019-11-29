@@ -50,20 +50,20 @@ def get_episodes(mal_id, page_number):
 
     episodes = [
         {
-            "title": i.select_one(".episode-title > a").text,
+            "title": i.select_one(".episode-title > a").get_text(),
             "title_romanji": title_romanji(
-                i.select_one(".episode-title > span").text
+                i.select_one(".episode-title > span").get_text()
             ),
             "title_japanese": title_jap(
-                i.select_one("td.episode-title > span").text
+                i.select_one("td.episode-title > span").get_text()
             ),
-            "number": number(i.select_one("td.episode-number").text),
-            "aired": aired(i.select_one("td.episode-aired").text),
+            "number": number(i.select_one("td.episode-number").get_text()),
+            "aired": aired(i.select_one("td.episode-aired").get_text()),
             "filler": filler_recap(
-                i.select_one(".episode-title > span").text
+                i.select_one(".episode-title > span").get_text()
             ),
             "recap": filler_recap(
-                i.select_one(".episode-title > span").text
+                i.select_one(".episode-title > span").get_text()
             )
         } for i in selector
     ]

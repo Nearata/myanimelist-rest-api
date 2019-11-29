@@ -12,7 +12,7 @@ def get_recommendations(mal_id):
             ).get("data-src"),
             "title": i.select_one(
                 "td:last-child > div:nth-child(2) > a > strong"
-            ).text,
+            ).get_text(),
             "url": i.select_one(
                 "td:last-child > div:nth-child(2) > a"
             ).get("href"),

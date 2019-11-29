@@ -30,7 +30,7 @@ def get_stats(mal_id):
 
     def votes(string):
         if string:
-            regex = search(r"\d+", string.text)
+            regex = search(r"\d+", string.get_text())
             if regex:
                 return int(regex.group())
             return None

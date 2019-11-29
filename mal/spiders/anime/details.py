@@ -17,7 +17,7 @@ def get_details(mal_id):
     def synopsis():
         synopsis = soup.select_one("span[itemprop=description]")
         if synopsis:
-            return synopsis.text.strip()
+            return synopsis.get_text(strip=True)
         return None
 
     def background():
@@ -25,8 +25,8 @@ def get_details(mal_id):
         for i in background.select("h2, span, div"):
             i.decompose()
 
-        if not background.text.lower().startswith("no background"):
-            return background.text
+        if not background.get_text().lower().startswith("no background"):
+            return background.get_text()
         return None
 
     def english():
@@ -94,7 +94,7 @@ def get_details(mal_id):
     def premiered():
         premiered = soup.find("span", string="Premiered:")
         if premiered.next_sibling.strip() != "?":
-            return premiered.parent.find("a").text
+            return premiered.parent.find("a").get_text()
         return None
 
     def producers():
@@ -102,7 +102,7 @@ def get_details(mal_id):
         if "none found" not in producers.next_sibling.strip().lower():
             return [
                 {
-                    "name": i.text,
+                    "name": i.get_text(),
                     "url": f"https://myanimelist.net{i.get('href')}",
                     "mal_id": str_to_int(i.get("href").split("/"))
                 } for i in producers.find_next_siblings("a")
@@ -114,7 +114,7 @@ def get_details(mal_id):
                 "span", string="Licensors:").next_sibling.strip().lower():
             return [
                 {
-                    "name": i.text,
+                    "name": i.get_text(),
                     "url": f"https://myanimelist.net{i.get('href')}",
                     "mal_id": str_to_int(i.get("href").split("/"))
                 } for i in soup.find(
@@ -127,7 +127,7 @@ def get_details(mal_id):
         if "none found" not in studios.next_sibling.strip().lower():
             return [
                 {
-                    "name": i.text,
+                    "name": i.get_text(),
                     "url": f"https://myanimelist.net{i.get('href')}",
                     "mal_id": str_to_int(i.get("href").split("/"))
                 } for i in studios.find_next_siblings("a")
@@ -145,7 +145,7 @@ def get_details(mal_id):
         if genres:
             return [
                 {
-                    "name": i.text,
+                    "name": i.get_text(),
                     "mal_id": str_to_int(i.get("href").split("/"))
                 } for i in genres.find_next_siblings("a")
             ]
@@ -166,7 +166,7 @@ def get_details(mal_id):
     def score():
         score = soup.find("span", itemprop="ratingValue")
         if score:
-            return float(score.text)
+            return float(score.get_text())
         return None
 
     def ranked():
@@ -210,7 +210,7 @@ def get_details(mal_id):
         if adaptation:
             return [
                 {
-                    "title": i.text,
+                    "title": i.get_text(),
                     "type": i.get("href").split("/")[1],
                     "mal_id": int(i.get("href").split("/")[2])
                 } for i in adaptation.next_sibling.select("a")
@@ -222,7 +222,7 @@ def get_details(mal_id):
         if side_story:
             return [
                 {
-                    "title": i.text,
+                    "title": i.get_text(),
                     "type": i.get("href").split("/")[1],
                     "mal_id": int(i.get("href").split("/")[2])
                 } for i in side_story.next_sibling.select("a")
@@ -234,7 +234,7 @@ def get_details(mal_id):
         if summary:
             return [
                 {
-                    "title": i.text,
+                    "title": i.get_text(),
                     "type": i.get("href").split("/")[1],
                     "mal_id": int(i.get("href").split("/")[2])
                 } for i in summary.next_sibling.select("a")
@@ -246,7 +246,7 @@ def get_details(mal_id):
         if spin_off:
             return [
                 {
-                    "title": i.text,
+                    "title": i.get_text(),
                     "type": i.get("href").split("/")[1],
                     "mal_id": int(i.get("href").split("/")[2])
                 } for i in spin_off.next_sibling.select("a")
@@ -258,7 +258,7 @@ def get_details(mal_id):
         if other:
             return [
                 {
-                    "title": i.text,
+                    "title": i.get_text(),
                     "type": i.get("href").split("/")[1],
                     "mal_id": int(i.get("href").split("/")[2])
                 } for i in other.next_sibling.select("a")
@@ -270,7 +270,7 @@ def get_details(mal_id):
         if prequel:
             return [
                 {
-                    "title": i.text,
+                    "title": i.get_text(),
                     "type": i.get("href").split("/")[1],
                     "mal_id": int(i.get("href").split("/")[2])
                 } for i in prequel.next_sibling.select("a")
@@ -282,7 +282,7 @@ def get_details(mal_id):
         if character:
             return [
                 {
-                    "title": i.text,
+                    "title": i.get_text(),
                     "type": i.get("href").split("/")[1],
                     "mal_id": int(i.get("href").split("/")[2])
                 } for i in character.next_sibling.select("a")
@@ -294,7 +294,7 @@ def get_details(mal_id):
         if sequel:
             return [
                 {
-                    "title": i.text,
+                    "title": i.get_text(),
                     "type": i.get("href").split("/")[1],
                     "mal_id": int(i.get("href").split("/")[2])
                 } for i in sequel.next_sibling.select("a")
@@ -306,7 +306,7 @@ def get_details(mal_id):
         if opening_theme:
             return [
                 {
-                    "title": opening.text.strip()
+                    "title": opening.get_text(strip=True)
                 } for opening in opening_theme
             ]
         return []
@@ -316,13 +316,13 @@ def get_details(mal_id):
         if ending_theme:
             return [
                 {
-                    "title": ending.text.strip()
+                    "title": ending.get_text(strip=True)
                 } for ending in ending_theme
             ]
         return []
 
     details = {
-        "title": soup.select_one("h1").text,
+        "title": soup.select_one("h1").get_text(),
         "image": soup.select_one("img.ac").get("src"),
         "trailer": trailer(),
         "synopsis": synopsis(),
@@ -334,7 +334,7 @@ def get_details(mal_id):
         },
         "information": {
             "type": soup.find(
-                "span", string="Type:").find_next_sibling("a").text,
+                "span", string="Type:").find_next_sibling("a").get_text(),
             "episodes": episodes(),
             "status": status(),
             "aired": {

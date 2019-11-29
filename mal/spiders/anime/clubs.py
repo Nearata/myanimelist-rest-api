@@ -14,9 +14,9 @@ def get_clubs(mal_id):
 
     clubs = [
         {
-            "name": i.select_one("a").text.strip(),
+            "name": i.select_one("a").get_text(strip=True),
             "url": f"https://myanimelist.net{i.select_one('a').get('href')}",
-            "members": members(i.select_one("small").text)
+            "members": members(i.select_one("small").get_text())
 
         } for i in selector
     ]

@@ -18,5 +18,5 @@ def get_moreinfo(mal_id):
     moreinfo = soup.select_one(".js-scrollfix-bottom-rel")
 
     return {
-        "more_info": moreinfo.text.strip()
+        "more_info": moreinfo.get_text(strip=True)
     }
