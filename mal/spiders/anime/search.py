@@ -14,22 +14,32 @@ def search(
             start_year=0,
             end_month=0,
             end_day=0,
-            end_year=0
+            end_year=0,
+            genres=0,
+            genres_exclude=0
         ):
-    soup = get_soup("https://myanimelist.net/anime.php", params={
+
+    params = {
         "q": query,
         "type": ttype,
         "score": sscore,
         "status": status,
         "p": producer,
         "r": rated,
+        "sy": start_year,
         "sm": start_month,
         "sd": start_day,
-        "sy": start_year,
+        "ey": end_year,
         "em": end_month,
         "ed": end_day,
-        "ey": end_year
-    })
+        "gx": genres_exclude
+    }
+
+    if genres:
+        for i in genres.split(","):
+            params[f"genre[{i}]"] = i
+
+    soup = get_soup("https://myanimelist.net/anime.php", params=params)
     selector = soup.select(".js-categories-seasonal tr:not(:first-child)")
 
     def episodes(string):
