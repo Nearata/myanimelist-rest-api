@@ -3,11 +3,13 @@ from mal.middleware import RequireJSON
 from mal.middleware import ValidateRoute
 from mal.routes import AnimeResource
 from mal.routes import AnimeSearch
+from mal.routes import AnimeTop
 
 
 def create_app():
     anime_route = AnimeResource()
     anime_search = AnimeSearch()
+    anime_top = AnimeTop()
 
     api = API(middleware=[
         RequireJSON(),
@@ -28,6 +30,10 @@ def create_app():
     api.add_route(
         "/search/anime",
         anime_search
+    )
+    api.add_route(
+        "/top/anime/{ttype}/{page_number:int}",
+        anime_top
     )
 
     return api

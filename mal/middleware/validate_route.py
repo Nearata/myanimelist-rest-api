@@ -19,7 +19,7 @@ class ValidateRoute:
             if match(anime_regex + r"(reviews|episodes)", request.path):
                 if not match(anime_regex + r"(reviews|episodes)\/(\d+)", request.path):
                     raise HTTPMissingParam("page_number")
-        elif match(r"\/(search/anime)", request.path):
+        elif match(r"\/(search\/anime)", request.path):
             if request.get_param("query", required=True):
                 if len(request.get_param("query")) < 3:
                     raise HTTPInvalidParam(
@@ -31,6 +31,8 @@ class ValidateRoute:
                     msg="It cannot be empty.",
                     param_name="query"
                 )
+        elif match(r"\/(top\/anime)\/(all|airing|upcoming|tv|ova|special|bypopularity|favorite)\/(\d+)", request.path):
+            pass
         else:
             raise HTTPBadRequest(
                 title="The route is invalid or incomplete",
