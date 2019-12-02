@@ -51,8 +51,9 @@ class ValidateRoute:
                     if not match(regex + r"\/(\d+)", request.path):
                         raise HTTPMissingParam("page_number")
                 else:
-                    raise HTTPMissingParam(
-                        param_name="type",
+                    raise HTTPBadRequest(
+                        title="The route is invalid or incomplete.",
+                        description="Please double check the documentation.",
                         href="https://github.com/Nearata/myanimelist-rest-api/wiki/Top-Route"
                     )
             else:
