@@ -5,6 +5,12 @@ from mal.spiders.utils import get_soup
 def get_details(mal_id):
     soup = get_soup(f"https://myanimelist.net/anime/{mal_id}")
 
+    for i in soup.select("h1 > .h1-title > span[itemprop=name]"):
+        i.br.decompose()
+        i.span.decompose()
+
+    anime_title = soup.select_one("h1 > .h1-title > span").get_text()
+
     def str_to_int(soup):
         return int("".join(filter(str.isdigit, [s for s in soup])))
 
@@ -322,8 +328,8 @@ def get_details(mal_id):
         return []
 
     details = {
-        "title": soup.select_one("h1").get_text(),
-        "image": soup.select_one("img.ac").get("src"),
+        "title": anime_title,
+        "image": soup.find("img", alt=anime_title).get("data-src"),
         "trailer": trailer(),
         "synopsis": synopsis(),
         "background": background(),
