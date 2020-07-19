@@ -1,50 +1,65 @@
-from mal.spiders.anime.characters import get_characters
-from mal.spiders.anime.clubs import get_clubs
-from mal.spiders.anime.details import get_details
-from mal.spiders.anime.episodes import get_episodes
-from mal.spiders.anime.featured import get_featured
-from mal.spiders.anime.moreinfo import get_moreinfo
-from mal.spiders.anime.news import get_news
-from mal.spiders.anime.pictures import get_pictures
-from mal.spiders.anime.recommendations import get_recommendations
-from mal.spiders.anime.reviews import get_reviews
-from mal.spiders.anime.staff import get_staff
-from mal.spiders.anime.stats import get_stats
+from mal.spiders.anime.characters import Characters
+from mal.spiders.anime.clubs import Clubs
+from mal.spiders.anime.details import Details
+from mal.spiders.anime.episodes import Episodes
+from mal.spiders.anime.featured import Featured
+from mal.spiders.anime.moreinfo import MoreInfo
+from mal.spiders.anime.news import News
+from mal.spiders.anime.pictures import Pictures
+from mal.spiders.anime.recommendations import Recommendations
+from mal.spiders.anime.reviews import Reviews
+from mal.spiders.anime.staff import Staff
+from mal.spiders.anime.stats import Stats
 
 
 class AnimeSpiders:
+    def __init__(self) -> None:
+        self.base_url = 'https://myanimelist.net'
+
     def characters(self, mal_id):
-        return get_characters(mal_id)
+        characters = Characters(self.base_url, mal_id)
+        return characters.get()
 
     def clubs(self, mal_id):
-        return get_clubs(mal_id)
+        clubs = Clubs(self.base_url, mal_id)
+        return clubs.get()
 
     def details(self, mal_id):
-        return get_details(mal_id)
+        details = Details(self.base_url, mal_id)
+        return details.get()
 
     def episodes(self, mal_id, page_number):
-        return get_episodes(mal_id, page_number)
+        episodes = Episodes(self.base_url, mal_id, page_number)
+        return episodes.get()
 
     def featured(self, mal_id):
-        return get_featured(mal_id)
+        featured = Featured(self.base_url, mal_id)
+        return featured.get()
 
     def moreinfo(self, mal_id):
-        return get_moreinfo(mal_id)
+        more_info = MoreInfo(self.base_url, mal_id)
+        return more_info.get()
 
     def news(self, mal_id):
-        return get_news(mal_id)
+        news = News(self.base_url, mal_id)
+        return news.get()
 
     def pictures(self, mal_id):
-        return get_pictures(mal_id)
+        pictures = Pictures(self.base_url, mal_id)
+        return pictures.get()
 
     def recommendations(self, mal_id):
-        return get_recommendations(mal_id)
+        recommendations = Recommendations(self.base_url, mal_id)
+        return recommendations.get()
 
     def reviews(self, mal_id, page_number):
-        return get_reviews(mal_id, page_number)
+        reviews = Reviews(self.base_url, mal_id, page_number)
+        return reviews.get()
 
     def staff(self, mal_id):
-        return get_staff(mal_id)
+        staff = Staff(self.base_url, mal_id)
+        return staff.get()
 
     def stats(self, mal_id):
-        return get_stats(mal_id)
+        stats = Stats(self.base_url, mal_id)
+        return stats.get()

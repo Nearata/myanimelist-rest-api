@@ -1,23 +1,20 @@
 from mal.spiders.utils import get_soup
 
 
-def get_staff(mal_id):
-    soup = get_soup(f"https://myanimelist.net/anime/{mal_id}/_/characters")
-    selector = soup.select_one("a[name=staff]").find_next_siblings("table")
+class Staff:
+    def __init__(self, base_url, mal_id) -> None:
+        self.base_url = base_url
+        self.mal_id = mal_id
 
-    staff = [
-        {
-            "url": i.select_one(
-                "td:first-child > .picSurround > a"
-            ).get("href"),
-            "image": i.select_one(
-                "td:first-child > .picSurround > a > img"
-            ).get("data-src"),
-            "name": i.select_one("td:last-child > a").get_text(),
-            "role": i.select_one("td:last-child > div").get_text(strip=True)
-        } for i in selector
-    ]
-
-    return {
-        "staff": staff
-    }
+    def get(self):
+        selector = get_soup(f"{self.base_url}/anime/{self.mal_id}/_/characters").select_one("a[name=staff]").find_next_siblings("table")
+        return {
+            "staff": [
+                {
+                    "url": i.select_one("td:first-child > .picSurround > a").get("href"),
+                    "image": i.select_one("td:first-child > .picSurround > a > img" ).get("data-src"),
+                    "name": i.select_one("td:last-child > a").get_text(),
+                    "role": i.select_one("td:last-child > div").get_text(strip=True)
+                } for i in selector
+            ]
+        }

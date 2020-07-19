@@ -1,39 +1,52 @@
 from datetime import datetime
-from re import findall
-from re import match
-from re import sub
+from re import findall, match, sub
 from mal.spiders.utils import get_soup
 
 
-def get_episodes(mal_id, page_number):
-    if page_number == 1:
-        page_url = f"https://myanimelist.net/anime/{mal_id}/_/episode"
-    else:
-        page_url = f"https://myanimelist.net/anime/{mal_id}/_/episode?offset={page_number}00"
+class Episodes:
+    def __init__(self, base_url, mal_id, page_number) -> None:
+        self.base_url = base_url
+        self.mal_id = mal_id
+        self.page_number = page_number
 
-    soup = get_soup(page_url)
-    selector = soup.select("table.ascend .episode-list-data")
+    def get(self):
+        episode_title = ".episode-title > span"
+        page_url = f"{self.base_url}/anime/{self.mal_id}/_/episode" if self.page_number == 1 else f"{self.base_url}/anime/{self.mal_id}/_/episode?offset={self.page_number}00"
+        selector = get_soup(page_url).select("table.ascend .episode-list-data")
+        return {
+            "episodes": [
+                {
+                    "title": i.select_one(".episode-title > a").get_text(),
+                    "title_romanji": self.__title_romanji(i.select_one(episode_title).get_text()),
+                    "title_japanese": self.__title_japanese(i.select_one(episode_title).get_text()),
+                    "number": self.__number(i.select_one("td.episode-number").get_text()),
+                    "aired": self.__aired(i.select_one("td.episode-aired").get_text()),
+                    "filler": self.__filler_recap(i.select_one(episode_title).get_text()),
+                    "recap": self.__filler_recap(i.select_one(episode_title).get_text())
+                } for i in selector
+            ]
+        }
 
-    def title_romanji(string):
+    def __title_romanji(self, string):
         regex = sub(r"\s\(.*?\)", "", string)
         if regex:
             return regex
         return None
 
-    def title_jap(string):
+    def __title_japanese(self, string):
         pattern = r"[^a-zA-Z!-@#$%^&*(),.?\":{}|<>\s].*[^)]"
         regex = findall(pattern, string)
         if regex:
             return "".join(regex)
         return None
 
-    def number(string):
+    def __number(self, string):
         regex = match(r"\d+", string)
         if regex:
             return int(regex.group())
         return None
 
-    def aired(string):
+    def __aired(self, string):
         regex = match(
             r"(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s?(\d{1,2})?(,)\s(\d{4})",
             string
@@ -42,32 +55,8 @@ def get_episodes(mal_id, page_number):
             return str(datetime.strptime(regex.group(), "%b %d, %Y").date())
         return None
 
-    def filler_recap(string):
+    def __filler_recap(self, string):
         regex = match(r"(filler|recap)", string.lower())
         if regex:
             return True
         return False
-
-    episodes = [
-        {
-            "title": i.select_one(".episode-title > a").get_text(),
-            "title_romanji": title_romanji(
-                i.select_one(".episode-title > span").get_text()
-            ),
-            "title_japanese": title_jap(
-                i.select_one("td.episode-title > span").get_text()
-            ),
-            "number": number(i.select_one("td.episode-number").get_text()),
-            "aired": aired(i.select_one("td.episode-aired").get_text()),
-            "filler": filler_recap(
-                i.select_one(".episode-title > span").get_text()
-            ),
-            "recap": filler_recap(
-                i.select_one(".episode-title > span").get_text()
-            )
-        } for i in selector
-    ]
-
-    return {
-        "episodes": episodes
-    }

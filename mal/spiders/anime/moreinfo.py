@@ -1,22 +1,24 @@
 from mal.spiders.utils import get_soup
 
 
-def get_moreinfo(mal_id):
-    soup = get_soup(f"https://myanimelist.net/anime/{mal_id}/_/moreinfo")
+class MoreInfo:
+    def __init__(self, base_url, mal_id) -> None:
+        self.base_url = base_url
+        self.mal_id = mal_id
 
-    tags_decompose = soup.select(
-        """
-        .js-scrollfix-bottom-rel > div,
-        .js-scrollfix-bottom-rel > a,
-        .js-scrollfix-bottom-rel > h2
-        """
-    )
+    def get(self):
+        soup = get_soup(f"{self.base_url}/anime/{self.mal_id}/_/moreinfo")
+        tags_decompose = soup.select(
+            """
+            .js-scrollfix-bottom-rel > div,
+            .js-scrollfix-bottom-rel > a,
+            .js-scrollfix-bottom-rel > h2
+            """
+        )
 
-    for i in tags_decompose:
-        i.decompose()
+        for i in tags_decompose:
+            i.decompose()
 
-    moreinfo = soup.select_one(".js-scrollfix-bottom-rel")
-
-    return {
-        "more_info": moreinfo.get_text(strip=True)
-    }
+        return {
+            "more_info": soup.select_one(".js-scrollfix-bottom-rel").get_text(strip=True)
+        }

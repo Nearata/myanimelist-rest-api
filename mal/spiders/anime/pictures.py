@@ -1,16 +1,18 @@
 from mal.spiders.utils import get_soup
 
 
-def get_pictures(mal_id):
-    soup = get_soup(f"https://myanimelist.net/anime/{mal_id}/_/pics")
+class Pictures:
+    def __init__(self, base_url, mal_id) -> None:
+        self.base_url = base_url
+        self.mal_id = mal_id
 
-    pictures = [
-        {
-            "large": i.select_one("a").get("href"),
-            "small": i.select_one("a").get("href").replace("l.", ".")
-        } for i in soup.select(".picSurround")
-    ]
-
-    return {
-        "pictures": pictures
-    }
+    def get(self):
+        soup = get_soup(f"{self.base_url}/anime/{self.mal_id}/_/pics")
+        return {
+            "pictures": [
+                {
+                    "large": i.select_one("a").get("href"),
+                    "small": i.select_one("a").get("href").replace("l.", ".")
+                } for i in soup.select(".picSurround")
+            ]
+        }

@@ -2,32 +2,85 @@ from datetime import datetime
 from mal.spiders.utils import get_soup
 
 
-def get_details(mal_id):
-    soup = get_soup(f"https://myanimelist.net/anime/{mal_id}")
+class Details:
+    def __init__(self, base_url, mal_id) -> None:
+        self.base_url = base_url
+        self.soup = get_soup(f"{base_url}/anime/{mal_id}")
+        self.none_found = "none found"
 
-    for i in soup.select("h1 > .h1-title > span[itemprop=name]"):
-        i.br.decompose()
-        i.span.decompose()
+    def get(self):
+        for i in self.soup.select("h1 > .h1-title > span[itemprop=name]"):
+            i.br.decompose()
+            i.span.decompose()
 
-    anime_title = soup.select_one("h1 > .h1-title > span").get_text()
+        anime_title = self.soup.select_one("h1 > .h1-title > span").get_text()
 
-    def str_to_int(soup):
-        return int("".join(filter(str.isdigit, [s for s in soup])))
+        return {
+            "details": {
+                "title": anime_title,
+                "image": self.soup.find("img", alt=anime_title).get("data-src"),
+                "trailer": self.__trailer(),
+                "synopsis": self.__synopsis(),
+                "background": self.__background(),
+                "alternative_titles": {
+                    "english": self.__english(),
+                    "japanese": self.__japanese(),
+                    "synonyms": self.__synonyms(),
+                },
+                "information": {
+                    "type": self.soup.find(
+                        "span", string="Type:").find_next_sibling("a").get_text(),
+                    "episodes": self.__episodes(),
+                    "status": self.__status(),
+                    "aired": {
+                        "from": self.__aired_from(),
+                        "to": self.__aired_to()
+                    },
+                    "premiered": self.__premiered(),
+                    "producers": self.__producers(),
+                    "licensors": self.__licensors(),
+                    "studios": self.__studios(),
+                    "source": self.__source(),
+                    "genres": self.__genres(),
+                    "duration": self.__duration(),
+                    "rating": self.__rating()
+                },
+                "statistics": {
+                    "score": self.__score(),
+                    "ranked": self.__ranked(),
+                    "popularity": self.__popularity(),
+                    "members": self.__members(),
+                    "favorites": self.__favorites()
+                },
+                "related_anime": {
+                    "adaptation": self.__adaptation(),
+                    "side_story": self.__side_story(),
+                    "summary": self.__summary(),
+                    "spin_off": self.__spin_off(),
+                    "other": self.__other(),
+                    "prequel": self.__prequel(),
+                    "character": self.__character(),
+                    "sequel": self.__sequel()
+                },
+                "opening_theme": self.__opening_theme(),
+                "ending_theme": self.__ending_theme()
+            }
+        }
 
-    def trailer():
-        trailer = soup.select_one(".video-promotion > .promotion")
+    def __trailer(self):
+        trailer = self.soup.select_one(".video-promotion > .promotion")
         if trailer:
             return trailer.get("href")
         return None
 
-    def synopsis():
-        synopsis = soup.select_one("span[itemprop=description]")
+    def __synopsis(self):
+        synopsis = self.soup.select_one("span[itemprop=description]")
         if synopsis:
             return synopsis.get_text(strip=True)
         return None
 
-    def background():
-        background = soup.select_one("span[itemprop=description]").parent
+    def __background(self):
+        background = self.soup.select_one("span[itemprop=description]").parent
         for i in background.select("h2, span, div"):
             i.decompose()
 
@@ -35,20 +88,20 @@ def get_details(mal_id):
             return background.get_text()
         return None
 
-    def english():
-        english = soup.find("span", string="English:")
+    def __english(self):
+        english = self.soup.find("span", string="English:")
         if english:
             return english.next_sibling.strip()
         return None
 
-    def japanese():
-        japanese = soup.find("span", string="Japanese:")
+    def __japanese(self):
+        japanese = self.soup.find("span", string="Japanese:")
         if japanese:
             return japanese.next_sibling.strip()
         return None
 
-    def synonyms():
-        synonyms = soup.find("span", string="Synonyms:")
+    def __synonyms(self):
+        synonyms = self.soup.find("span", string="Synonyms:")
         if synonyms:
             return [
                 i.strip()
@@ -56,17 +109,17 @@ def get_details(mal_id):
             ]
         return []
 
-    def episodes():
-        episdes = soup.find("span", string="Episodes:").next_sibling
+    def __episodes(self):
+        episdes = self.soup.find("span", string="Episodes:").next_sibling
         if episdes.strip() != "Unknown":
             return int(episdes)
         return None
 
-    def status():
-        return soup.find("span", string="Status:").next_sibling.strip()
+    def __status(self):
+        return self.soup.find("span", string="Status:").next_sibling.strip()
 
-    def aired_from():
-        aired_from = soup.find("span", string="Aired:").next_sibling
+    def __aired_from(self):
+        aired_from = self.soup.find("span", string="Aired:").next_sibling
         if aired_from.strip() != "Not available":
             try:
                 aired_from_date = datetime.strptime(
@@ -81,8 +134,8 @@ def get_details(mal_id):
             return str(aired_from_date)
         return None
 
-    def aired_to():
-        aired_to = soup.find("span", string="Aired:").next_sibling
+    def __aired_to(self):
+        aired_to = self.soup.find("span", string="Aired:").next_sibling
         if aired_to.split("to")[1].strip() != "?":
             try:
                 aired_to_date = datetime.strptime(
@@ -97,122 +150,122 @@ def get_details(mal_id):
             return str(aired_to_date)
         return None
 
-    def premiered():
-        premiered = soup.find("span", string="Premiered:")
+    def __premiered(self):
+        premiered = self.soup.find("span", string="Premiered:")
         if premiered.next_sibling.strip() != "?":
             return premiered.parent.find("a").get_text()
         return None
-
-    def producers():
-        producers = soup.find("span", string="Producers:")
-        if "none found" not in producers.next_sibling.strip().lower():
+    
+    def __producers(self):
+        producers = self.soup.find("span", string="Producers:")
+        if self.none_found not in producers.next_sibling.strip().lower():
             return [
                 {
                     "name": i.get_text(),
-                    "url": f"https://myanimelist.net{i.get('href')}",
-                    "mal_id": str_to_int(i.get("href").split("/"))
+                    "url": f"{self.base_url}{i.get('href')}",
+                    "mal_id": self.__str_to_int(i.get("href").split("/"))
                 } for i in producers.find_next_siblings("a")
             ]
         return []
 
-    def licensors():
-        if "none found" not in soup.find(
+    def __licensors(self):
+        if self.none_found not in self.soup.find(
                 "span", string="Licensors:").next_sibling.strip().lower():
             return [
                 {
                     "name": i.get_text(),
-                    "url": f"https://myanimelist.net{i.get('href')}",
-                    "mal_id": str_to_int(i.get("href").split("/"))
-                } for i in soup.find(
+                    "url": f"{self.base_url}{i.get('href')}",
+                    "mal_id": self.__str_to_int(i.get("href").split("/"))
+                } for i in self.soup.find(
                     "span", string="Licensors:").find_next_siblings("a")
             ]
         return []
 
-    def studios():
-        studios = soup.find("span", string="Studios:")
-        if "none found" not in studios.next_sibling.strip().lower():
+    def __studios(self):
+        studios = self.soup.find("span", string="Studios:")
+        if self.none_found not in studios.next_sibling.strip().lower():
             return [
                 {
                     "name": i.get_text(),
-                    "url": f"https://myanimelist.net{i.get('href')}",
-                    "mal_id": str_to_int(i.get("href").split("/"))
+                    "url": f"{self.base_url}{i.get('href')}",
+                    "mal_id": self.__str_to_int(i.get("href").split("/"))
                 } for i in studios.find_next_siblings("a")
             ]
         return []
 
-    def source():
-        source = soup.find("span", string="Source:")
+    def __source(self):
+        source = self.soup.find("span", string="Source:")
         if source:
             return source.next_sibling.strip()
         return None
 
-    def genres():
-        genres = soup.find("span", string="Genres:")
+    def __genres(self):
+        genres = self.soup.find("span", string="Genres:")
         if genres:
             return [
                 {
                     "name": i.get_text(),
-                    "mal_id": str_to_int(i.get("href").split("/"))
+                    "mal_id": self.__str_to_int(i.get("href").split("/"))
                 } for i in genres.find_next_siblings("a")
             ]
         return []
 
-    def duration():
-        duration = soup.find("span", string="Duration:").next_sibling.strip()
+    def __duration(self):
+        duration = self.soup.find("span", string="Duration:").next_sibling.strip()
         if duration != "Unknown":
-            return str_to_int(duration)
+            return self.__str_to_int(duration)
         return None
 
-    def rating():
-        rating = soup.find("span", string="Rating:").next_sibling.strip()
+    def __rating(self):
+        rating = self.soup.find("span", string="Rating:").next_sibling.strip()
         if rating.lower() != "none":
             return rating
         return None
 
-    def score():
-        score = soup.find("span", itemprop="ratingValue")
+    def __score(self):
+        score = self.soup.find("span", itemprop="ratingValue")
         if score:
             return float(score.get_text())
         return None
 
-    def ranked():
+    def __ranked(self):
         try:
-            return int(soup.find(
+            return int(self.soup.find(
                 "span",
                 string="Ranked:").next_sibling.replace("#", "").strip())
         except ValueError:
             return None
         return None
 
-    def popularity():
+    def __popularity(self):
         try:
-            return int(soup.find(
+            return int(self.soup.find(
                 "span",
                 string="Popularity:").next_sibling.replace("#", "").strip())
         except ValueError:
             return None
         return None
 
-    def members():
+    def __members(self):
         try:
-            return int(soup.find(
+            return int(self.soup.find(
                 "span",
                 string="Members:").next_sibling.replace(",", "").strip())
         except ValueError:
             return None
         return None
 
-    def favorites():
+    def __favorites(self):
         try:
-            return int(soup.find(
+            return int(self.soup.find(
                 "span",
                 string="Favorites:").next_sibling.replace(",", "").strip())
         except ValueError:
             return None
         return None
 
-    def adaptation():
-        adaptation = soup.find("td", string="Adaptation:")
+    def __adaptation(self):
+        adaptation = self.soup.find("td", string="Adaptation:")
         if adaptation:
             return [
                 {
@@ -223,8 +276,8 @@ def get_details(mal_id):
             ]
         return []
 
-    def side_story():
-        side_story = soup.find("td", string="Side story:")
+    def __side_story(self):
+        side_story = self.soup.find("td", string="Side story:")
         if side_story:
             return [
                 {
@@ -235,8 +288,8 @@ def get_details(mal_id):
             ]
         return []
 
-    def summary():
-        summary = soup.find("td", string="Summary:")
+    def __summary(self):
+        summary = self.soup.find("td", string="Summary:")
         if summary:
             return [
                 {
@@ -247,8 +300,8 @@ def get_details(mal_id):
             ]
         return []
 
-    def spin_off():
-        spin_off = soup.find("td", string="Spin-off:")
+    def __spin_off(self):
+        spin_off = self.soup.find("td", string="Spin-off:")
         if spin_off:
             return [
                 {
@@ -259,8 +312,8 @@ def get_details(mal_id):
             ]
         return []
 
-    def other():
-        other = soup.find("td", string="Other:")
+    def __other(self):
+        other = self.soup.find("td", string="Other:")
         if other:
             return [
                 {
@@ -271,8 +324,8 @@ def get_details(mal_id):
             ]
         return []
 
-    def prequel():
-        prequel = soup.find("td", string="Prequel:")
+    def __prequel(self):
+        prequel = self.soup.find("td", string="Prequel:")
         if prequel:
             return [
                 {
@@ -283,8 +336,8 @@ def get_details(mal_id):
             ]
         return []
 
-    def character():
-        character = soup.find("td", string="Character:")
+    def __character(self):
+        character = self.soup.find("td", string="Character:")
         if character:
             return [
                 {
@@ -295,8 +348,8 @@ def get_details(mal_id):
             ]
         return []
 
-    def sequel():
-        sequel = soup.find("td", string="Sequel:")
+    def __sequel(self):
+        sequel = self.soup.find("td", string="Sequel:")
         if sequel:
             return [
                 {
@@ -307,8 +360,8 @@ def get_details(mal_id):
             ]
         return []
 
-    def opening_theme():
-        opening_theme = soup.select("div.opnening > span.theme-song")
+    def __opening_theme(self):
+        opening_theme = self.soup.select("div.opnening > span.theme-song")
         if opening_theme:
             return [
                 {
@@ -317,8 +370,8 @@ def get_details(mal_id):
             ]
         return []
 
-    def ending_theme():
-        ending_theme = soup.select("div.ending > span.theme-song")
+    def __ending_theme(self):
+        ending_theme = self.soup.select("div.ending > span.theme-song")
         if ending_theme:
             return [
                 {
@@ -327,56 +380,5 @@ def get_details(mal_id):
             ]
         return []
 
-    details = {
-        "title": anime_title,
-        "image": soup.find("img", alt=anime_title).get("data-src"),
-        "trailer": trailer(),
-        "synopsis": synopsis(),
-        "background": background(),
-        "alternative_titles": {
-            "english": english(),
-            "japanese": japanese(),
-            "synonyms": synonyms(),
-        },
-        "information": {
-            "type": soup.find(
-                "span", string="Type:").find_next_sibling("a").get_text(),
-            "episodes": episodes(),
-            "status": status(),
-            "aired": {
-                "from": aired_from(),
-                "to": aired_to()
-            },
-            "premiered": premiered(),
-            "producers": producers(),
-            "licensors": licensors(),
-            "studios": studios(),
-            "source": source(),
-            "genres": genres(),
-            "duration": duration(),
-            "rating": rating()
-        },
-        "statistics": {
-            "score": score(),
-            "ranked": ranked(),
-            "popularity": popularity(),
-            "members": members(),
-            "favorites": favorites()
-        },
-        "related_anime": {
-            "adaptation": adaptation(),
-            "side_story": side_story(),
-            "summary": summary(),
-            "spin_off": spin_off(),
-            "other": other(),
-            "prequel": prequel(),
-            "character": character(),
-            "sequel": sequel()
-        },
-        "opening_theme": opening_theme(),
-        "ending_theme": ending_theme()
-    }
-
-    return {
-        "details": details
-    }
+    def __str_to_int(self, string):
+        return int("".join(filter(str.isdigit, [s for s in string])))

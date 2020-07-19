@@ -10,7 +10,7 @@ headers = {
 def get_soup(url, params=None):
     with Session().get(
                 url,
-                params=params if params else None,
+                params=params,
                 headers=headers
             ) as s:
         if s.status_code == 404:

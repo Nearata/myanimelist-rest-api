@@ -2,6 +2,18 @@ from datetime import datetime
 from re import match
 from mal.spiders.utils import get_soup
 
+def episodes(string):
+    regex = match(r"\d+", string)
+    if regex:
+        return int(regex.group())
+    return None
+
+
+def score(string):
+    regex = match(r"\d\.\d+", string)
+    if regex:
+        return float(regex.group())
+    return None
 
 def search(
             query,
@@ -52,18 +64,6 @@ def search(
     soup = get_soup("https://myanimelist.net/anime.php", params=params)
     selector = soup.select_one(".js-categories-seasonal")
 
-    def episodes(string):
-        regex = match(r"\d+", string)
-        if regex:
-            return int(regex.group())
-        return None
-
-    def score(string):
-        regex = match(r"\d\.\d+", string)
-        if regex:
-            return float(regex.group())
-        return None
-
     results = []
 
     type_index = None
@@ -74,28 +74,21 @@ def search(
     members_index = None
     rated_index = None
 
-    for idx, i in enumerate(selector.select_one("tr:first-child").select("td"), 1):
-        if "a" in columns_lst:
-            if i.find(string="Type"):
-                type_index = idx
-        if "b" in columns_lst:
-            if i.find(string="Eps."):
-                eps_index = idx
-        if "c" in columns_lst:
-            if i.find(string="Score"):
-                score_index = idx
-        if "d" in columns_lst:
-            if i.find(string="Start Date"):
-                s_d_index = idx
-        if "e" in columns_lst:
-            if i.find(string="End Date"):
-                e_d_index = idx
-        if "f" in columns_lst:
-            if i.find(string="Members"):
-                members_index = idx
-        if "g" in columns_lst:
-            if i.find(string="Rated"):
-                rated_index = idx
+    for index, i in enumerate(selector.select_one("tr:first-child").select("td"), 1):
+        if "a" in columns_lst and i.find(string="Type"):
+            type_index = index
+        if "b" in columns_lst and i.find(string="Eps."):
+            eps_index = index
+        if "c" in columns_lst and i.find(string="Score"):
+            score_index = index
+        if "d" in columns_lst and i.find(string="Start Date"):
+            s_d_index = index
+        if "e" in columns_lst and i.find(string="End Date"):
+            e_d_index = index
+        if "f" in columns_lst and i.find(string="Members"):
+            members_index = index
+        if "g" in columns_lst and i.find(string="Rated"):
+            rated_index = index
 
     for i in selector.select("tr:not(:first-child)"):
         anime = {}
