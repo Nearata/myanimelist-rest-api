@@ -21,10 +21,7 @@ class Top:
         else:
             params["limit"] = 50 * self.page - 50
 
-        soup = get_soup(f"{self.base_url}/topanime.php", params=params)
-
-        selector = soup.select(".top-ranking-table tr:not(:first-child)")
-
+        selector = get_soup(f"{self.base_url}/topanime.php", params=params).select(".top-ranking-table tr:not(:first-child)")
         return {
             "top": [
                 {
