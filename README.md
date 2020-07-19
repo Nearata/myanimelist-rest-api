@@ -4,7 +4,7 @@
 
 ## Requirements
 
-- Python
+- Python 3
 - pipenv
 
 ## Installation
