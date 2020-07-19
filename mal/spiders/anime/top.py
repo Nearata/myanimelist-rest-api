@@ -2,54 +2,59 @@ from re import match
 from re import search
 from mal.spiders.utils import get_soup
 
-def get_top(ttype, page):
-    params = {}
-    if ttype != "all":
-        params["type"] = ttype
 
-    if page == 1:
-        params["limit"] = 0
-    elif page == 2:
-        params["limit"] = 50
-    else:
-        params["limit"] = 50 * page - 50
+class Top:
+    def __init__(self, base_url, _type, page) -> None:
+        self.base_url = base_url
+        self.type = _type
+        self.page = page
 
-    soup = get_soup("https://myanimelist.net/topanime.php", params=params)
+    def get(self):
+        params = {}
+        if self.type != "all":
+            params["type"] = self.type
 
-    selector = soup.select(".top-ranking-table tr:not(:first-child)")
+        if self.page == 1:
+            params["limit"] = 0
+        elif self.page == 2:
+            params["limit"] = 50
+        else:
+            params["limit"] = 50 * self.page - 50
 
-    def a_type(string):
+        soup = get_soup(f"{self.base_url}/topanime.php", params=params)
+
+        selector = soup.select(".top-ranking-table tr:not(:first-child)")
+
+        return {
+            "top": [
+                {
+                    "rank": int(i.select_one("td.rank>span").get_text()),
+                    "mal_id": int(i.select_one("td.title>a").get("id").replace("#area", "")),
+                    "url": i.select_one("td.title>a").get("href"),
+                    "image_url": i.select_one("td.title>a>img").get("data-src").replace("r/50x70/", ""),
+                    "title": i.select_one("td.title>.detail>.di-ib>a").get_text(),
+                    "type": self.__type(i.select_one("td.title>.detail>.information>br:first-child").previous_sibling.strip()),
+                    "episodes": self.__digits(i.select_one("td.title>.detail>.information>br:first-child").previous_sibling.strip()),
+                    "members": self.__digits(i.select_one("td.title>.detail>.information>br:last-child").next_sibling.strip()),
+                    "score": self.__score(i.select_one("td.score>div>span").get_text())
+                } for i in selector
+            ]
+        }
+
+    def __type(self, string):
         regex = match(r"(TV|Movie|OVA|ONA|Music|Special)", string)
         if regex:
             return regex.group()
         return None
 
-    def a_digits(string):
+    def __digits(self, string):
         regex = search(r"\d+", string.replace(",", ""))
         if regex:
             return int(regex.group())
         return None
 
-    def a_score(string):
+    def __score(self, string):
         regex = match(r"\d.\d+", string)
         if regex:
             return float(regex.group())
         return None
-
-    top = [
-        {
-            "rank": int(i.select_one("td.rank>span").get_text()),
-            "mal_id": int(i.select_one("td.title>a").get("id").replace("#area", "")),
-            "url": i.select_one("td.title>a").get("href"),
-            "image_url": i.select_one("td.title>a>img").get("data-src").replace("r/50x70/", ""),
-            "title": i.select_one("td.title>.detail>.di-ib>a").get_text(),
-            "type": a_type(i.select_one("td.title>.detail>.information>br:first-child").previous_sibling.strip()),
-            "episodes": a_digits(i.select_one("td.title>.detail>.information>br:first-child").previous_sibling.strip()),
-            "members": a_digits(i.select_one("td.title>.detail>.information>br:last-child").next_sibling.strip()),
-            "score": a_score(i.select_one("td.score>div>span").get_text())
-        } for i in selector
-    ]
-
-    return {
-        "top": top
-    }

@@ -32,7 +32,7 @@ def create_app():
         anime_search
     )
     api.add_route(
-        "/top/anime/{ttype}/{page_number:int}",
+        "/top/anime/{_type}/{page_number:int}",
         anime_top
     )
 

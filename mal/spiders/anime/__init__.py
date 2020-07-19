@@ -10,6 +10,7 @@ from mal.spiders.anime.recommendations import Recommendations
 from mal.spiders.anime.reviews import Reviews
 from mal.spiders.anime.staff import Staff
 from mal.spiders.anime.stats import Stats
+from mal.spiders.anime.top import Top
 
 
 class AnimeSpiders:
@@ -63,3 +64,7 @@ class AnimeSpiders:
     def stats(self, mal_id):
         stats = Stats(self.base_url, mal_id)
         return stats.get()
+
+    def top(self, _type, page):
+        top = Top(self.base_url, _type, page)
+        return top.get()
