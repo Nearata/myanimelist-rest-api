@@ -32,7 +32,7 @@ class ValidateRoute:
         anime_regex = anime_route + r"\/(\d{1,5})\/"
         anime_routes = f"({'|'.join([i for i in dir(AnimeSpiders) if not i.startswith('__')])})"
         pattern = anime_regex + anime_routes
-        if not match(f"{pattern}$", request.path):
+        if not match(pattern, request.path):
             raise HTTPBadRequest(
                 title=self.route_invalid_incomplete,
                 description=self.double_check_docs
