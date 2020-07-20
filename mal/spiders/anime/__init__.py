@@ -14,55 +14,57 @@ from mal.spiders.anime.top import Top
 
 
 class AnimeSpiders:
-    def __init__(self) -> None:
-        self.base_url = 'https://myanimelist.net'
+    base_url = 'https://myanimelist.net'
 
-    def characters(self, mal_id):
-        characters = Characters(self.base_url, mal_id)
+    def __init__(self, mal_id) -> None:
+        self.mal_id = mal_id
+
+    def characters(self):
+        characters = Characters(self.base_url, self.mal_id)
         return characters.get()
 
-    def clubs(self, mal_id):
-        clubs = Clubs(self.base_url, mal_id)
+    def clubs(self):
+        clubs = Clubs(self.base_url, self.mal_id)
         return clubs.get()
 
-    def details(self, mal_id):
-        details = Details(self.base_url, mal_id)
+    def details(self):
+        details = Details(self.base_url, self.mal_id)
         return details.get()
 
-    def episodes(self, mal_id, page_number):
-        episodes = Episodes(self.base_url, mal_id, page_number)
+    def episodes(self, page_number):
+        episodes = Episodes(self.base_url, self.mal_id, page_number)
         return episodes.get()
 
-    def featured(self, mal_id):
-        featured = Featured(self.base_url, mal_id)
+    def featured(self):
+        featured = Featured(self.base_url, self.mal_id)
         return featured.get()
 
-    def moreinfo(self, mal_id):
-        more_info = MoreInfo(self.base_url, mal_id)
+    def moreinfo(self):
+        more_info = MoreInfo(self.base_url, self.mal_id)
         return more_info.get()
 
-    def news(self, mal_id):
-        news = News(self.base_url, mal_id)
+    def news(self):
+        news = News(self.base_url, self.mal_id)
         return news.get()
 
-    def pictures(self, mal_id):
-        pictures = Pictures(self.base_url, mal_id)
+    def pictures(self):
+        pictures = Pictures(self.base_url, self.mal_id)
         return pictures.get()
 
-    def recommendations(self, mal_id):
-        recommendations = Recommendations(self.base_url, mal_id)
+    def recommendations(self):
+        recommendations = Recommendations(self.base_url, self.mal_id)
         return recommendations.get()
 
-    def reviews(self, mal_id, page_number):
-        reviews = Reviews(self.base_url, mal_id, page_number)
+    def reviews(self, page_number):
+        reviews = Reviews(self.base_url, self.mal_id, page_number)
         return reviews.get()
 
-    def staff(self, mal_id):
-        staff = Staff(self.base_url, mal_id)
+    def staff(self):
+        staff = Staff(self.base_url, self.mal_id)
         return staff.get()
 
-    def stats(self, mal_id):
-        stats = Stats(self.base_url, mal_id)
+    def stats(self):
+        stats = Stats(self.base_url, self.mal_id)
         return stats.get()
 
     def top(self, _type, page):
