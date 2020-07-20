@@ -1,4 +1,5 @@
 from falcon import API
+from mal.middleware import CheckUrl
 from mal.middleware import RequireJSON
 from mal.middleware import ValidateRoute
 from mal.routes import AnimeResource
@@ -13,7 +14,8 @@ def create_app():
 
     api = API(middleware=[
         RequireJSON(),
-        ValidateRoute()
+        ValidateRoute(),
+        CheckUrl()
     ])
 
     api.req_options.strip_url_path_trailing_slash = True
