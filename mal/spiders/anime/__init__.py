@@ -16,7 +16,7 @@ from mal.spiders.anime.top import Top
 class AnimeSpiders:
     base_url = 'https://myanimelist.net'
 
-    def __init__(self, mal_id) -> None:
+    def __init__(self, mal_id=None) -> None:
         self.mal_id = mal_id
 
     def characters(self):

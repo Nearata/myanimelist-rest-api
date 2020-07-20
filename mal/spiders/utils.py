@@ -8,16 +8,7 @@ headers = {
 
 
 def get_soup(url, params=None):
-    with Session().get(
-                url,
-                params=params,
-                headers=headers
-            ) as s:
-        if s.status_code == 404:
-            raise HTTPNotFound(
-                title="404 Not Found",
-                description="Resource doesn't exist."
-            )
+    with Session().get(url, params=params, headers=headers) as s:
         page_source = s.content
 
     return BeautifulSoup(page_source, "lxml")
