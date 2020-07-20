@@ -37,46 +37,47 @@ class ValidateRoute:
                 title=self.route_invalid_incomplete,
                 description=self.double_check_docs
             )
+
         if match(anime_regex + r"(reviews|episodes)", request.path) and not match(anime_regex + r"(reviews|episodes)\/(\d+)", request.path):
             raise HTTPMissingParam("page_number")
 
     def __validate_search_route(self, search_route, request):
         search_anime = r"\/anime"
-        if match(search_route + search_anime, request.path):
-            if request.get_param("query", required=True):
-                if len(request.get_param("query")) < 3:
-                    raise HTTPInvalidParam(
-                        msg="Must be minimum 3 letters.",
-                        param_name="query"
-                    )
-            else:
-                raise HTTPInvalidParam(
-                    msg="It cannot be empty.",
-                    param_name="query"
-                )
-        else:
+        if not match(search_route + search_anime, request.path):
             raise HTTPNotFound(
                 title="Route not found.",
                 description=self.double_check_docs,
                 href=f"{self.wiki_base_url}/Search-Route"
             )
 
+        if not request.get_param("query", required=True):
+            raise HTTPInvalidParam(
+                msg="It cannot be empty.",
+                param_name="query"
+            )
+
+        if len(request.get_param("query")) < 3:
+            raise HTTPInvalidParam(
+                msg="Must be minimum 3 letters.",
+                param_name="query"
+            )
+
     def __validate_top_route(self, top_route, request):
         top_anime = r"\/anime"
-        if match(top_route + top_anime, request.path):
-            regex = top_route + top_anime + r"\/(all|airing|upcoming|tv|ova|special|bypopularity|favorite)"
-            if match(regex, request.path):
-                if not match(regex + r"\/(\d+)", request.path):
-                    raise HTTPMissingParam("page_number")
-            else:
-                raise HTTPBadRequest(
-                    title=self.route_invalid_incomplete,
-                    description=self.double_check_docs,
-                    href=f"{self.wiki_base_url}/Top-Route"
-                )
-        else:
+        if not match(top_route + top_anime, request.path):
             raise HTTPNotFound(
                 title="Route not found.",
                 description=self.double_check_docs,
                 href=f"{self.wiki_base_url}/Top-Route"
             )
+
+        regex = top_route + top_anime + r"\/(all|airing|upcoming|tv|ova|special|bypopularity|favorite)"
+        if not match(regex, request.path):
+            raise HTTPBadRequest(
+                title=self.route_invalid_incomplete,
+                description=self.double_check_docs,
+                href=f"{self.wiki_base_url}/Top-Route"
+            )
+
+        if not match(regex + r"\/(\d+)", request.path):
+            raise HTTPMissingParam("page_number")
