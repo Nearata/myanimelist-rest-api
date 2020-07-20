@@ -1,5 +1,7 @@
 # MyAnimeList REST API (Unofficial)
 
+[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/Nearata/myanimelist-rest-api?style=for-the-badge)](https://codeclimate.com/github/Nearata/myanimelist-rest-api)
+
 > An unofficial REST API for MyAnimeList.
 
 ## Requirements
