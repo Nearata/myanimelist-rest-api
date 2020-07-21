@@ -57,16 +57,28 @@ class Details:
                     "favorites": favorites_helper(self.soup)
                 },
                 "related_anime": {
-                    "adaptation": adaptation_helper(self.soup),
-                    "side_story": side_story_helper(self.soup),
-                    "summary": summary_helper(self.soup),
-                    "spin_off": spin_off_helper(self.soup),
-                    "other": other_helper(self.soup),
-                    "prequel": prequel_helper(self.soup),
-                    "character": character_helper(self.soup),
-                    "sequel": sequel_helper(self.soup)
+                    "adaptation": self.__related_anime_helper('Adaptation:'),
+                    "side_story": self.__related_anime_helper('Side story:'),
+                    "summary": self.__related_anime_helper('Summary:'),
+                    "spin_off": self.__related_anime_helper('Spin-off:'),
+                    "other": self.__related_anime_helper('Other:'),
+                    "prequel": self.__related_anime_helper('Prequel:'),
+                    "character": self.__related_anime_helper('Character:'),
+                    "sequel": self.__related_anime_helper('Sequel:')
                 },
                 "opening_theme": opening_theme_helper(self.soup),
                 "ending_theme": ending_theme_helper(self.soup)
             }
         }
+
+    def __related_anime_helper(self, string):
+        related_anime = self.soup.find("td", string=string)
+        if related_anime:
+            return [
+                {
+                    "title": i.get_text(),
+                    "type": i.get("href").split("/")[1],
+                    "mal_id": int(i.get("href").split("/")[2])
+                } for i in related_anime.next_sibling.select("a")
+            ]
+        return []
