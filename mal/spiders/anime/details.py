@@ -30,7 +30,7 @@ class Details:
                 "information": {
                     "type": self.soup.find("span", string="Type:").find_next_sibling("a").get_text(),
                     "episodes": self.__episodes(),
-                    "status": self.__status(),
+                    "status": self.soup.find("span", string="Status:").next_sibling.strip(),
                     "aired": {
                         "from": self.__aired_from(),
                         "to": self.__aired_to()
@@ -113,9 +113,6 @@ class Details:
         if episdes.strip() != "Unknown":
             return int(episdes)
         return None
-
-    def __status(self):
-        return self.soup.find("span", string="Status:").next_sibling.strip()
 
     def __aired_from(self):
         aired_from = self.soup.find("span", string="Aired:").next_sibling
