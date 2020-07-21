@@ -1,5 +1,3 @@
-from mal.spiders.anime.helpers.details.__aired_from import aired_from_helper
-from mal.spiders.anime.helpers.details.__aired_to import aired_to_helper
 from mal.spiders.anime.helpers.details.__background import background_helper
 from mal.spiders.anime.helpers.details.__duration import duration_helper
 from mal.spiders.anime.helpers.details.__episodes import episodes_helper

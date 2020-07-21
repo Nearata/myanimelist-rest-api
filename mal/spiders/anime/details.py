@@ -37,8 +37,8 @@ class Details:
                     "episodes": episodes_helper(self.soup),
                     "status": self.soup.find("span", string="Status:").next_sibling.strip(),
                     "aired": {
-                        "from": aired_from_helper(self.soup),
-                        "to": aired_to_helper(self.soup)
+                        "from": self.__information_aired_helper(0),
+                        "to": self.__information_aired_helper(1)
                     },
                     "premiered": premiered_helper(self.soup),
                     "producers": producers_helper(self.soup, self.none_found, self.base_url),
@@ -104,3 +104,17 @@ class Details:
         if field:
             return field.next_sibling.strip()
         return None
+
+    def __information_aired_helper(self, index):
+        aired = self.soup.find("span", string="Aired:").next_sibling
+
+        if aired.strip() == "Not available":
+            return None
+
+        if index == 1 and aired.split("to")[index].strip() == "?":
+            return None
+
+        try:
+            return str(datetime.strptime(aired.split("to")[index].strip(), "%b %d, %Y").date())
+        except ValueError:
+            return str(datetime.strptime(aired.split("to")[index].strip(), "%b, %Y").date())
