@@ -28,8 +28,7 @@ class Details:
                     "synonyms": self.__synonyms(),
                 },
                 "information": {
-                    "type": self.soup.find(
-                        "span", string="Type:").find_next_sibling("a").get_text(),
+                    "type": self.soup.find("span", string="Type:").find_next_sibling("a").get_text(),
                     "episodes": self.__episodes(),
                     "status": self.__status(),
                     "aired": {
