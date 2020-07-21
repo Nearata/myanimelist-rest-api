@@ -8,7 +8,8 @@ headers = {
 
 
 def get_soup(url, params=None):
-    with Session().get(url, params=params, headers=headers) as s:
-        page_source = s.content
+    with Session() as s:
+        result = s.get(url, params=params, headers=headers)
+    page_source = result.content
 
     return BeautifulSoup(page_source, "lxml")
