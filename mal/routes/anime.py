@@ -5,7 +5,7 @@ from mal.spiders import AnimeSpiders
 class AnimeResource:
     def on_get(self, request, response, mal_id, mal_request):
         spiders = AnimeSpiders(mal_id)
-        data = getattr(spiders, mal_request)
+        data = getattr(spiders, mal_request)()
         response.content_type = "application/json"
         response.body = dumps(data)
 
