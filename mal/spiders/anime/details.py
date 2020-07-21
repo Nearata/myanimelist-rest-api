@@ -28,8 +28,8 @@ class Details:
                 "synopsis": synopsis_helper(self.soup),
                 "background": background_helper(self.soup),
                 "alternative_titles": {
-                    "english": english_helper(self.soup),
-                    "japanese": japanese_helper(self.soup),
+                    "english": self.__alternative_titles_helper('English:'),
+                    "japanese": self.__alternative_titles_helper('Japanese:'),
                     "synonyms": synonyms_helper(self.soup),
                 },
                 "information": {
@@ -44,17 +44,17 @@ class Details:
                     "producers": producers_helper(self.soup, self.none_found, self.base_url),
                     "licensors": licensors_helper(self.soup, self.none_found, self.base_url),
                     "studios": studios_helper(self.soup, self.none_found, self.base_url),
-                    "source": source_helper(self.soup),
+                    "source": self.__alternative_titles_helper('Source:'),
                     "genres": genres_helper(self.soup),
                     "duration": duration_helper(self.soup),
                     "rating": rating_helper(self.soup)
                 },
                 "statistics": {
                     "score": score_helper(self.soup),
-                    "ranked": ranked_helper(self.soup),
-                    "popularity": popularity_helper(self.soup),
-                    "members": members_helper(self.soup),
-                    "favorites": favorites_helper(self.soup)
+                    "ranked": self.__statistics_helper('Ranked:', '#'),
+                    "popularity": self.__statistics_helper('Popularity:', '#'),
+                    "members": self.__statistics_helper('Members:'),
+                    "favorites": self.__statistics_helper('Favorites:')
                 },
                 "related_anime": {
                     "adaptation": self.__related_anime_helper('Adaptation:'),
@@ -66,8 +66,8 @@ class Details:
                     "character": self.__related_anime_helper('Character:'),
                     "sequel": self.__related_anime_helper('Sequel:')
                 },
-                "opening_theme": opening_theme_helper(self.soup),
-                "ending_theme": ending_theme_helper(self.soup)
+                "opening_theme": self.__theme_song_helper('opnening'),
+                "ending_theme": self.__theme_song_helper('ending')
             }
         }
 
@@ -82,3 +82,25 @@ class Details:
                 } for i in related_anime.next_sibling.select("a")
             ]
         return []
+
+    def __theme_song_helper(self, string):
+        theme_song = self.soup.select(f"div.{string} > span.theme-song")
+        if theme_song:
+            return [
+                {
+                    "title": i.get_text(strip=True)
+                } for i in theme_song
+            ]
+        return []
+
+    def __statistics_helper(self, field, replace=','):
+        try:
+            return int(self.soup.find("span", string=field).next_sibling.replace(replace, "").strip())
+        except ValueError:
+            return None
+
+    def __alternative_titles_helper(self, field_name):
+        field = self.soup.find("span", string=field_name)
+        if field:
+            return field.next_sibling.strip()
+        return None
