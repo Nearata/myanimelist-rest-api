@@ -51,14 +51,15 @@ class Search:
         selector = get_soup("https://myanimelist.net/anime.php", params=params).select_one(".js-categories-seasonal")
 
         columns_enabled = {}
+        check_columns_helper = lambda **kwargs: {kwargs["dict_key"]: kwargs["index"]} if kwargs["letter"] in columns_lst and kwargs["soup"].find(string=kwargs["find_string"]) else {}
         for index, i in enumerate(selector.select_one("tr:first-child").select("td"), 1):
-            columns_enabled.update({"type": index} if "a" in columns_lst and i.find(string="Type") else {})
-            columns_enabled.update({"episodes": index} if "b" in columns_lst and i.find(string="Eps.") else {})
-            columns_enabled.update({"score": index} if "c" in columns_lst and i.find(string="Score") else {})
-            columns_enabled.update({"start_date": index} if "d" in columns_lst and i.find(string="Start Date") else {})
-            columns_enabled.update({"end_date": index} if "e" in columns_lst and i.find(string="End Date") else {})
-            columns_enabled.update({"members": index} if "f" in columns_lst and i.find(string="Members") else {})
-            columns_enabled.update({"rated": index} if "g" in columns_lst and i.find(string="Rated") else {})
+            columns_enabled.update(check_columns_helper(letter="a", soup=i, find_string="Type", index=index, dict_key="type"))
+            columns_enabled.update(check_columns_helper(letter="b", soup=i, find_string="Eps.", index=index, dict_key="episodes"))
+            columns_enabled.update(check_columns_helper(letter="c", soup=i, find_string="Score", index=index, dict_key="score"))
+            columns_enabled.update(check_columns_helper(letter="d", soup=i, find_string="Start Date", index=index, dict_key="start_date"))
+            columns_enabled.update(check_columns_helper(letter="e", soup=i, find_string="End Date", index=index, dict_key="end_date"))
+            columns_enabled.update(check_columns_helper(letter="f", soup=i, find_string="Members", index=index, dict_key="members"))
+            columns_enabled.update(check_columns_helper(letter="g", soup=i, find_string="Rated", index=index, dict_key="rated"))
 
         results = []
         for i in selector.select("tr:not(:first-child)"):
@@ -69,23 +70,24 @@ class Search:
                 "title": i.select_one("td:nth-child(2)>a>strong").get_text()
             }
 
+            column_enabled_soup = lambda soup, key: soup.select_one(f"td:nth-child({columns_enabled[key]})").get_text(strip=True)
             for k in columns_enabled.keys():
                 if k == "type":
-                    anime.update({"type": i.select_one(f"td:nth-child({columns_enabled[k]})").get_text(strip=True)})
+                    anime.update({"type": column_enabled_soup(i, k)})
                 if k == "episodes":
-                    anime.update({"episodes": self.__episodes(i.select_one(f"td:nth-child({columns_enabled[k]})").get_text(strip=True))})
+                    anime.update({"episodes": self.__episodes(column_enabled_soup(i, k))})
                 if k == "score":
-                    anime.update({"score": self.__score(i.select_one(f"td:nth-child({columns_enabled[k]})").get_text(strip=True))})
+                    anime.update({"score": self.__score(column_enabled_soup(i, k))})
                 if k == "start_date":
-                    date = i.select_one(f"td:nth-child({columns_enabled[k]})").get_text(strip=True).replace("??", "01")
+                    date = column_enabled_soup(i, k).replace("??", "01")
                     anime.update({"start_date": str(datetime.strptime(date, "%m-%d-%y").date())} if len(date) > 1 else {})
                 if k == "end_date":
-                    date = i.select_one(f"td:nth-child({columns_enabled[k]})").get_text(strip=True).replace("??", "01")
+                    date = column_enabled_soup(i, k).replace("??", "01")
                     anime.update({"end_date": str(datetime.strptime(date, "%m-%d-%y").date())} if len(date) > 1 else {})
                 if k == "members":
-                    anime.update({"members": int(i.select_one(f"td:nth-child({columns_enabled[k]})").get_text(strip=True).replace(",", ""))})
+                    anime.update({"members": int(column_enabled_soup(i, k).replace(",", ""))})
                 if k == "rated":
-                    anime.update({"rated": i.select_one(f"td:nth-child({columns_enabled[k]})").get_text(strip=True)})
+                    anime.update({"rated": column_enabled_soup(i, k)})
 
             results.append(anime)
 
