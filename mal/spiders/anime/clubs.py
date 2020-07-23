@@ -8,7 +8,7 @@ class Clubs:
         self.mal_id = mal_id
 
     def get(self):
-        selector = get_soup(f"{self.base_url}/anime/{self.mal_id}/_/clubs", parser="html.parser").select(".js-scrollfix-bottom-rel > .borderClass")
+        selector = get_soup(f"{self.base_url}/anime/{self.mal_id}/_/clubs", parser="html.parser").find_all("div", {"class": "borderClass"})
         return {
             "clubs": [
                 {
