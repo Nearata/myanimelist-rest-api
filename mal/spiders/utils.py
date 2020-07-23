@@ -7,9 +7,9 @@ headers = {
 }
 
 
-def get_soup(url, params=None):
+def get_soup(url, params=None, parser="lxml"):
     with Session() as s:
         result = s.get(url, params=params, headers=headers)
     page_source = result.content
 
-    return BeautifulSoup(page_source, "lxml")
+    return BeautifulSoup(page_source, parser)
