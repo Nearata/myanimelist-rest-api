@@ -33,9 +33,9 @@ class CheckUrl:
                         )
 
         http_status = HTTPStatus(res.status_code) if res else None
-        if res and not str(http_status.value).startswith('2'):
+        if res and not str(http_status.value).startswith("2"):
             status_code = getattr(http_status, "value")
-            phrase = getattr(http_status, 'phrase')
+            phrase = getattr(http_status, "phrase")
             description = getattr(http_status, "description")
             raise HTTPError(
                 f"{status_code} {phrase}",
