@@ -21,19 +21,20 @@ class CheckUrl:
                             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0"
                         })
                     except ReadTimeout:
-                        http_timeout = HTTPStatus(408)
-                        phrase = getattr(http_timeout, "phrase")
-                        description = getattr(http_timeout, "description")
+                        http_status = HTTPStatus(504)
+                        status_code = getattr(http_status, "value")
+                        phrase = getattr(http_status, "phrase")
+                        description = getattr(http_status, "description")
                         raise HTTPError(
-                            f"408 {phrase}",
+                            f"{status_code} {phrase}",
                             phrase,
                             description,
-                            code=408
+                            code=status_code
                         )
 
         http_status = HTTPStatus(res.status_code) if res else None
         if res and not str(http_status.value).startswith('2'):
-            status_code = http_status.value
+            status_code = getattr(http_status, "value")
             phrase = getattr(http_status, 'phrase')
             description = getattr(http_status, "description")
             raise HTTPError(
