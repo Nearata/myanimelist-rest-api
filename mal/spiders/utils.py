@@ -1,5 +1,4 @@
 from bs4 import BeautifulSoup
-from falcon import HTTPNotFound
 from requests import Session
 
 headers = {
