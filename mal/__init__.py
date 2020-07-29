@@ -1,4 +1,4 @@
-from falcon import App
+from falcon import API
 from mal.middleware import CheckUrl
 from mal.middleware import RequireJSON
 from mal.middleware import ValidateRoute
@@ -12,7 +12,7 @@ def create_app():
     anime_search = AnimeSearch()
     anime_top = AnimeTop()
 
-    api = App(middleware=[
+    api = API(middleware=[
         RequireJSON(),
         ValidateRoute(),
         CheckUrl()
