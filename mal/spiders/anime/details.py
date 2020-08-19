@@ -1,17 +1,16 @@
 from datetime import datetime
-from mal.spiders.utils import get_soup
+from bs4 import BeautifulSoup
 from mal.spiders.anime.helpers.details import *
 
 
 class Details:
     none_found = "none found"
 
-    def __init__(self, base_url, mal_id) -> None:
+    def __init__(self, soup: BeautifulSoup, base_url: str) -> None:
+        self.soup = soup
         self.base_url = base_url
-        self.mal_id = mal_id
-        self.soup = get_soup(f"{base_url}/anime/{mal_id}")
 
-    def get(self):
+    def get(self) -> dict:
         for i in self.soup.select("h1 > .h1-title > span[itemprop=name]"):
             if i.br:
                 i.br.decompose()
@@ -71,7 +70,7 @@ class Details:
             }
         }
 
-    def __related_anime_helper(self, string):
+    def __related_anime_helper(self, string: str) -> list:
         related_anime = self.soup.find("td", string=string)
         if related_anime:
             return [
@@ -83,7 +82,7 @@ class Details:
             ]
         return []
 
-    def __theme_song_helper(self, string):
+    def __theme_song_helper(self, string: str) -> list:
         theme_song = self.soup.select(f"div.{string} > span.theme-song")
         if theme_song:
             return [
@@ -93,19 +92,19 @@ class Details:
             ]
         return []
 
-    def __statistics_helper(self, field, replace=","):
+    def __statistics_helper(self, field: str, replace: str = ",") -> int:
         try:
             return int(self.soup.find("span", string=field).next_sibling.replace(replace, "").strip())
         except ValueError:
             return None
 
-    def __alternative_titles_helper(self, field_name):
+    def __alternative_titles_helper(self, field_name: str) -> str:
         field = self.soup.find("span", string=field_name)
         if field:
             return field.next_sibling.strip()
         return None
 
-    def __information_aired_helper(self, index):
+    def __information_aired_helper(self, index: int) -> str:
         aired = self.soup.find("span", string="Aired:").next_sibling
 
         if aired.strip() == "Not available":

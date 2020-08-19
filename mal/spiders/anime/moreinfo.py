@@ -1,14 +1,12 @@
-from mal.spiders.utils import get_soup
+from bs4 import BeautifulSoup
 
 
 class MoreInfo:
-    def __init__(self, base_url, mal_id) -> None:
-        self.base_url = base_url
-        self.mal_id = mal_id
+    def __init__(self, soup: BeautifulSoup) -> None:
+        self.soup = soup
 
-    def get(self):
-        soup = get_soup(f"{self.base_url}/anime/{self.mal_id}/_/moreinfo")
-        tags_decompose = soup.select(
+    def get(self) -> dict:
+        tags_decompose = self.soup.select(
             """
             .js-scrollfix-bottom-rel > div,
             .js-scrollfix-bottom-rel > a,
@@ -20,5 +18,5 @@ class MoreInfo:
             i.decompose()
 
         return {
-            "more_info": soup.select_one(".js-scrollfix-bottom-rel").get_text(strip=True)
+            "more_info": self.soup.select_one(".js-scrollfix-bottom-rel").get_text(strip=True)
         }

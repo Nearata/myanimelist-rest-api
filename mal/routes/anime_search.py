@@ -1,9 +1,10 @@
 from json import dumps
+from falcon import Request, Response
 from mal.spiders.anime.search import Search
 
 
 class AnimeSearch:
-    def on_get(self, request, response):
+    def on_get(self, request: Request, response: Response) -> None:
         search = Search(
             query=request.get_param("query"),
             type=request.get_param("type", default=0),

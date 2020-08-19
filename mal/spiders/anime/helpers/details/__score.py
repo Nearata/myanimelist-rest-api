@@ -1,5 +1,8 @@
-def score_helper(soup):
+from bs4 import BeautifulSoup
+
+
+def score_helper(soup: BeautifulSoup) -> float:
     score = soup.find("span", itemprop="ratingValue")
-    if score:
-        return float(score.get_text())
-    return None
+    if not score:
+        return None
+    return float(score.get_text())

@@ -1,13 +1,12 @@
-from mal.spiders.utils import get_soup
+from bs4 import BeautifulSoup
 
 
 class Staff:
-    def __init__(self, base_url, mal_id) -> None:
-        self.base_url = base_url
-        self.mal_id = mal_id
+    def __init__(self, soup: BeautifulSoup) -> None:
+        self.soup = soup
 
-    def get(self):
-        selector = get_soup(f"{self.base_url}/anime/{self.mal_id}/_/characters").select_one("a[name=staff]").find_next_siblings("table")
+    def get(self) -> dict:
+        selector = self.soup.select_one("a[name=staff]").find_next_siblings("table")
         return {
             "staff": [
                 {

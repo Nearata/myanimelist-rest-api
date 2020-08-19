@@ -1,12 +1,12 @@
 from http import HTTPStatus
 from re import search
-from falcon import HTTPError
+from falcon import HTTPError, Request, Response
 from requests import Session
 from requests.exceptions import ReadTimeout
 
 
 class CheckUrl:
-    def process_request(self, request, response):
+    def process_request(self, request: Request, response: Response) -> None:
         res = None
         with Session() as s:
             regex_list = [

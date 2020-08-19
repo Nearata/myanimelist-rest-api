@@ -7,7 +7,7 @@ from mal.routes import AnimeSearch
 from mal.routes import AnimeTop
 
 
-def create_app():
+def create_app() -> API:
     anime_route = AnimeResource()
     anime_search = AnimeSearch()
     anime_top = AnimeTop()

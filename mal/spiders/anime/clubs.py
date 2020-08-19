@@ -1,14 +1,14 @@
 from re import match
-from mal.spiders.utils import get_soup
+from bs4 import BeautifulSoup
 
 
 class Clubs:
-    def __init__(self, base_url, mal_id) -> None:
+    def __init__(self, soup: BeautifulSoup, base_url: str) -> None:
+        self.soup = soup
         self.base_url = base_url
-        self.mal_id = mal_id
 
-    def get(self):
-        selector = get_soup(f"{self.base_url}/anime/{self.mal_id}/_/clubs", parser="html.parser").find_all("div", {"class": "borderClass"})
+    def get(self) -> dict:
+        selector = self.soup.find_all("div", {"class": "borderClass"})
         return {
             "clubs": [
                 {

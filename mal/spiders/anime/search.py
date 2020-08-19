@@ -1,6 +1,6 @@
 from datetime import datetime
 from re import match
-from mal.spiders.utils import get_soup
+from mal.spiders.soup import Soup
 
 
 class Search:
@@ -48,7 +48,8 @@ class Search:
         else:
             params.update({"c":0})
 
-        selector = get_soup("https://myanimelist.net/anime.php", params=params).select_one(".js-categories-seasonal")
+        soup = Soup("https://myanimelist.net/anime.php", params=params)
+        selector = soup.get().select_one(".js-categories-seasonal")
 
         columns_enabled = {}
         check_columns_helper = lambda **kwargs: {kwargs["dict_key"]: kwargs["index"]} if kwargs["letter"] in columns_lst and kwargs["soup"].find(string=kwargs["find_string"]) else {}

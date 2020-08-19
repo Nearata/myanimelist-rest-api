@@ -1,15 +1,13 @@
 from datetime import datetime
-from mal.spiders.utils import get_soup
+from bs4 import BeautifulSoup
 
 
 class Reviews:
-    def __init__(self, base_url, mal_id, page_number) -> None:
-        self.base_url = base_url
-        self.mal_id = mal_id
-        self.page_number = page_number
+    def __init__(self, soup: BeautifulSoup) -> None:
+        self.soup = soup
 
-    def get(self):
-        selector = get_soup(f"{self.base_url}/anime/{self.mal_id}/_/reviews?p={self.page_number}").select(".js-scrollfix-bottom-rel > .borderDark")
+    def get(self) -> dict:
+        selector = self.soup.select(".js-scrollfix-bottom-rel > .borderDark")
         reviewer_scores_helper = lambda soup, index: int(soup.select_one(f".textReadability tr:nth-child({index}) > td:last-child").get_text())
         return {
             "reviews": [

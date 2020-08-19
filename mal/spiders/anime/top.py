@@ -1,27 +1,13 @@
-from re import match
-from re import search
-from mal.spiders.utils import get_soup
+from re import match, search
+from bs4 import BeautifulSoup
 
 
 class Top:
-    def __init__(self, base_url, _type, page) -> None:
-        self.base_url = base_url
-        self.type = _type
-        self.page = page
+    def __init__(self, soup: BeautifulSoup) -> None:
+        self.soup = soup
 
-    def get(self):
-        params = {}
-        if self.type != "all":
-            params["type"] = self.type
-
-        if self.page == 1:
-            params["limit"] = 0
-        elif self.page == 2:
-            params["limit"] = 50
-        else:
-            params["limit"] = 50 * self.page - 50
-
-        selector = get_soup(f"{self.base_url}/topanime.php", params=params).select(".top-ranking-table tr:not(:first-child)")
+    def get(self) -> dict:
+        selector = self.soup.select(".top-ranking-table tr:not(:first-child)")
         return {
             "top": [
                 {
@@ -38,20 +24,20 @@ class Top:
             ]
         }
 
-    def __type(self, string):
+    def __type(self, string: str) -> str:
         regex = match(r"(TV|Movie|OVA|ONA|Music|Special)", string)
-        if regex:
-            return regex.group()
-        return None
+        if not regex:
+            return None
+        return regex.group()
 
-    def __digits(self, string):
+    def __digits(self, string: str) -> int:
         regex = search(r"\d+", string.replace(",", ""))
-        if regex:
-            return int(regex.group())
-        return None
+        if not regex:
+            return None
+        return int(regex.group())
 
-    def __score(self, string):
+    def __score(self, string: str) -> float:
         regex = match(r"\d.\d+", string)
-        if regex:
-            return float(regex.group())
-        return None
+        if not regex:
+            return None
+        return float(regex.group())

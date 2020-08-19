@@ -1,14 +1,13 @@
 from re import search
-from mal.spiders.utils import get_soup
+from bs4 import BeautifulSoup
 
 
 class News:
-    def __init__(self, base_url, mal_id) -> None:
+    def __init__(self, soup: BeautifulSoup, base_url: str) -> None:
+        self.soup = soup
         self.base_url = base_url
-        self.mal_id = mal_id
 
-    def get(self):
-        selector = get_soup(f"{self.base_url}/anime/{self.mal_id}/_/news").select(".js-scrollfix-bottom-rel > .clearfix")
+    def get(self) -> dict:
         return {
             "news": [
                 {
@@ -20,12 +19,14 @@ class News:
                     "author_profile": f"{self.base_url}{i.select_one('.lightLink > a:first-child').get('href')}".strip(),
                     "comments": self.__comments(i.select_one(".lightLink > a:last-child").get_text()),
                     "forum_url": f"{self.base_url}{i.select_one('.lightLink > a:last-child').get('href')}".strip()
-                } for i in selector
+                } for i in self.soup.select(".js-scrollfix-bottom-rel > .clearfix")
             ]
         }
 
-    def __comments(self, string):
+    def __comments(self, string: str) -> int:
         regex = search(r"\d+", string)
-        if regex:
-            return int(regex.group())
-        return None
+
+        if not regex:
+            return None
+
+        return int(regex.group())

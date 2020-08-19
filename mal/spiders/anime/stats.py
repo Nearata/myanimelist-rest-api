@@ -1,14 +1,12 @@
 from re import search
-from mal.spiders.utils import get_soup
+from bs4 import BeautifulSoup
 
 
 class Stats:
-    def __init__(self, base_url, mal_id) -> None:
-        self.base_url = base_url
-        self.mal_id = mal_id
-        self.soup = get_soup(f"{self.base_url}/anime/{self.mal_id}/_/stats")
+    def __init__(self, soup: BeautifulSoup) -> None:
+        self.soup = soup
 
-    def get(self):
+    def get(self) -> dict:
         return {
             "summary": {
                 "watching": self.__find_string("Watching:"),
@@ -21,26 +19,26 @@ class Stats:
             "scores": self.__scores()
         }
 
-    def __find_string(self, string):
+    def __find_string(self, string: str) -> int:
         summary_selector = self.soup.select_one("#content > table td:last-child > .js-scrollfix-bottom-rel")
         return int(
             summary_selector.find("span", class_="dark_text", string=string).next_sibling.replace(",", "")
         )
 
-    def __percentage(self, string):
-        if string:
-            return float(string.previous_sibling.replace("%", "").strip())
-        return None
+    def __percentage(self, string: str) -> float:
+        if not string:
+            return None
+        return float(string.previous_sibling.replace("%", "").strip())
 
-    def __votes(self, string):
+    def __votes(self, string: str) -> int:
         if string:
             regex = search(r"\d+", string.get_text())
-            if regex:
-                return int(regex.group())
-            return None
+            if not regex:
+                return None
+            return int(regex.group())
         return None
 
-    def __scores(self):
+    def __scores(self) -> dict:
         selector = self.soup.select_one(".js-scrollfix-bottom-rel > table")
         return {
             str(number): {

@@ -1,18 +1,16 @@
-from mal.spiders.utils import get_soup
+from bs4 import BeautifulSoup
 
 
 class Pictures:
-    def __init__(self, base_url, mal_id) -> None:
-        self.base_url = base_url
-        self.mal_id = mal_id
+    def __init__(self, soup: BeautifulSoup) -> None:
+        self.soup = soup
 
-    def get(self):
-        soup = get_soup(f"{self.base_url}/anime/{self.mal_id}/_/pics")
+    def get(self) -> dict:
         return {
             "pictures": [
                 {
-                    "large": i.select_one("a").get("href"),
-                    "small": i.select_one("a").get("href").replace("l.", ".")
-                } for i in soup.select(".picSurround")
+                    "large": i.select_one("img").get("data-src").replace(".jpg", "l.jpg"),
+                    "small": i.select_one("img").get("data-src")
+                } for i in self.soup.find_all("div", {"class": "picSurround"})
             ]
         }

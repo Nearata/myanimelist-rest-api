@@ -2,7 +2,7 @@ from wsgiref import simple_server
 from mal import create_app
 
 
-def main():
+def main() -> None:
     """Here where it all began"""
     api = create_app()
     addr, port = "127.0.0.1", 5000

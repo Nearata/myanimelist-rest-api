@@ -3,6 +3,8 @@ from falcon import HTTPBadRequest
 from falcon import HTTPMissingParam
 from falcon import HTTPInvalidParam
 from falcon import HTTPNotFound
+from falcon import Request
+from falcon import Response
 from mal.spiders import AnimeSpiders
 
 
@@ -11,7 +13,7 @@ class ValidateRoute:
     double_check_docs = "Please double check the documentation."
     wiki_base_url = "https://github.com/Nearata/myanimelist-rest-api/wiki"
 
-    def process_request(self, request, response):
+    def process_request(self, request: Request, response: Response) -> None:
         anime_route = r"\/(anime)"
         search_route = r"\/(search)"
         top_route = r"\/(top)"
@@ -28,7 +30,7 @@ class ValidateRoute:
                 href=self.wiki_base_url
             )
 
-    def __validate_anime_route(self, anime_route, request):
+    def __validate_anime_route(self, anime_route: str, request: Request) -> None:
         anime_regex = anime_route + r"\/(\d{1,5})\/"
         anime_routes = f"({'|'.join([i for i in dir(AnimeSpiders) if not i.startswith('__')])})"
         pattern = anime_regex + anime_routes
@@ -41,7 +43,7 @@ class ValidateRoute:
         if match(anime_regex + r"(reviews|episodes)", request.path) and not match(anime_regex + r"(reviews|episodes)\/(\d+)", request.path):
             raise HTTPMissingParam("page_number")
 
-    def __validate_search_route(self, search_route, request):
+    def __validate_search_route(self, search_route: str, request: Request) -> None:
         search_anime = r"\/anime"
         if not match(search_route + search_anime, request.path):
             raise HTTPNotFound(
@@ -62,7 +64,7 @@ class ValidateRoute:
                 param_name="query"
             )
 
-    def __validate_top_route(self, top_route, request):
+    def __validate_top_route(self, top_route: str, request: Request) -> None:
         top_anime = r"\/anime"
         if not match(top_route + top_anime, request.path):
             raise HTTPNotFound(
