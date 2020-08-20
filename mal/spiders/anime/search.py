@@ -1,6 +1,6 @@
 from datetime import datetime
 from re import match
-from mal.spiders.soup import Soup
+from mal.soup import Soup
 
 
 class Search:

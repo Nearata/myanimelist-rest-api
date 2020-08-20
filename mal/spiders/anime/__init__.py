@@ -11,7 +11,7 @@ from mal.spiders.anime.reviews import Reviews
 from mal.spiders.anime.staff import Staff
 from mal.spiders.anime.stats import Stats
 from mal.spiders.anime.top import Top
-from mal.spiders.soup import Soup
+from mal.soup import Soup
 
 
 class AnimeSpiders:
