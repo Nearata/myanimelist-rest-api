@@ -12,6 +12,7 @@ falcon = "*"
 beautifulsoup4 = "*"
 requests = "*"
 lxml = "*"
+pymongo = "*"
 
 [requires]
 python_version = "3.8"

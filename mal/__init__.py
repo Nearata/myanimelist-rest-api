@@ -1,7 +1,8 @@
 from falcon import API
-from mal.middleware import CheckUrl
-from mal.middleware import RequireJSON
-from mal.middleware import ValidateRoute
+from mal.middleware import CheckUrlMiddleware
+from mal.middleware import RequireJSONMiddleware
+from mal.middleware import CacheMiddleware
+from mal.middleware import ValidateRouteMiddleware
 from mal.routes import AnimeResource
 from mal.routes import AnimeSearch
 from mal.routes import AnimeTop
@@ -13,9 +14,10 @@ def create_app() -> API:
     anime_top = AnimeTop()
 
     api = API(middleware=[
-        RequireJSON(),
-        ValidateRoute(),
-        CheckUrl()
+        RequireJSONMiddleware(),
+        ValidateRouteMiddleware(),
+        CacheMiddleware(),
+        CheckUrlMiddleware()
     ])
 
     api.req_options.strip_url_path_trailing_slash = True

@@ -5,7 +5,7 @@ from requests import Session
 from requests.exceptions import ReadTimeout
 
 
-class CheckUrl:
+class CheckUrlMiddleware:
     def process_request(self, request: Request, response: Response) -> None:
         regex_list = [
             search(r"\/(anime)\/([0-9]{1,5})", request.uri),

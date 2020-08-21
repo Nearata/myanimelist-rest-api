@@ -8,7 +8,7 @@ from falcon import Response
 from mal.spiders import AnimeSpiders
 
 
-class ValidateRoute:
+class ValidateRouteMiddleware:
     route_invalid_incomplete = "The route is invalid or incomplete."
     double_check_docs = "Please double check the documentation."
     wiki_base_url = "https://github.com/Nearata/myanimelist-rest-api/wiki"
