@@ -23,7 +23,7 @@ class CacheMiddleware:
         response.set_header("Content-Type", "application/json")
         response.body = dumps(cache_response)
 
-    def process_response(self, request: Request, response: Response, res, request_succeeded: bool) -> None:
+    def process_response(self, request: Request, response: Response, res: object, request_succeeded: bool) -> None:
         if not request_succeeded:
             return
 
