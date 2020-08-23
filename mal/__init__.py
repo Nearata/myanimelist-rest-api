@@ -3,13 +3,13 @@ from mal.middleware import CheckUrlMiddleware
 from mal.middleware import RequireJSONMiddleware
 from mal.middleware import CacheMiddleware
 from mal.middleware import ValidateRouteMiddleware
-from mal.routes import AnimeResource
+from mal.routes import AnimeRoute
 from mal.routes import AnimeSearch
 from mal.routes import AnimeTop
 
 
 def create_app() -> API:
-    anime_route = AnimeResource()
+    anime_route = AnimeRoute()
     anime_search = AnimeSearch()
     anime_top = AnimeTop()
 

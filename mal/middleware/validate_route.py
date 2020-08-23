@@ -17,6 +17,7 @@ class ValidateRouteMiddleware:
         anime_route = r"\/(anime)"
         search_route = r"\/(search)"
         top_route = r"\/(top)"
+
         if match(anime_route, request.path):
             self.__validate_anime_route(anime_route, request)
         elif match(search_route, request.path):

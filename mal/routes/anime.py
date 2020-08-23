@@ -3,7 +3,7 @@ from falcon import Request, Response
 from mal.spiders import AnimeSpiders
 
 
-class AnimeResource:
+class AnimeRoute:
     def on_get(self, request: Request, response: Response, mal_id: int, mal_request: str) -> None:
         spiders = AnimeSpiders(mal_id)
         data = getattr(spiders, mal_request)()
