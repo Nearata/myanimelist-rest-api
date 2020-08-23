@@ -6,7 +6,8 @@ from mal.cache import Cache
 
 
 class CacheMiddleware:
-    cache = Cache("anime", "documents")
+    def __init__(self) -> None:
+        self.cache = Cache("anime", "documents")
 
     def process_request(self, request: Request, response: Response) -> None:
         resource, mal_id, mal_request = self.__get_params(request.path)
