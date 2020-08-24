@@ -1,12 +1,9 @@
 from bs4 import BeautifulSoup
 from requests import Session
+from mal.utils import Utils
 
 
 class Soup:
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0"
-    }
-
     def __init__(self, url: str, params: dict = None, parser: str = "lxml") -> None:
         self.url = url
         self.params = params
@@ -14,6 +11,6 @@ class Soup:
 
     def get(self) -> BeautifulSoup:
         with Session() as s:
-            response = s.get(self.url, params=self.params, headers=self.headers)
+            response = s.get(self.url, params=self.params, headers=Utils.REQUESTS_HEADERS)
 
         return BeautifulSoup(response.content, self.parser)
