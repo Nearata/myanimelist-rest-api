@@ -12,8 +12,8 @@ def create_app() -> API:
     api = API(middleware=[
         RequireJsonMiddleware(),
         ValidateRouteMiddleware(),
-        MalChecker(),
-        CacheMiddleware()
+        CacheMiddleware(),
+        MalChecker()
     ])
 
     api.req_options.strip_url_path_trailing_slash = True
