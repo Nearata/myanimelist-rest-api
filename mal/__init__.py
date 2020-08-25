@@ -4,7 +4,7 @@ from mal.middleware import RequireJsonMiddleware
 from mal.middleware import MalChecker
 from mal.middleware import ValidateRouteMiddleware
 from mal.routes import AnimeRoute
-from mal.error_serializer import serializer
+from mal.error_serializer import ErrorSerializer
 
 
 def create_app() -> API:
@@ -18,7 +18,8 @@ def create_app() -> API:
     ])
 
     api.req_options.strip_url_path_trailing_slash = True
-    api.set_error_serializer(serializer)
+    error_serializer = ErrorSerializer()
+    api.set_error_serializer(error_serializer)
 
     api.add_route(
         "/anime/{mal_id:int}/{mal_request}",
