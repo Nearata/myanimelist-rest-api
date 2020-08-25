@@ -11,13 +11,7 @@ class Details:
         self.base_url = base_url
 
     def get(self) -> dict:
-        for i in self.soup.select("h1 > .h1-title > span[itemprop=name]"):
-            if i.br:
-                i.br.decompose()
-            if i.span:
-                i.span.decompose()
-
-        anime_title = self.soup.select_one("h1 > .h1-title > span").get_text()
+        anime_title = self.soup.select_one("h1.title-name").get_text()
 
         return {
             "details": {
