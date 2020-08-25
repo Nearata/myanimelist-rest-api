@@ -22,7 +22,7 @@ class MalChecker:
                 )
 
         if req_status_code == 404:
-            raise HTTPNotFound(title="404 Not Found", description="The anime you are looking doesn't exists.")
+            raise HTTPNotFound(title="404 Not Found", description="The anime you are looking doesn't exists on MyAnimeList.")
         elif not str(req_status_code).startswith("2"):
             http_status = HTTPStatus(req_status_code)
             status_code = getattr(http_status, "value")
