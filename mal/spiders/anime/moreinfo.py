@@ -18,5 +18,5 @@ class MoreInfo:
             i.decompose()
 
         return {
-            "more_info": self.soup.select_one(".js-scrollfix-bottom-rel").get_text(strip=True)
+            "more_info": self.soup.select_one(".js-scrollfix-bottom-rel").get_text().strip()
         }
