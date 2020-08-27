@@ -50,6 +50,10 @@ class Search:
 
         soup = Soup("https://myanimelist.net/anime.php", params=params)
         selector = soup.get().select_one(".js-categories-seasonal")
+        if selector is None:
+            return {
+                "results": "There are no results."
+            }
 
         columns_enabled = {}
         check_columns_helper = lambda **kwargs: {kwargs["dict_key"]: kwargs["index"]} if kwargs["letter"] in columns_lst and kwargs["soup"].find(string=kwargs["find_string"]) else {}
