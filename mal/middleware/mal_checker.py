@@ -5,7 +5,7 @@ from requests.exceptions import ReadTimeout
 from mal.utils import Utils
 
 
-class MalChecker:
+class MalCheckerMiddleware:
     def process_request(self, request: Request, response: Response) -> None:
         with Session() as s:
             try:
@@ -20,6 +20,9 @@ class MalChecker:
                     title="MyAnimeList may be offline.",
                     description="May be offline or just slow to load"
                 )
+
+        if request.path.startswith("/anime/top/") or request.path.startswith("/anime/search"):
+            return
 
         if req_status_code == 404:
             raise HTTPNotFound(title="404 Not Found", description="The anime you are looking doesn't exists on MyAnimeList.")

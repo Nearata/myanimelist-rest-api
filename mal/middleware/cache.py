@@ -10,6 +10,9 @@ class CacheMiddleware:
         self.cache = Cache("anime", "documents")
 
     def process_request(self, request: Request, response: Response) -> None:
+        if request.path.startswith("/anime/search") or request.path.startswith("/anime/top/"):
+            return
+
         resource, mal_id, mal_request = self.__get_params(request.path)
 
         if not resource == "anime":
@@ -25,7 +28,7 @@ class CacheMiddleware:
         response.body = dumps(cache_response)
 
     def process_response(self, request: Request, response: Response, res: object, request_succeeded: bool) -> None:
-        if not request_succeeded:
+        if not request_succeeded or request.path.startswith("/anime/search") or request.path.startswith("/anime/top/"):
             return
 
         resource, mal_id, mal_request = self.__get_params(request.path)
