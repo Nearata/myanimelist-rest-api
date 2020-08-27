@@ -76,7 +76,7 @@ class ValidateRouteMiddleware:
                 description=self.double_check_docs
             )
 
-        regex = top_route + r"\b\/(all|airing|upcoming|tv|ova|special|bypopularity|favorite)\b"
+        regex = top_route + r"\b\/(all|airing|upcoming|tv|movie|ova|ona|special|bypopularity|favorite)\b"
         if not match(regex, path):
             raise HTTPBadRequest(
                 title=self.route_invalid_incomplete,
