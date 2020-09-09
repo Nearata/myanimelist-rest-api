@@ -6,29 +6,58 @@
 
 ## Requirements
 
-- Python 3
-- pipenv
+- Python 3.8+
+- Pipenv
+- MongoDB (optional)
 
 ## Installation
 
-Clone or download zip
+- Install [Pipenv](https://pypi.org/project/pipenv/)
+- Clone the repository or download the ZIP
+- Open the terminal in the `myanimelist-rest-api` directory and run `pipenv install` to install all the dependencies
 
-- Run ``pipenv install`` in directory to install requirements
+## Caching
+
+This project uses `MongoDB` to store JSON responses for `7 days`. We use `PyMongo` as driver to comunicate with MongoDB Server.
+
+If you want to cache the JSON responses, just comment out the line `CacheMiddleware()` in `create_app()` function.
+
+## Production
+
+At the moment, there's no recommended way to setup a server for production.
 
 ## Development setup
 
-- Run ``pipenv install --dev`` to install dev dependencies
-- Run ``pipenv run python dev.py`` to start the wsgi development server on [http://127.0.0.1:5000](http://127.0.0.1:5000)
+- Run `pipenv install --dev` to install both `dependencies` and `dev-dependencies`
+- Comment the `CacheMiddleware()` line in `create_app()` (this way you will always get a fresh response)
+- Run `pipenv run python dev.py` to start the wsgi development server on [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
-## Usage example
+## Usage Example
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/18acc4272e58f2755282)
+Examples can be found on the [Documentation](#Documentation)
 
 ## Features
 
-[Wiki](https://github.com/Nearata/myanimelist-rest-api/wiki/Features)
+Currently supported features:
 
-_Please refer to the [Wiki](https://github.com/Nearata/myanimelist-rest-api/wiki) for more info about anything._
+- Anime
+  - Characters
+  - Clubs
+  - Episodes
+  - Featured
+  - More Info
+  - News
+  - Pictures
+  - Recommendations
+  - Reviews
+  - Search
+  - Staff
+  - Stats
+  - Top
+
+## Documentation
+
+See the complete documentation [here](https://vonnearata.gitbook.io/docs/)
 
 ## License
 
