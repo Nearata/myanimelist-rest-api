@@ -5,7 +5,7 @@ class Pictures:
     def __init__(self, soup: BeautifulSoup) -> None:
         self.soup = soup
 
-    def get(self) -> dict:
+    def __call__(self) -> dict:
         return {
             "pictures": [
                 {

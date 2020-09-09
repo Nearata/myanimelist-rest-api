@@ -21,7 +21,7 @@ class Search:
         self.genres_exclude = kwargs["genres_exclude"]
         self.columns = kwargs["columns"]
 
-    def get(self):
+    def __call__(self):
         params = {
             "q": self.query,
             "type": self.type,

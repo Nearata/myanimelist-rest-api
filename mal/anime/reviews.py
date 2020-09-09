@@ -6,7 +6,7 @@ class Reviews:
     def __init__(self, soup: BeautifulSoup) -> None:
         self.soup = soup
 
-    def get(self) -> dict:
+    def __call__(self) -> dict:
         selector = self.soup.select(".js-scrollfix-bottom-rel > .borderDark")
         reviewer_scores_helper = lambda soup, index: int(soup.select_one(f".textReadability tr:nth-child({index}) > td:last-child").get_text())
         return {

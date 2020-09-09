@@ -7,7 +7,7 @@ class News:
         self.soup = soup
         self.base_url = base_url
 
-    def get(self) -> dict:
+    def __call__(self) -> dict:
         return {
             "news": [
                 {

@@ -9,7 +9,7 @@ class Soup:
         self.params = params
         self.parser = parser
 
-    def get(self) -> BeautifulSoup:
+    def __call__(self) -> BeautifulSoup:
         with Session() as s:
             response = s.get(self.url, params=self.params, headers=Utils.REQUESTS_HEADERS)
 

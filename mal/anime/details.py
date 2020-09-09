@@ -10,7 +10,7 @@ class Details:
         self.soup = soup
         self.base_url = base_url
 
-    def get(self) -> dict:
+    def __call__(self) -> dict:
         anime_title = self.soup.select_one("h1.title-name").get_text()
 
         return {

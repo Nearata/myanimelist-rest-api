@@ -5,7 +5,7 @@ class Characters:
     def __init__(self, soup: BeautifulSoup) -> None:
         self.soup = soup
 
-    def get(self) -> dict:
+    def __call__(self) -> dict:
         selector = self.soup.select_one("a[name=staff]").find_previous_siblings("table")
         return {
             "characters": [

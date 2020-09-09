@@ -38,7 +38,7 @@ class AnimeRoute:
             columns=request.get_param("columns", default=0)
         )
         response.content_type = self.content_type
-        response.body = dumps(search.get())
+        response.body = dumps(search())
 
     def on_get_top(self, request: Request, response: Response, _type: str, page_number: int) -> None:
         spiders = AnimeSpiders()

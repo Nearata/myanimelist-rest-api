@@ -23,64 +23,64 @@ class AnimeSpiders:
 
     def characters(self) -> dict:
         soup = Soup(f"{self.base_url}/anime/{self.mal_id}/_/characters")
-        characters = Characters(soup.get())
-        return characters.get()
+        characters = Characters(soup())
+        return characters()
 
     def clubs(self) -> dict:
         soup = Soup(f"{self.base_url}/anime/{self.mal_id}/_/clubs", parser="html.parser")
-        clubs = Clubs(soup.get(), self.base_url)
-        return clubs.get()
+        clubs = Clubs(soup(), self.base_url)
+        return clubs()
 
     def details(self) -> dict:
         soup = Soup(f"{self.base_url}/anime/{self.mal_id}")
-        details = Details(soup.get(), self.base_url)
-        return details.get()
+        details = Details(soup(), self.base_url)
+        return details()
 
     def episodes(self, page_number: int) -> dict:
         page_url = f"{self.base_url}/anime/{self.mal_id}/_/episode" if page_number == 1 else f"{self.base_url}/anime/{self.mal_id}/_/episode?offset={page_number}00"
         soup = Soup(page_url)
-        episodes = Episodes(soup.get())
-        return episodes.get()
+        episodes = Episodes(soup())
+        return episodes()
 
     def featured(self) -> dict:
         soup = Soup(f"{self.base_url}/anime/{self.mal_id}/_/featured")
-        featured = Featured(soup.get())
-        return featured.get()
+        featured = Featured(soup())
+        return featured()
 
     def moreinfo(self) -> dict:
         soup = Soup(f"{self.base_url}/anime/{self.mal_id}/_/moreinfo")
-        more_info = MoreInfo(soup.get())
-        return more_info.get()
+        more_info = MoreInfo(soup())
+        return more_info()
 
     def news(self) -> dict:
         soup = Soup(f"{self.base_url}/anime/{self.mal_id}/_/news")
-        news = News(soup.get(), self.base_url)
-        return news.get()
+        news = News(soup(), self.base_url)
+        return news()
 
     def pictures(self) -> dict:
         soup = Soup(f"{self.base_url}/anime/{self.mal_id}/_/pics")
-        pictures = Pictures(soup.get())
-        return pictures.get()
+        pictures = Pictures(soup())
+        return pictures()
 
     def recommendations(self) -> dict:
         soup = Soup(f"{self.base_url}/anime/{self.mal_id}/_/userrecs")
-        recommendations = Recommendations(soup.get(), self.base_url)
-        return recommendations.get()
+        recommendations = Recommendations(soup(), self.base_url)
+        return recommendations()
 
     def reviews(self, page_number: int) -> dict:
         soup = Soup(f"{self.base_url}/anime/{self.mal_id}/_/reviews?p={page_number}")
-        reviews = Reviews(soup.get())
-        return reviews.get()
+        reviews = Reviews(soup())
+        return reviews()
 
     def staff(self) -> dict:
         soup = Soup(f"{self.base_url}/anime/{self.mal_id}/_/characters")
-        staff = Staff(soup.get())
-        return staff.get()
+        staff = Staff(soup())
+        return staff()
 
     def stats(self) -> dict:
         soup = Soup(f"{self.base_url}/anime/{self.mal_id}/_/stats")
-        stats = Stats(soup.get())
-        return stats.get()
+        stats = Stats(soup())
+        return stats()
 
     def top(self, _type: str, page: int) -> dict:
         params = {}
@@ -96,5 +96,5 @@ class AnimeSpiders:
             params["limit"] = 50 * page - 50
 
         soup = Soup(f"{self.base_url}/topanime.php", params=params)
-        top = Top(soup.get())
-        return top.get()
+        top = Top(soup())
+        return top()

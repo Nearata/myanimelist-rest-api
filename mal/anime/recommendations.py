@@ -6,7 +6,7 @@ class Recommendations:
         self.soup = soup
         self.base_url = base_url
 
-    def get(self) -> dict:
+    def __call__(self) -> dict:
         selector = self.soup.select(".js-scrollfix-bottom-rel > .borderClass")
         return {
             "recommendations": [
