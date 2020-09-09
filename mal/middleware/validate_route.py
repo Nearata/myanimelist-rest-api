@@ -5,7 +5,7 @@ from falcon import HTTPInvalidParam
 from falcon import HTTPNotFound
 from falcon import Request
 from falcon import Response
-from mal.anime import AnimeSpiders
+from mal.anime import AnimeScrapers
 
 
 class ValidateRouteMiddleware:
@@ -37,7 +37,7 @@ class ValidateRouteMiddleware:
             return
 
         anime_regex = anime_route + r"\/(\d{1,5})\/"
-        anime_routes = f"({'|'.join([i for i in dir(AnimeSpiders) if not i.startswith('__')])})"
+        anime_routes = f"({'|'.join([i for i in dir(AnimeScrapers) if not i.startswith('__')])})"
         pattern = anime_regex + anime_routes
 
         if not match(pattern, request.path):

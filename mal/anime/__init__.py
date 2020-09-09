@@ -15,7 +15,7 @@ from mal.anime.top import Top
 from mal.soup import Soup
 
 
-class AnimeSpiders:
+class AnimeScrapers:
     base_url = "https://myanimelist.net"
 
     def __init__(self, mal_id: int = None) -> None:

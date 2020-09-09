@@ -1,6 +1,6 @@
 from json import dumps
 from falcon import Request, Response
-from mal.anime import AnimeSpiders
+from mal.anime import AnimeScrapers
 from mal.anime import Search
 
 
@@ -8,13 +8,13 @@ class AnimeRoute:
     content_type = "application/json"
 
     def on_get(self, request: Request, response: Response, mal_id: int, mal_request: str) -> None:
-        spiders = AnimeSpiders(mal_id)
+        spiders = AnimeScrapers(mal_id)
         data = getattr(spiders, mal_request)()
         response.content_type = self.content_type
         response.body = dumps(data)
 
     def on_get_2(self, request: Request, response: Response, **kwargs) -> None:
-        spiders = AnimeSpiders(kwargs["mal_id"])
+        spiders = AnimeScrapers(kwargs["mal_id"])
         data = getattr(spiders, kwargs["mal_request"])(kwargs["page_number"])
         response.content_type = self.content_type
         response.body = dumps(data)
@@ -41,7 +41,7 @@ class AnimeRoute:
         response.body = dumps(search())
 
     def on_get_top(self, request: Request, response: Response, _type: str, page_number: int) -> None:
-        spiders = AnimeSpiders()
+        spiders = AnimeScrapers()
         data = spiders.top(_type, page_number)
         response.content_type = self.content_type
         response.body = dumps(data)
