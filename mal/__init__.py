@@ -1,8 +1,5 @@
 from falcon import API
-# from mal.middleware import CacheMiddleware
-from mal.middleware import RequireJsonMiddleware
-from mal.middleware import MalCheckerMiddleware
-from mal.middleware import ValidateRouteMiddleware
+from mal.middleware import *
 from mal.routes import AnimeRoute
 from mal.error_serializer import ErrorSerializer
 

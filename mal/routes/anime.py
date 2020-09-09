@@ -1,6 +1,6 @@
 from json import dumps
 from falcon import Request, Response
-from mal.anime import AnimeScrapers
+from mal.scrapers import AnimeScrapers
 from mal.anime import Search
 
 

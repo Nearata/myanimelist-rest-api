@@ -5,7 +5,7 @@ from falcon import HTTPInvalidParam
 from falcon import HTTPNotFound
 from falcon import Request
 from falcon import Response
-from mal.anime import AnimeScrapers
+from mal.scrapers import AnimeScrapers
 
 
 class ValidateRouteMiddleware:
