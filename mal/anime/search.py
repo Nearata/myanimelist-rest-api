@@ -49,7 +49,7 @@ class Search:
             params.update({"c":0})
 
         soup = Soup("https://myanimelist.net/anime.php", params=params)
-        selector = soup.get().select_one(".js-categories-seasonal")
+        selector = soup().select_one(".js-categories-seasonal")
         if selector is None:
             return {
                 "results": "There are no results."
