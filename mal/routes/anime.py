@@ -1,7 +1,7 @@
 from json import dumps
 from falcon import Request, Response
-from mal.spiders import AnimeSpiders
-from mal.spiders.anime.search import Search
+from mal.anime import AnimeSpiders
+from mal.anime import Search
 
 
 class AnimeRoute:

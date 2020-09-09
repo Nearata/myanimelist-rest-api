@@ -1,6 +1,6 @@
 from datetime import datetime
 from bs4 import BeautifulSoup
-from mal.spiders.anime.helpers.details import *
+from mal.anime._helpers import AnimeHelpers
 
 
 class Details:
@@ -17,33 +17,33 @@ class Details:
             "details": {
                 "title": anime_title,
                 "image": self.soup.find("img", alt=anime_title).get("data-src"),
-                "trailer": trailer_helper(self.soup),
-                "synopsis": synopsis_helper(self.soup),
-                "background": background_helper(self.soup),
+                "trailer": AnimeHelpers.trailer_helper(self.soup),
+                "synopsis": AnimeHelpers.synopsis_helper(self.soup),
+                "background": AnimeHelpers.background_helper(self.soup),
                 "alternative_titles": {
                     "english": self.__alternative_titles_helper("English:"),
                     "japanese": self.__alternative_titles_helper("Japanese:"),
-                    "synonyms": synonyms_helper(self.soup),
+                    "synonyms": AnimeHelpers.synonyms_helper(self.soup),
                 },
                 "information": {
                     "type": self.soup.find("span", string="Type:").find_next_sibling("a").get_text(),
-                    "episodes": episodes_helper(self.soup),
+                    "episodes": AnimeHelpers.episodes_helper(self.soup),
                     "status": self.soup.find("span", string="Status:").next_sibling.strip(),
                     "aired": {
                         "from": self.__information_aired_helper(0),
                         "to": self.__information_aired_helper(1)
                     },
-                    "premiered": premiered_helper(self.soup),
-                    "producers": producers_helper(self.soup, self.none_found, self.base_url),
-                    "licensors": licensors_helper(self.soup, self.none_found, self.base_url),
-                    "studios": studios_helper(self.soup, self.none_found, self.base_url),
+                    "premiered": AnimeHelpers.premiered_helper(self.soup),
+                    "producers": AnimeHelpers.producers_helper(self.soup, self.none_found, self.base_url),
+                    "licensors": AnimeHelpers.licensors_helper(self.soup, self.none_found, self.base_url),
+                    "studios": AnimeHelpers.studios_helper(self.soup, self.none_found, self.base_url),
                     "source": self.__alternative_titles_helper("Source:"),
-                    "genres": genres_helper(self.soup),
-                    "duration": duration_helper(self.soup),
-                    "rating": rating_helper(self.soup)
+                    "genres": AnimeHelpers.genres_helper(self.soup),
+                    "duration": AnimeHelpers.duration_helper(self.soup),
+                    "rating": AnimeHelpers.rating_helper(self.soup)
                 },
                 "statistics": {
-                    "score": score_helper(self.soup),
+                    "score": AnimeHelpers.score_helper(self.soup),
                     "ranked": self.__statistics_helper("Ranked:", "#"),
                     "popularity": self.__statistics_helper("Popularity:", "#"),
                     "members": self.__statistics_helper("Members:"),
