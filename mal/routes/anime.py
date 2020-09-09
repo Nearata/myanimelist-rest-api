@@ -8,14 +8,14 @@ class AnimeRoute:
     content_type = "application/json"
 
     def on_get(self, request: Request, response: Response, mal_id: int, mal_request: str) -> None:
-        spiders = AnimeScrapers(mal_id)
-        data = getattr(spiders, mal_request)()
+        scrapers = AnimeScrapers(mal_id)
+        data = getattr(scrapers, mal_request)()
         response.content_type = self.content_type
         response.body = dumps(data)
 
     def on_get_2(self, request: Request, response: Response, **kwargs) -> None:
-        spiders = AnimeScrapers(kwargs["mal_id"])
-        data = getattr(spiders, kwargs["mal_request"])(kwargs["page_number"])
+        scrapers = AnimeScrapers(kwargs["mal_id"])
+        data = getattr(scrapers, kwargs["mal_request"])(kwargs["page_number"])
         response.content_type = self.content_type
         response.body = dumps(data)
 
@@ -41,7 +41,7 @@ class AnimeRoute:
         response.body = dumps(search())
 
     def on_get_top(self, request: Request, response: Response, _type: str, page_number: int) -> None:
-        spiders = AnimeScrapers()
-        data = spiders.top(_type, page_number)
+        scrapers = AnimeScrapers()
+        data = scrapers.top(_type, page_number)
         response.content_type = self.content_type
         response.body = dumps(data)
