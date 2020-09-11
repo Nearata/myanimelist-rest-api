@@ -11,7 +11,7 @@ from mal.scrapers import AnimeScrapers
 class ValidateRouteMiddleware:
     route_invalid_incomplete = "The route is invalid or incomplete."
     double_check_docs = "Please double check the documentation."
-    wiki_base_url = "https://github.com/Nearata/myanimelist-rest-api/wiki"
+    wiki_base_url = "https://vonnearata.gitbook.io/docs/anime-endpoints"
 
     def process_request(self, request: Request, response: Response) -> None:
         anime_route = r"\/anime"
@@ -54,7 +54,7 @@ class ValidateRouteMiddleware:
             raise HTTPNotFound(
                 title="Route not found.",
                 description=self.double_check_docs,
-                href=f"{self.wiki_base_url}/Search-Route"
+                href=f"{self.wiki_base_url}/search"
             )
 
         if not request.get_param("query", required=True):
@@ -81,7 +81,7 @@ class ValidateRouteMiddleware:
             raise HTTPBadRequest(
                 title=self.route_invalid_incomplete,
                 description=self.double_check_docs,
-                href=f"{self.wiki_base_url}/Top-Route"
+                href=f"{self.wiki_base_url}/top"
             )
 
         page_number_regex = regex + r"\/(\d+)"
