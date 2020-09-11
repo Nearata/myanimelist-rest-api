@@ -1,5 +1,5 @@
 from mal.anime import *
-from mal.soup import Soup
+from mal.utils import SoupUtil
 
 
 class AnimeScrapers:
@@ -9,63 +9,63 @@ class AnimeScrapers:
         self.mal_id = mal_id
 
     def characters(self) -> dict:
-        soup = Soup(f"{self.base_url}/anime/{self.mal_id}/_/characters")
+        soup = SoupUtil(f"{self.base_url}/anime/{self.mal_id}/_/characters")
         characters = Characters(soup())
         return characters()
 
     def clubs(self) -> dict:
-        soup = Soup(f"{self.base_url}/anime/{self.mal_id}/_/clubs", parser="html.parser")
+        soup = SoupUtil(f"{self.base_url}/anime/{self.mal_id}/_/clubs", parser="html.parser")
         clubs = Clubs(soup(), self.base_url)
         return clubs()
 
     def details(self) -> dict:
-        soup = Soup(f"{self.base_url}/anime/{self.mal_id}")
+        soup = SoupUtil(f"{self.base_url}/anime/{self.mal_id}")
         details = Details(soup(), self.base_url)
         return details()
 
     def episodes(self, page_number: int) -> dict:
         page_url = f"{self.base_url}/anime/{self.mal_id}/_/episode" if page_number == 1 else f"{self.base_url}/anime/{self.mal_id}/_/episode?offset={page_number}00"
-        soup = Soup(page_url)
+        soup = SoupUtil(page_url)
         episodes = Episodes(soup())
         return episodes()
 
     def featured(self) -> dict:
-        soup = Soup(f"{self.base_url}/anime/{self.mal_id}/_/featured")
+        soup = SoupUtil(f"{self.base_url}/anime/{self.mal_id}/_/featured")
         featured = Featured(soup())
         return featured()
 
     def moreinfo(self) -> dict:
-        soup = Soup(f"{self.base_url}/anime/{self.mal_id}/_/moreinfo")
+        soup = SoupUtil(f"{self.base_url}/anime/{self.mal_id}/_/moreinfo")
         more_info = MoreInfo(soup())
         return more_info()
 
     def news(self) -> dict:
-        soup = Soup(f"{self.base_url}/anime/{self.mal_id}/_/news")
+        soup = SoupUtil(f"{self.base_url}/anime/{self.mal_id}/_/news")
         news = News(soup(), self.base_url)
         return news()
 
     def pictures(self) -> dict:
-        soup = Soup(f"{self.base_url}/anime/{self.mal_id}/_/pics")
+        soup = SoupUtil(f"{self.base_url}/anime/{self.mal_id}/_/pics")
         pictures = Pictures(soup())
         return pictures()
 
     def recommendations(self) -> dict:
-        soup = Soup(f"{self.base_url}/anime/{self.mal_id}/_/userrecs")
+        soup = SoupUtil(f"{self.base_url}/anime/{self.mal_id}/_/userrecs")
         recommendations = Recommendations(soup(), self.base_url)
         return recommendations()
 
     def reviews(self, page_number: int) -> dict:
-        soup = Soup(f"{self.base_url}/anime/{self.mal_id}/_/reviews?p={page_number}")
+        soup = SoupUtil(f"{self.base_url}/anime/{self.mal_id}/_/reviews?p={page_number}")
         reviews = Reviews(soup())
         return reviews()
 
     def staff(self) -> dict:
-        soup = Soup(f"{self.base_url}/anime/{self.mal_id}/_/characters")
+        soup = SoupUtil(f"{self.base_url}/anime/{self.mal_id}/_/characters")
         staff = Staff(soup())
         return staff()
 
     def stats(self) -> dict:
-        soup = Soup(f"{self.base_url}/anime/{self.mal_id}/_/stats")
+        soup = SoupUtil(f"{self.base_url}/anime/{self.mal_id}/_/stats")
         stats = Stats(soup())
         return stats()
 
@@ -82,6 +82,6 @@ class AnimeScrapers:
         else:
             params["limit"] = 50 * page - 50
 
-        soup = Soup(f"{self.base_url}/topanime.php", params=params)
+        soup = SoupUtil(f"{self.base_url}/topanime.php", params=params)
         top = Top(soup())
         return top()

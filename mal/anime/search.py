@@ -1,6 +1,6 @@
 from datetime import datetime
 from re import match
-from mal.soup import Soup
+from mal.utils import SoupUtil
 
 
 class Search:
@@ -48,7 +48,7 @@ class Search:
         else:
             params.update({"c":0})
 
-        soup = Soup("https://myanimelist.net/anime.php", params=params)
+        soup = SoupUtil("https://myanimelist.net/anime.php", params=params)
         selector = soup().select_one(".js-categories-seasonal")
         if selector is None:
             return {

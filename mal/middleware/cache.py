@@ -2,12 +2,12 @@ from datetime import datetime
 from re import search
 from json import dumps, loads
 from falcon import Request, Response
-from mal.cache import Cache
+from mal.utils import CacheUtil
 
 
 class CacheMiddleware:
     def __init__(self) -> None:
-        self.cache = Cache("anime", "documents")
+        self.cache = CacheUtil("anime", "documents")
 
     def process_request(self, request: Request, response: Response) -> None:
         if request.path.startswith("/anime/search") or request.path.startswith("/anime/top/"):

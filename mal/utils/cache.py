@@ -2,7 +2,7 @@ from datetime import timedelta
 from pymongo import MongoClient
 
 
-class Cache:
+class CacheUtil:
     mongo_client = MongoClient()
 
     def __init__(self, database: str, collection: str) -> None:

@@ -2,14 +2,14 @@ from http import HTTPStatus
 from falcon import Request, Response, HTTPNotFound, HTTPError
 from requests import Session
 from requests.exceptions import ReadTimeout
-from mal.utils import Utils
+from mal.utils import RequestsUtil
 
 
 class MalCheckerMiddleware:
     def process_request(self, request: Request, response: Response) -> None:
         with Session() as s:
             try:
-                req_response = s.head(f"https://myanimelist.net{request.path}", timeout=15, headers=Utils.REQUESTS_HEADERS)
+                req_response = s.head(f"https://myanimelist.net{request.path}", timeout=15, headers=RequestsUtil.HEADERS)
                 req_status_code = req_response.status_code
             except ReadTimeout:
                 http_status = HTTPStatus(504)
