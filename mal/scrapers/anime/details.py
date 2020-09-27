@@ -1,6 +1,7 @@
 from datetime import datetime
+
 from bs4 import BeautifulSoup
-from mal.anime._helpers import AnimeHelpers
+from mal.scrapers.anime._helpers import AnimeHelpers
 
 
 class Details:
@@ -11,12 +12,13 @@ class Details:
         self.base_url = base_url
 
     def __call__(self) -> dict:
-        anime_title = self.soup.select_one("h1.title-name").get_text()
+        anime_title: str = self.soup.select_one("h1.title-name").get_text()
+        image: str = self.soup.find("img", alt=anime_title).get("data-src")
 
         return {
             "details": {
                 "title": anime_title,
-                "image": self.soup.find("img", alt=anime_title).get("data-src"),
+                "image": image,
                 "trailer": AnimeHelpers.trailer_helper(self.soup),
                 "synopsis": AnimeHelpers.synopsis_helper(self.soup),
                 "background": AnimeHelpers.background_helper(self.soup),
@@ -66,25 +68,21 @@ class Details:
 
     def __related_anime_helper(self, string: str) -> list:
         related_anime = self.soup.find("td", string=string)
-        if related_anime:
-            return [
-                {
-                    "title": i.get_text(),
-                    "type": i.get("href").split("/")[1],
-                    "mal_id": int(i.get("href").split("/")[2])
-                } for i in related_anime.next_sibling.select("a")
-            ]
-        return []
+        return [
+            {
+                "title": i.get_text(),
+                "type": i.get("href").split("/")[1],
+                "mal_id": int(i.get("href").split("/")[2])
+            } for i in related_anime.next_sibling.select("a")
+        ] if related_anime else []
 
     def __theme_song_helper(self, string: str) -> list:
         theme_song = self.soup.select(f"div.{string} > span.theme-song")
-        if theme_song:
-            return [
-                {
-                    "title": i.get_text(strip=True)
-                } for i in theme_song
-            ]
-        return []
+        return [
+            {
+                "title": str(i.get_text(strip=True))
+            } for i in theme_song
+        ] if theme_song else []
 
     def __statistics_helper(self, field: str, replace: str = ",") -> int:
         try:
@@ -94,9 +92,7 @@ class Details:
 
     def __alternative_titles_helper(self, field_name: str) -> str:
         field = self.soup.find("span", string=field_name)
-        if field:
-            return field.next_sibling.strip()
-        return None
+        return str(field.next_sibling.strip()) if field else None
 
     def __information_aired_helper(self, index: int) -> str:
         aired = self.soup.find("span", string="Aired:").next_sibling
@@ -104,7 +100,7 @@ class Details:
         if aired.strip() == "Not available":
             return None
 
-        if index == 1 and aired.split("to")[index].strip() == "?":
+        if index == 1 and ("to" not in aired or aired.split("to")[index].strip() == "?"):
             return None
 
         try:

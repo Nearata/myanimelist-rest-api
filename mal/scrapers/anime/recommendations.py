@@ -7,7 +7,6 @@ class Recommendations:
         self.base_url = base_url
 
     def __call__(self) -> dict:
-        selector = self.soup.select(".js-scrollfix-bottom-rel > .borderClass")
         return {
             "recommendations": [
                 {
@@ -16,6 +15,6 @@ class Recommendations:
                     "url": i.select_one("td:last-child > div:nth-child(2) > a").get("href"),
                     "recommendation_url": f"{self.base_url}{i.select_one('td:last-child > div:nth-child(2) > span > a').get('href')}".strip(),
                     "mal_id": int(i.select_one("td:last-child > div > div").get("rel").replace("a", ""))
-                } for i in selector
+                } for i in self.soup.select(".js-scrollfix-bottom-rel > .borderClass")
             ]
         }

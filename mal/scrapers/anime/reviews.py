@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from bs4 import BeautifulSoup
 
 
@@ -7,8 +8,6 @@ class Reviews:
         self.soup = soup
 
     def __call__(self) -> dict:
-        selector = self.soup.select(".js-scrollfix-bottom-rel > .borderDark")
-        reviewer_scores_helper = lambda soup, index: int(soup.select_one(f".textReadability tr:nth-child({index}) > td:last-child").get_text())
         return {
             "reviews": [
                 {
@@ -20,14 +19,17 @@ class Reviews:
                         "image_url": i.select_one(".spaceit:first-child > div:last-child .picSurround > a > img").get("data-src"),
                         "username": i.select_one(".spaceit:first-child > div:last-child td:last-child > a").get_text(),
                         "scores": {
-                            "overall": reviewer_scores_helper(i, 1),
-                            "story": reviewer_scores_helper(i, 2),
-                            "animation": reviewer_scores_helper(i, 3),
-                            "sound": reviewer_scores_helper(i, 4),
-                            "character": reviewer_scores_helper(i, 5),
-                            "enjoyment": reviewer_scores_helper(i, 6)
+                            "overall": self.__reviewer_scores_helper(i, 1),
+                            "story": self.__reviewer_scores_helper(i, 2),
+                            "animation": self.__reviewer_scores_helper(i, 3),
+                            "sound": self.__reviewer_scores_helper(i, 4),
+                            "character": self.__reviewer_scores_helper(i, 5),
+                            "enjoyment": self.__reviewer_scores_helper(i, 6)
                         }
                     }
-                } for i in selector
+                } for i in self.soup.select(".js-scrollfix-bottom-rel > .borderDark")
             ]
         }
+
+    def __reviewer_scores_helper(self, soup: BeautifulSoup, index: int) -> int:
+        return int(soup.select_one(f".textReadability tr:nth-child({index}) > td:last-child").get_text())

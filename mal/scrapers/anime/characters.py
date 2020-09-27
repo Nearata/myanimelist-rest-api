@@ -6,7 +6,6 @@ class Characters:
         self.soup = soup
 
     def __call__(self) -> dict:
-        selector = self.soup.select_one("a[name=staff]").find_previous_siblings("table")
         return {
             "characters": [
                 {
@@ -22,6 +21,6 @@ class Characters:
                             "image": actor.select_one("td:nth-of-type(2) > div.picSurround > a > img").get("data-src")
                         } for actor in i.select("td:nth-of-type(3) > table tr")
                     ]
-                } for i in reversed(selector)
+                } for i in reversed(self.soup.select_one("a[name=staff]").find_previous_siblings("table"))
             ]
         }

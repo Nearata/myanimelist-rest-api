@@ -6,7 +6,6 @@ class Featured:
         self.soup = soup
 
     def __call__(self) -> dict:
-        selector = self.soup.select(".news-list > .news-unit")
         return {
             "featured": [
                 {
@@ -20,6 +19,6 @@ class Featured:
                             "name": tag.get_text()
                         } for tag in i.select("div > .information > .tags > .tags-inner .tag")
                     ]
-                } for i in selector
+                } for i in self.soup.select(".news-list > .news-unit")
             ]
         }

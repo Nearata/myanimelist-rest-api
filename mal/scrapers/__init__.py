@@ -1,4 +1,3 @@
-from mal.scrapers.anime import AnimeScrapers
-
+from mal.scrapers.anime_scrapers import AnimeScrapers
 
 __all__ = ["AnimeScrapers"]

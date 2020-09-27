@@ -5,14 +5,14 @@ verify_ssl = true
 
 [dev-packages]
 pylint = "*"
-flake8 = "*"
 
 [packages]
-falcon = "*"
 beautifulsoup4 = "*"
 requests = "*"
 lxml = "*"
-pymongo = "*"
+fastapi = "*"
+uvicorn = "*"
+peewee = "*"
 
 [requires]
 python_version = "3.8"

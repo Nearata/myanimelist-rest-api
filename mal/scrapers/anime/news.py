@@ -1,4 +1,5 @@
 from re import search
+
 from bs4 import BeautifulSoup
 
 
@@ -23,10 +24,7 @@ class News:
             ]
         }
 
-    def __comments(self, string: str) -> int:
+    @staticmethod
+    def __comments(string: str) -> int:
         regex = search(r"\d+", string)
-
-        if not regex:
-            return None
-
-        return int(regex.group())
+        return int(regex.group()) if regex else None

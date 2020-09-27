@@ -1,4 +1,5 @@
 from re import search
+
 from bs4 import BeautifulSoup
 
 
@@ -25,17 +26,13 @@ class Stats:
             summary_selector.find("span", class_="dark_text", string=string).next_sibling.replace(",", "")
         )
 
-    def __percentage(self, string: str) -> float:
-        if not string:
-            return None
-        return float(string.previous_sibling.replace("%", "").strip())
+    def __percentage(self, string: BeautifulSoup) -> float:
+        return float(string.previous_sibling.replace("%", "").strip()) if string else None
 
-    def __votes(self, string: str) -> int:
+    def __votes(self, string: BeautifulSoup) -> int:
         if string:
             regex = search(r"\d+", string.get_text())
-            if not regex:
-                return None
-            return int(regex.group())
+            return int(regex.group()) if regex else None
         return None
 
     def __scores(self) -> dict:
@@ -45,7 +42,8 @@ class Stats:
                 "percentage": self.__percentage(
                     selector.select_one(
                         f"tr:nth-child({index}) > td:last-child small"
-                    )),
+                    )
+                ),
                 "votes": self.__votes(
                     selector.select_one(
                         f"tr:nth-child({index}) > td:last-child small"

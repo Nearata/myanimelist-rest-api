@@ -2,7 +2,7 @@
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/a2acb1abd8be12d7c751/maintainability)](https://codeclimate.com/github/Nearata/myanimelist-rest-api/maintainability)
 
-> An unofficial REST API for MyAnimeList.
+> An unofficial REST API for MyAnimeList.net.
 
 ## Requirements
 
@@ -18,19 +18,15 @@
 
 ## Caching
 
-This project uses `MongoDB` to store JSON responses for `7 days`. We use `PyMongo` as driver to comunicate with MongoDB Server.
+This project uses `SQLite` to store JSON responses for `7 days` (manually checked). We use `Peewee` as driver to comunicate with MongoDB Server.
 
-If you want to cache the JSON responses, just comment out the line `CacheMiddleware()` in `create_app()` function.
+At the moment, there's not easy way to disable the cache if not by editing the code.
 
 ## Production
 
-At the moment, there's no recommended way to setup a server for production.
+Just read the `Deployment` section on [Uvicorn](https://www.uvicorn.org/deployment/) docs.
 
-## Development setup
-
-- Run `pipenv install --dev` to install both `dependencies` and `dev-dependencies`
-- Comment the `CacheMiddleware()` line in `create_app()` (this way you will always get a fresh response)
-- Run `pipenv run python dev.py` to start the wsgi development server on [http://127.0.0.1:5000](http://127.0.0.1:5000)
+The server will listen on `0.0.0.0:8765`
 
 ## Usage Example
 
@@ -50,10 +46,12 @@ Currently supported features:
   - Pictures
   - Recommendations
   - Reviews
-  - Search
   - Staff
   - Stats
-  - Top
+- Search
+  - Anime
+- Top
+  - Anime
 
 ## Documentation
 
@@ -61,7 +59,7 @@ See the complete documentation [here](https://vonnearata.gitbook.io/docs/)
 
 ## License
 
-Distributed under the MIT license. See ``LICENSE`` for more information.
+Distributed under the MIT license. See `LICENSE` for more information.
 
 ## Contributing
 
