@@ -26,8 +26,6 @@ At the moment, there's not easy way to disable the cache if not by editing the c
 
 Just read the `Deployment` section on [Uvicorn](https://www.uvicorn.org/deployment/) docs.
 
-The server will listen on `0.0.0.0:8765`
-
 ## Usage Example
 
 Examples can be found on the [Documentation](#Documentation)
