@@ -8,7 +8,6 @@
 
 - Python 3.8+
 - Pipenv
-- MongoDB (optional)
 
 ## Installation
 
@@ -18,7 +17,7 @@
 
 ## Caching
 
-This project uses `SQLite` to store JSON responses for `7 days` (manually checked). We use `Peewee` as driver to comunicate with MongoDB Server.
+This project uses `SQLite` to store JSON responses for `7 days` (manually checked). We use `Peewee` as driver to comunicate with SQLite Server.
 
 At the moment, there's not easy way to disable the cache if not by editing the code.
 
