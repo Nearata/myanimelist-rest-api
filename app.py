@@ -2,16 +2,19 @@ import uvicorn
 
 from mal.main import create_app
 from mal.database import Database
+from mal.config import Config
 
 app = create_app()
 
 @app.on_event("startup")
 def startup() -> None:
-    Database.connect()
+    if Config.CACHE:
+        Database.connect()
 
 @app.on_event("shutdown")
 def shutdown() -> None:
-    Database.close()
+    if Config.CACHE:
+        Database.close()
 
 def main() -> None:
     uvicorn.run(

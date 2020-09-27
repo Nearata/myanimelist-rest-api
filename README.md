@@ -17,9 +17,9 @@
 
 ## Caching
 
-This project uses `SQLite` to store JSON responses for `7 days` (manually checked). We use `Peewee` as driver to comunicate with SQLite Server.
+This project uses `SQLite` to store JSON responses for `7 days` (manually checked). We use `Peewee` as driver to comunicate with SQLite database.
 
-At the moment, there's not easy way to disable the cache if not by editing the code.
+If you do not want to cache the responses, you can disable it by editing the `CACHE` constant in `config.py` to `False`.
 
 ## Production
 
