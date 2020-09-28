@@ -47,9 +47,9 @@ class Anime2Parameters(BaseModel):
 
     @validator("mal_request")
     def validate_mal_request(cls, v: str):
-        print("this")
         if v not in ("episodes", "reviews"):
             raise ParameterNotValid("mal_request")
+
         return v
 
 
