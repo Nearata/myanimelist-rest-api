@@ -4,6 +4,7 @@ from mal.main import create_app
 from mal.database import Database
 from mal.config import Config
 
+
 app = create_app()
 
 @app.on_event("startup")
