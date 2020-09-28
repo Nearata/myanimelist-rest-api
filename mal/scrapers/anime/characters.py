@@ -1,3 +1,5 @@
+from re import compile
+
 from bs4 import BeautifulSoup
 
 
@@ -10,7 +12,7 @@ class Characters:
             "characters": [
                 {
                     "url": i.select_one("td:nth-of-type(1) > div.picSurround > a").get("href"),
-                    "image": i.select_one("td:nth-of-type(1) > div.picSurround > a > img").get("data-src"),
+                    "image_url": self.__image_url(i.select_one("td:nth-of-type(1) > div.picSurround > a > img").get("data-src")),
                     "name": i.select_one("td:nth-of-type(2) > a").get_text(),
                     "role": i.select_one("td:nth-of-type(2) > div > small").get_text(),
                     "voice_actors": [
@@ -24,3 +26,7 @@ class Characters:
                 } for i in reversed(self.soup.select_one("a[name=staff]").find_previous_siblings("table"))
             ]
         }
+
+    def __image_url(self, string: str) -> str:
+        regex = compile(r"\b\/images\/characters\/\d{1,}\/\d{1,}.jpg\b")
+        return f"https://cdn.myanimelist.net{''.join(regex.findall(string))}"
