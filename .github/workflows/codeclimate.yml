@@ -14,16 +14,14 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.8' 
-      - name: Install Pipenv
-        run: pip install pipenv
-      - name: Install dev dependencies
-        run: pipenv install --dev
+      - name: Install Dependencies
+        run: pip install pytest coverage
       - name: Run tests
-        run: pipenv run coverage run -m pytest tests
+        run: coverage run -m pytest tests
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v2.7.4
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_REPORT_ID }}
         with:
-          coverageCommand: pipenv run python -m coverage report
+          coverageCommand: coverage report
           debug: true
