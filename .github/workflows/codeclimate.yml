@@ -22,5 +22,5 @@ jobs:
           pipenv install --dev
       - name: Run tests
         run: |
-          pipenv run coverage run -m pytest
+          pipenv run coverage run -m pytest tests
           pipenv run coverage report
