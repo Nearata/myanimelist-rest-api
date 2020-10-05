@@ -17,7 +17,7 @@ jobs:
       - name: Install Dependencies
         run: pip install pytest coverage
       - name: Run tests
-        run: coverage run -m pytest tests
+        run: coverage run -m pytest
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v2.7.4
         env:
