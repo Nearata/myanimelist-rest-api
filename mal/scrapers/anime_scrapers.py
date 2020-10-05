@@ -1,9 +1,11 @@
+from typing import Optional
+
 from mal.scrapers.anime import *
 from mal.utils import SoupUtil
 
 
 class AnimeScrapers:
-    def __init__(self, mal_id: int = None) -> None:
+    def __init__(self, mal_id: Optional[int] = None) -> None:
         self.mal_id = mal_id
         self.base_url = "https://myanimelist.net"
 
@@ -85,16 +87,17 @@ class AnimeScrapers:
         return stats()
 
     def top(self, _type: str, page: int) -> dict:
-        params = {}
+        params = {
+            "type": "all",
+            "limit": 0
+        }
 
         if _type != "all":
             params["type"] = _type
 
-        if page == 1:
-            params["limit"] = 0
-        elif page == 2:
+        if page == 2:
             params["limit"] = 50
-        else:
+        elif page > 2:
             params["limit"] = 50 * page - 50
 
         soup = SoupUtil.get_soup(f"{self.base_url}/topanime.php", params=params)

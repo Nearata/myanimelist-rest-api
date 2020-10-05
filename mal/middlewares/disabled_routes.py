@@ -1,4 +1,5 @@
 from http import HTTPStatus
+from typing import Any
 
 from fastapi import Request
 from starlette.responses import JSONResponse
@@ -6,7 +7,7 @@ from starlette.responses import JSONResponse
 from mal.config import Config
 
 class DisabledRoutesMiddleware:
-    async def __call__(self, request: Request, call_next):
+    async def __call__(self, request: Request, call_next: Any) -> Any:
         path: str = request.scope["path"]
 
         http_status = HTTPStatus(404)

@@ -1,4 +1,5 @@
 from re import match, search
+from typing import Union
 
 from bs4 import BeautifulSoup
 
@@ -24,14 +25,14 @@ class Top:
             ]
         }
 
-    def __type(self, string: str) -> str:
+    def __type(self, string: str) -> Union[str, None]:
         regex = match(r"(TV|Movie|OVA|ONA|Music|Special)", string)
         return str(regex.group()) if regex else None
 
-    def __digits(self, string: str) -> int:
+    def __digits(self, string: str) -> Union[int, None]:
         regex = search(r"\d+", string.replace(",", ""))
         return int(regex.group()) if regex else None
 
-    def __score(self, string: str) -> float:
+    def __score(self, string: str) -> Union[float, None]:
         regex = match(r"\d.\d+", string)
         return float(regex.group()) if regex else None

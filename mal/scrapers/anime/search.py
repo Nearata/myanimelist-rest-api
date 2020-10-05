@@ -1,4 +1,5 @@
 from re import match
+from typing import Any, Union
 
 from bs4 import BeautifulSoup
 
@@ -6,22 +7,22 @@ from mal.utils import SoupUtil
 
 
 class Search:
-    def __init__(self, **kwargs) -> None:
-        self.query: str = kwargs["query"]
-        self.type: int = kwargs["type"]
-        self.score: int = kwargs["score"]
-        self.status: int = kwargs["status"]
-        self.producer: int = kwargs["producer"]
-        self.rated: int = kwargs["rated"]
-        self.start_month: int = kwargs["start_month"]
-        self.start_day: int = kwargs["start_day"]
-        self.start_year: int = kwargs["start_year"]
-        self.end_month: int = kwargs["end_month"]
-        self.end_day: int = kwargs["end_day"]
-        self.end_year: int = kwargs["end_year"]
-        self.genres: str = kwargs["genres"]
-        self.genres_exclude: int = kwargs["genres_exclude"]
-        self.columns: str = kwargs["columns"]
+    def __init__(self, **kwargs: Any) -> None:
+        self.query = kwargs["query"]
+        self.type = kwargs["type"]
+        self.score = kwargs["score"]
+        self.status = kwargs["status"]
+        self.producer = kwargs["producer"]
+        self.rated = kwargs["rated"]
+        self.start_month = kwargs["start_month"]
+        self.start_day = kwargs["start_day"]
+        self.start_year = kwargs["start_year"]
+        self.end_month = kwargs["end_month"]
+        self.end_day = kwargs["end_day"]
+        self.end_year = kwargs["end_year"]
+        self.genres = kwargs["genres"]
+        self.genres_exclude = kwargs["genres_exclude"]
+        self.columns = kwargs["columns"]
 
     def __call__(self) -> dict:
         params = {
@@ -100,18 +101,18 @@ class Search:
             "results": results
         }
 
-    def __columns_helper(self, **kwargs) -> dict:
+    def __columns_helper(self, **kwargs: Any) -> dict:
         return {kwargs["dict_key"]: kwargs["index"]} if kwargs["letter"] in kwargs["columns"] and kwargs["soup"].find(string=kwargs["find_string"]) else {}
 
     def __column_enabled_soup(self, columns_enabled: dict, soup: BeautifulSoup, key: str) -> str:
         return str(soup.select_one(f"td:nth-child({columns_enabled[key]})").get_text(strip=True))
 
     @staticmethod
-    def __episodes(string: str) -> int:
+    def __episodes(string: str) -> Union[int, None]:
         regex = match(r"\d+", string)
         return int(regex.group()) if regex else None
 
     @staticmethod
-    def __score(string: str) -> float:
+    def __score(string: str) -> Union[float, None]:
         regex = match(r"\d\.\d+", string)
         return float(regex.group()) if regex else None

@@ -1,4 +1,5 @@
 from http import HTTPStatus
+from typing import Any
 
 from fastapi import Request
 from starlette.responses import JSONResponse
@@ -9,7 +10,7 @@ from mal.utils import RequestsUtil
 
 
 class MalCheckerMiddleware:
-    async def __call__(self, request: Request, call_next):
+    async def __call__(self, request: Request, call_next: Any) -> Any:
         path: str = request.scope["path"]
 
         with Session() as s:

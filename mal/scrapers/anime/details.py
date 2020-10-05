@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Union
 
 from bs4 import BeautifulSoup
 from mal.scrapers.anime._helpers import AnimeHelpers
@@ -84,17 +85,17 @@ class Details:
             } for i in theme_song
         ] if theme_song else []
 
-    def __statistics_helper(self, field: str, replace: str = ",") -> int:
+    def __statistics_helper(self, field: str, replace: str = ",") -> Union[int, None]:
         try:
             return int(self.soup.find("span", string=field).next_sibling.replace(replace, "").strip())
         except ValueError:
             return None
 
-    def __alternative_titles_helper(self, field_name: str) -> str:
+    def __alternative_titles_helper(self, field_name: str) -> Union[str, None]:
         field = self.soup.find("span", string=field_name)
         return str(field.next_sibling.strip()) if field else None
 
-    def __information_aired_helper(self, index: int) -> str:
+    def __information_aired_helper(self, index: int) -> Union[str, None]:
         aired = self.soup.find("span", string="Aired:").next_sibling
 
         if aired.strip() == "Not available":

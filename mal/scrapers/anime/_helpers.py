@@ -1,9 +1,11 @@
+from typing import Union
+
 from bs4 import BeautifulSoup
 
 
 class AnimeHelpers:
     @staticmethod
-    def background_helper(soup: BeautifulSoup) -> str:
+    def background_helper(soup: BeautifulSoup) -> Union[str, None]:
         background = soup.select_one("[itemprop=description]").parent
 
         for i in background.select("div, p"):
@@ -15,12 +17,12 @@ class AnimeHelpers:
         return str(background.get_text())
 
     @classmethod
-    def duration_helper(cls, soup: BeautifulSoup) -> int:
+    def duration_helper(cls, soup: BeautifulSoup) -> Union[int, None]:
         duration = soup.find("span", string="Duration:").next_sibling.strip()
         return cls.__str_to_int(duration) if duration != "Unknown" else None
 
     @staticmethod
-    def episodes_helper(soup: BeautifulSoup) -> int:
+    def episodes_helper(soup: BeautifulSoup) -> Union[int, None]:
         episdes = soup.find("span", string="Episodes:").next_sibling
         return int(episdes) if episdes.strip() != "Unknown" else None
 
@@ -46,7 +48,7 @@ class AnimeHelpers:
         ] if none_found not in licensors else []
 
     @staticmethod
-    def premiered_helper(soup: BeautifulSoup) -> str:
+    def premiered_helper(soup: BeautifulSoup) -> Union[str, None]:
         premiered = soup.find("span", string="Premiered:")
 
         if not premiered or premiered.next_sibling.strip() == "?":
@@ -66,12 +68,12 @@ class AnimeHelpers:
         ] if none_found not in producers.next_sibling.strip().lower() else []
 
     @staticmethod
-    def rating_helper(soup: BeautifulSoup) -> str:
+    def rating_helper(soup: BeautifulSoup) -> Union[str, None]:
         rating = soup.find("span", string="Rating:").next_sibling.strip()
         return str(rating) if rating.lower() != "none" else None
 
     @staticmethod
-    def score_helper(soup: BeautifulSoup) -> float:
+    def score_helper(soup: BeautifulSoup) -> Union[float, None]:
         score = soup.find("span", itemprop="ratingValue")
         return float(score.get_text()) if score else None
 
@@ -95,12 +97,12 @@ class AnimeHelpers:
         ] if synonyms else []
 
     @staticmethod
-    def synopsis_helper(soup: BeautifulSoup) -> str:
+    def synopsis_helper(soup: BeautifulSoup) -> Union[str, None]:
         synopsis = soup.select_one("[itemprop=description]")
         return str(synopsis.get_text(strip=True)) if synopsis else None
 
     @staticmethod
-    def trailer_helper(soup: BeautifulSoup) -> str:
+    def trailer_helper(soup: BeautifulSoup) -> Union[str, None]:
         trailer = soup.select_one(".video-promotion > .promotion")
         return str(trailer.get("href")) if trailer else None
 

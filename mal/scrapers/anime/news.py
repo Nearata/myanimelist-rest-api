@@ -1,4 +1,5 @@
 from re import search
+from typing import Union
 
 from bs4 import BeautifulSoup
 
@@ -25,6 +26,6 @@ class News:
         }
 
     @staticmethod
-    def __comments(string: str) -> int:
+    def __comments(string: str) -> Union[int, None]:
         regex = search(r"\d+", string)
         return int(regex.group()) if regex else None

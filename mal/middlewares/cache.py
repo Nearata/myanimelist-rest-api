@@ -1,4 +1,5 @@
 from json import loads
+from typing import Any
 
 from fastapi import Request
 from starlette.responses import JSONResponse
@@ -8,7 +9,7 @@ from mal.config import Config
 
 
 class CacheMiddleware:
-    async def __call__(self, request: Request, call_next):
+    async def __call__(self, request: Request, call_next: Any) -> Any:
         if not Config.CACHE:
             return await call_next(request)
 

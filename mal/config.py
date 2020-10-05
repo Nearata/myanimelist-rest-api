@@ -1,3 +1,6 @@
+from typing import List
+
+
 class Config:
-    CACHE = True
-    DISABLED_ROUTES = []
+    CACHE: bool = True
+    DISABLED_ROUTES: List[str] = []

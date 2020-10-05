@@ -1,4 +1,5 @@
 from re import match
+from typing import Union
 
 from bs4 import BeautifulSoup
 
@@ -20,6 +21,6 @@ class Clubs:
         }
 
     @staticmethod
-    def __members(string: str) -> int:
+    def __members(string: str) -> Union[int, None]:
         regex = match(r"\d+", string)
         return int(regex.group()) if regex else None

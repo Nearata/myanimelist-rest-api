@@ -1,4 +1,5 @@
 from re import search
+from typing import Union
 
 from bs4 import BeautifulSoup
 
@@ -26,10 +27,10 @@ class Stats:
             summary_selector.find("span", class_="dark_text", string=string).next_sibling.replace(",", "")
         )
 
-    def __percentage(self, string: BeautifulSoup) -> float:
+    def __percentage(self, string: BeautifulSoup) -> Union[float, None]:
         return float(string.previous_sibling.replace("%", "").strip()) if string else None
 
-    def __votes(self, string: BeautifulSoup) -> int:
+    def __votes(self, string: BeautifulSoup) -> Union[int, None]:
         if string:
             regex = search(r"\d+", string.get_text())
             return int(regex.group()) if regex else None

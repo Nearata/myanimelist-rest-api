@@ -1,3 +1,5 @@
+from typing import Union
+
 from fastapi import Path, Query
 from pydantic import BaseModel, validator
 
@@ -11,14 +13,14 @@ class TopPathValidator(BaseModel):
     page_number: int = Path(..., gt=0)
 
     @validator("request")
-    def validate_request(cls, v: str):
+    def validate_request(cls, v: str) -> Union[str, ParameterNotValid]:
         if not any(i == v for i in ["anime"]):
             raise ParameterNotValid("request")
 
         return v
 
     @validator("ttype")
-    def validate_ttype(cls, v: str):
+    def validate_ttype(cls, v: str) -> Union[str, ParameterNotValid]:
         if v not in ("all", "airing", "upcoming", "tv", "movie", "ova", "ona", "special", "bypopularity", "favorite"):
             raise ParameterNotValid("type")
 
@@ -30,7 +32,7 @@ class AnimeParameters(BaseModel):
     mal_request: str = Path(...)
 
     @validator("mal_request")
-    def validate_mal_request(cls, v: str):
+    def validate_mal_request(cls, v: str) -> Union[str, MissingParameter, ParameterNotValid]:
         if v in ("episodes", "reviews"):
             raise MissingParameter("page_number")
 
@@ -46,7 +48,7 @@ class Anime2Parameters(BaseModel):
     page_number: int = Path(..., gt=0)
 
     @validator("mal_request")
-    def validate_mal_request(cls, v: str):
+    def validate_mal_request(cls, v: str) -> Union[str, ParameterNotValid]:
         if v not in ("episodes", "reviews"):
             raise ParameterNotValid("mal_request")
 
@@ -57,7 +59,7 @@ class SearchParameters(BaseModel):
     request: str = Path(...)
 
     @validator("request")
-    def validate_request(cls, v: str):
+    def validate_request(cls, v: str) -> Union[str, ParameterNotValid]:
         if not any(i == v for i in ["anime"]):
             raise ParameterNotValid("request")
 

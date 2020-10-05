@@ -1,11 +1,12 @@
 from http import HTTPStatus
+from typing import Any
 
 from fastapi import Request
 from starlette.responses import JSONResponse
 
 
 class RequireJsonMiddleware:
-    async def __call__(self, request: Request, call_next):
+    async def __call__(self, request: Request, call_next: Any) -> Any:
         accept = request.headers.get("accept", [])
 
         if any(i in accept for i in ("application/json", "*/*")):
