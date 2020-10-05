@@ -20,6 +20,11 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Run tests
-        run: |
-          coverage run -m pytest tests
-          coverage report
+        run: coverage run -m pytest tests
+      - name: Publish code coverage
+        uses: paambaati/codeclimate-action@v2.7.4
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_REPORT_ID }}
+        with:
+          coverageCommand: coverage report
+          debug: true
