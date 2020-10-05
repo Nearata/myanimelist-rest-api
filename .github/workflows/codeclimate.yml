@@ -20,7 +20,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install pipenv
           pipenv install --dev
+      - name: CWD
+        run: cwd
       - name: Run tests
         run: |
+          cwd
           pipenv run coverage run -m pytest tests
           pipenv run coverage report
