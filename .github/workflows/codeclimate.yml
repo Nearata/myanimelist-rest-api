@@ -26,5 +26,6 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_REPORT_ID }}
         with:
-          coverageCommand: coverage report
+          coverageCommand: coverage html
+          coverageLocations: ${{github.workspace}}/htmlcov/index.html:coverage.py
           debug: true
