@@ -1,6 +1,6 @@
 # MyAnimeList REST API (Unofficial)
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/a2acb1abd8be12d7c751/maintainability)](https://codeclimate.com/github/Nearata/myanimelist-rest-api/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a2acb1abd8be12d7c751/maintainability)](https://codeclimate.com/github/Nearata/myanimelist-rest-api/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/a2acb1abd8be12d7c751/test_coverage)](https://codeclimate.com/github/Nearata/myanimelist-rest-api/test_coverage)
 
 > An unofficial REST API for MyAnimeList.net.
 
