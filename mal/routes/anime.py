@@ -9,8 +9,11 @@ from mal.validators import Anime2Parameters, AnimeParameters
 
 router = APIRouter()
 
+
 @router.get("/{mal_id}/{mal_request}")
-def anime(params: AnimeParameters = Depends(), session: Session = Depends(get_session)) -> dict:
+def anime(
+    params: AnimeParameters = Depends(), session: Session = Depends(get_session)
+) -> dict:
     scrapers = AnimeScrapers(session, params.mal_id)
     data = getattr(scrapers, params.mal_request)()
 
@@ -19,8 +22,11 @@ def anime(params: AnimeParameters = Depends(), session: Session = Depends(get_se
 
     return data
 
+
 @router.get("/{mal_id}/{mal_request}/{page_number}")
-def anime_2(params: Anime2Parameters = Depends(), session: Session = Depends(get_session)) -> dict:
+def anime_2(
+    params: Anime2Parameters = Depends(), session: Session = Depends(get_session)
+) -> dict:
     scrapers = AnimeScrapers(session, params.mal_id)
     data = getattr(scrapers, params.mal_request)(params.page_number)
 

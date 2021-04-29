@@ -15,8 +15,9 @@ class Clubs:
                 {
                     "name": i.select_one("a").get_text(strip=True),
                     "url": f"{self.base_url}{i.select_one('a').get('href')}",
-                    "members": self.__members(i.select_one("small").get_text())
-                } for i in self.soup.find_all("div", {"class": "borderClass"})
+                    "members": self.__members(i.select_one("small").get_text()),
+                }
+                for i in self.soup.find_all("div", {"class": "borderClass"})
             ]
         }
 

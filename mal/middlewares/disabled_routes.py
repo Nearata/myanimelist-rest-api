@@ -16,9 +16,8 @@ class DisabledRoutesMiddleware:
         description = http_status.description
 
         if any(i in path for i in DISABLED_ROUTES):
-            return JSONResponse({
-                "title": f"404 {phrase}",
-                "description": description
-            }, 404)
+            return JSONResponse(
+                {"title": f"404 {phrase}", "description": description}, 404
+            )
 
         return await call_next(request)

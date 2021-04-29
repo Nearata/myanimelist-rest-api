@@ -13,12 +13,16 @@ class Featured:
                     "url": i.select_one("div > p.title > a").get("href"),
                     "title": i.select_one("div > p.title > a").get_text(),
                     "content": i.select_one("div > .text").get_text(strip=True),
-                    "writer": i.select_one("div > .information > p.info > a").get_text(),
+                    "writer": i.select_one(
+                        "div > .information > p.info > a"
+                    ).get_text(),
                     "tags": [
-                        {
-                            "name": tag.get_text()
-                        } for tag in i.select("div > .information > .tags > .tags-inner .tag")
-                    ]
-                } for i in self.soup.select(".news-list > .news-unit")
+                        {"name": tag.get_text()}
+                        for tag in i.select(
+                            "div > .information > .tags > .tags-inner .tag"
+                        )
+                    ],
+                }
+                for i in self.soup.select(".news-list > .news-unit")
             ]
         }

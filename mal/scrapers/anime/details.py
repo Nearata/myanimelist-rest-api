@@ -30,28 +30,38 @@ class Details:
                     "synonyms": AnimeHelpers.synonyms_helper(self.soup),
                 },
                 "information": {
-                    "type": self.soup.find("span", string="Type:").find_next_sibling("a").get_text(),
+                    "type": self.soup.find("span", string="Type:")
+                    .find_next_sibling("a")
+                    .get_text(),
                     "episodes": AnimeHelpers.episodes_helper(self.soup),
-                    "status": self.soup.find("span", string="Status:").next_sibling.strip(),
+                    "status": self.soup.find(
+                        "span", string="Status:"
+                    ).next_sibling.strip(),
                     "aired": {
                         "from": self.__information_aired_helper(0),
-                        "to": self.__information_aired_helper(1)
+                        "to": self.__information_aired_helper(1),
                     },
                     "premiered": AnimeHelpers.premiered_helper(self.soup),
-                    "producers": AnimeHelpers.producers_helper(self.soup, self.none_found, self.base_url),
-                    "licensors": AnimeHelpers.licensors_helper(self.soup, self.none_found, self.base_url),
-                    "studios": AnimeHelpers.studios_helper(self.soup, self.none_found, self.base_url),
+                    "producers": AnimeHelpers.producers_helper(
+                        self.soup, self.none_found, self.base_url
+                    ),
+                    "licensors": AnimeHelpers.licensors_helper(
+                        self.soup, self.none_found, self.base_url
+                    ),
+                    "studios": AnimeHelpers.studios_helper(
+                        self.soup, self.none_found, self.base_url
+                    ),
                     "source": self.__alternative_titles_helper("Source:"),
                     "genres": AnimeHelpers.genres_helper(self.soup),
                     "duration": AnimeHelpers.duration_helper(self.soup),
-                    "rating": AnimeHelpers.rating_helper(self.soup)
+                    "rating": AnimeHelpers.rating_helper(self.soup),
                 },
                 "statistics": {
                     "score": AnimeHelpers.score_helper(self.soup),
                     "ranked": self.__statistics_helper("Ranked:", "#"),
                     "popularity": self.__statistics_helper("Popularity:", "#"),
                     "members": self.__statistics_helper("Members:"),
-                    "favorites": self.__statistics_helper("Favorites:")
+                    "favorites": self.__statistics_helper("Favorites:"),
                 },
                 "related_anime": {
                     "adaptation": self.__related_anime_helper("Adaptation:"),
@@ -61,34 +71,43 @@ class Details:
                     "other": self.__related_anime_helper("Other:"),
                     "prequel": self.__related_anime_helper("Prequel:"),
                     "character": self.__related_anime_helper("Character:"),
-                    "sequel": self.__related_anime_helper("Sequel:")
+                    "sequel": self.__related_anime_helper("Sequel:"),
                 },
                 "opening_theme": self.__theme_song_helper("opnening"),
-                "ending_theme": self.__theme_song_helper("ending")
+                "ending_theme": self.__theme_song_helper("ending"),
             }
         }
 
     def __related_anime_helper(self, string: str) -> list:
         related_anime = self.soup.find("td", string=string)
-        return [
-            {
-                "title": i.get_text(),
-                "type": i.get("href").split("/")[1],
-                "mal_id": int(i.get("href").split("/")[2])
-            } for i in related_anime.next_sibling.select("a")
-        ] if related_anime else []
+        return (
+            [
+                {
+                    "title": i.get_text(),
+                    "type": i.get("href").split("/")[1],
+                    "mal_id": int(i.get("href").split("/")[2]),
+                }
+                for i in related_anime.next_sibling.select("a")
+            ]
+            if related_anime
+            else []
+        )
 
     def __theme_song_helper(self, string: str) -> list:
         theme_song = self.soup.select(f"div.{string} > span.theme-song")
-        return [
-            {
-                "title": str(i.get_text(strip=True))
-            } for i in theme_song
-        ] if theme_song else []
+        return (
+            [{"title": str(i.get_text(strip=True))} for i in theme_song]
+            if theme_song
+            else []
+        )
 
     def __statistics_helper(self, field: str, replace: str = ",") -> Union[int, None]:
         try:
-            return int(self.soup.find("span", string=field).next_sibling.replace(replace, "").strip())
+            return int(
+                self.soup.find("span", string=field)
+                .next_sibling.replace(replace, "")
+                .strip()
+            )
         except ValueError:
             return None
 
@@ -102,10 +121,16 @@ class Details:
         if aired.strip() == "Not available":
             return None
 
-        if index == 1 and ("to" not in aired or aired.split("to")[index].strip() == "?"):
+        if index == 1 and (
+            "to" not in aired or aired.split("to")[index].strip() == "?"
+        ):
             return None
 
         try:
-            return str(datetime.strptime(aired.split("to")[index].strip(), "%b %d, %Y").date())
+            return str(
+                datetime.strptime(aired.split("to")[index].strip(), "%b %d, %Y").date()
+            )
         except ValueError:
-            return str(datetime.strptime(aired.split("to")[index].strip(), "%b, %Y").date())
+            return str(
+                datetime.strptime(aired.split("to")[index].strip(), "%b, %Y").date()
+            )

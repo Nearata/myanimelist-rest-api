@@ -15,13 +15,24 @@ class Episodes:
             "episodes": [
                 {
                     "title": i.select_one(".episode-title > a").get_text(),
-                    "title_romanji": self.__title_romanji(i.select_one(episode_title).get_text()),
-                    "title_japanese": self.__title_japanese(i.select_one(episode_title).get_text()),
-                    "number": self.__number(i.select_one("td.episode-number").get_text()),
+                    "title_romanji": self.__title_romanji(
+                        i.select_one(episode_title).get_text()
+                    ),
+                    "title_japanese": self.__title_japanese(
+                        i.select_one(episode_title).get_text()
+                    ),
+                    "number": self.__number(
+                        i.select_one("td.episode-number").get_text()
+                    ),
                     "aired": self.__aired(i.select_one("td.episode-aired").get_text()),
-                    "filler": self.__filler_recap(i.select_one(episode_title).get_text()),
-                    "recap": self.__filler_recap(i.select_one(episode_title).get_text())
-                } for i in self.soup.select("table.ascend .episode-list-data")
+                    "filler": self.__filler_recap(
+                        i.select_one(episode_title).get_text()
+                    ),
+                    "recap": self.__filler_recap(
+                        i.select_one(episode_title).get_text()
+                    ),
+                }
+                for i in self.soup.select("table.ascend .episode-list-data")
             ]
         }
 
@@ -45,9 +56,11 @@ class Episodes:
     def __aired(string: str) -> Union[str, None]:
         regex = match(
             r"(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s?(\d{1,2})?(,)\s(\d{4})",
-            string
+            string,
         )
-        return str(datetime.strptime(regex.group(), "%b %d, %Y").date()) if regex else None
+        return (
+            str(datetime.strptime(regex.group(), "%b %d, %Y").date()) if regex else None
+        )
 
     @staticmethod
     def __filler_recap(string: str) -> bool:

@@ -16,19 +16,25 @@ class Stats:
                 "on_hold": self.__find_string("On-Hold:"),
                 "dropped": self.__find_string("Dropped:"),
                 "plan_to_watch": self.__find_string("Plan to Watch:"),
-                "total": self.__find_string("Total:")
+                "total": self.__find_string("Total:"),
             },
-            "scores": self.__scores()
+            "scores": self.__scores(),
         }
 
     def __find_string(self, string: str) -> int:
-        summary_selector = self.soup.select_one("#content > table td:last-child > .js-scrollfix-bottom-rel")
+        summary_selector = self.soup.select_one(
+            "#content > table td:last-child > .js-scrollfix-bottom-rel"
+        )
         return int(
-            summary_selector.find("span", class_="dark_text", string=string).next_sibling.replace(",", "")
+            summary_selector.find(
+                "span", class_="dark_text", string=string
+            ).next_sibling.replace(",", "")
         )
 
     def __percentage(self, string: BeautifulSoup) -> Union[float, None]:
-        return float(string.previous_sibling.replace("%", "").strip()) if string else None
+        return (
+            float(string.previous_sibling.replace("%", "").strip()) if string else None
+        )
 
     def __votes(self, string: BeautifulSoup) -> Union[int, None]:
         if string:
@@ -41,14 +47,11 @@ class Stats:
         return {
             str(number): {
                 "percentage": self.__percentage(
-                    selector.select_one(
-                        f"tr:nth-child({index}) > td:last-child small"
-                    )
+                    selector.select_one(f"tr:nth-child({index}) > td:last-child small")
                 ),
                 "votes": self.__votes(
-                    selector.select_one(
-                        f"tr:nth-child({index}) > td:last-child small"
-                    )
-                )
-            } for index, number in enumerate(reversed(range(1, 11)), 1)
+                    selector.select_one(f"tr:nth-child({index}) > td:last-child small")
+                ),
+            }
+            for index, number in enumerate(reversed(range(1, 11)), 1)
         }

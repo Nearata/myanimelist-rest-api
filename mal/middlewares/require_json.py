@@ -15,9 +15,4 @@ class RequireJsonMiddleware:
         http_status = HTTPStatus(406)
         phrase = http_status.phrase
         description = http_status.description
-        return JSONResponse({
-            "title": phrase,
-            "description": description
-        }, 406)
-
-
+        return JSONResponse({"title": phrase, "description": description}, 406)

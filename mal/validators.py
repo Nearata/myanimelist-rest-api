@@ -21,7 +21,18 @@ class TopPathValidator(BaseModel):
 
     @validator("ttype")
     def validate_ttype(cls, v: str) -> Union[str, ParameterNotValid]:
-        if v not in ("all", "airing", "upcoming", "tv", "movie", "ova", "ona", "special", "bypopularity", "favorite"):
+        if v not in (
+            "all",
+            "airing",
+            "upcoming",
+            "tv",
+            "movie",
+            "ova",
+            "ona",
+            "special",
+            "bypopularity",
+            "favorite",
+        ):
             raise ParameterNotValid("type")
 
         return v
@@ -32,7 +43,9 @@ class AnimeParameters(BaseModel):
     mal_request: str = Path(...)
 
     @validator("mal_request")
-    def validate_mal_request(cls, v: str) -> Union[str, MissingParameter, ParameterNotValid]:
+    def validate_mal_request(
+        cls, v: str
+    ) -> Union[str, MissingParameter, ParameterNotValid]:
         if v in ("episodes", "reviews"):
             raise MissingParameter("page_number")
 

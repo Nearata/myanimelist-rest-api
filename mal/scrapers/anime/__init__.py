@@ -13,4 +13,18 @@ from mal.scrapers.anime.staff import Staff
 from mal.scrapers.anime.stats import Stats
 from mal.scrapers.anime.top import Top
 
-__all__ = ["Characters", "Clubs", "Details", "Episodes", "Featured", "MoreInfo", "News", "Pictures", "Recommendations", "Reviews", "Staff", "Stats", "Top"]
+__all__ = [
+    "Characters",
+    "Clubs",
+    "Details",
+    "Episodes",
+    "Featured",
+    "MoreInfo",
+    "News",
+    "Pictures",
+    "Recommendations",
+    "Reviews",
+    "Staff",
+    "Stats",
+    "Top",
+]

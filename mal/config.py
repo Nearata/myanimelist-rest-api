@@ -3,5 +3,5 @@ from starlette.datastructures import CommaSeparatedStrings
 
 config = Config(".env")
 
-CACHE = config('CACHE', cast=bool, default=False)
-DISABLED_ROUTES = config('DISABLED_ROUTES', cast=CommaSeparatedStrings, default=[])
+CACHE = config("CACHE", cast=bool, default=False)
+DISABLED_ROUTES = config("DISABLED_ROUTES", cast=CommaSeparatedStrings, default=[])

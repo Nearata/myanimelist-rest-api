@@ -12,7 +12,11 @@ class CacheUtil:
 
     @staticmethod
     def save(cache_key: str, json: dict) -> None:
-        new_cache = Cache(anime_key=cache_key, json=dumps(json), expire=datetime.utcnow().date() + timedelta(weeks=1))
+        new_cache = Cache(
+            anime_key=cache_key,
+            json=dumps(json),
+            expire=datetime.utcnow().date() + timedelta(weeks=1),
+        )
         new_cache.save()
 
     @staticmethod

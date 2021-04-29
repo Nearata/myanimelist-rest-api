@@ -7,8 +7,11 @@ from mal.validators import SearchParameters
 
 router = APIRouter()
 
+
 @router.get("/{request}")
-def anime_search(params: SearchParameters = Depends(), session: Session = Depends(get_session)) -> dict:
+def anime_search(
+    params: SearchParameters = Depends(), session: Session = Depends(get_session)
+) -> dict:
     search = AnimeSearch(
         session,
         query=params.query,
@@ -25,6 +28,6 @@ def anime_search(params: SearchParameters = Depends(), session: Session = Depend
         end_year=params.end_year,
         genres=params.genres,
         genres_exclude=params.genres_exclude,
-        columns=params.columns
+        columns=params.columns,
     )
     return search()

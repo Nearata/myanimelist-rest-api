@@ -27,11 +27,13 @@ class AnimeScrapers:
             "recommendations",
             "reviews",
             "staff",
-            "stats"
+            "stats",
         ]
 
     def characters(self) -> dict:
-        soup = self.soup_util.get_soup(f"{self.base_url}/anime/{self.mal_id}/_/characters")
+        soup = self.soup_util.get_soup(
+            f"{self.base_url}/anime/{self.mal_id}/_/characters"
+        )
         characters = Characters(soup)
         return characters()
 
@@ -46,18 +48,26 @@ class AnimeScrapers:
         return details()
 
     def episodes(self, page_number: int) -> dict:
-        page_url = f"{self.base_url}/anime/{self.mal_id}/_/episode" if page_number == 1 else f"{self.base_url}/anime/{self.mal_id}/_/episode?offset={page_number}00"
+        page_url = (
+            f"{self.base_url}/anime/{self.mal_id}/_/episode"
+            if page_number == 1
+            else f"{self.base_url}/anime/{self.mal_id}/_/episode?offset={page_number}00"
+        )
         soup = self.soup_util.get_soup(page_url)
         episodes = Episodes(soup)
         return episodes()
 
     def featured(self) -> dict:
-        soup = self.soup_util.get_soup(f"{self.base_url}/anime/{self.mal_id}/_/featured")
+        soup = self.soup_util.get_soup(
+            f"{self.base_url}/anime/{self.mal_id}/_/featured"
+        )
         featured = Featured(soup)
         return featured()
 
     def moreinfo(self) -> dict:
-        soup = self.soup_util.get_soup(f"{self.base_url}/anime/{self.mal_id}/_/moreinfo")
+        soup = self.soup_util.get_soup(
+            f"{self.base_url}/anime/{self.mal_id}/_/moreinfo"
+        )
         more_info = MoreInfo(soup)
         return more_info()
 
@@ -72,17 +82,23 @@ class AnimeScrapers:
         return pictures()
 
     def recommendations(self) -> dict:
-        soup = self.soup_util.get_soup(f"{self.base_url}/anime/{self.mal_id}/_/userrecs")
+        soup = self.soup_util.get_soup(
+            f"{self.base_url}/anime/{self.mal_id}/_/userrecs"
+        )
         recommendations = Recommendations(soup, self.base_url)
         return recommendations()
 
     def reviews(self, page_number: int) -> dict:
-        soup = self.soup_util.get_soup(f"{self.base_url}/anime/{self.mal_id}/_/reviews?p={page_number}")
+        soup = self.soup_util.get_soup(
+            f"{self.base_url}/anime/{self.mal_id}/_/reviews?p={page_number}"
+        )
         reviews = Reviews(soup)
         return reviews()
 
     def staff(self) -> dict:
-        soup = self.soup_util.get_soup(f"{self.base_url}/anime/{self.mal_id}/_/characters")
+        soup = self.soup_util.get_soup(
+            f"{self.base_url}/anime/{self.mal_id}/_/characters"
+        )
         staff = Staff(soup)
         return staff()
 
@@ -92,10 +108,7 @@ class AnimeScrapers:
         return stats()
 
     def top(self, _type: str, page: int) -> dict:
-        params = {
-            "type": "all",
-            "limit": 0
-        }
+        params = {"type": "all", "limit": 0}
 
         if _type != "all":
             params["type"] = _type

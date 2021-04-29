@@ -14,14 +14,21 @@ class News:
             "news": [
                 {
                     "url": f"{self.base_url}{i.select_one('a').get('href')}".strip(),
-                    "image_url": i.select_one("img").get("data-src") if i.select_one("img") else None,
+                    "image_url": i.select_one("img").get("data-src")
+                    if i.select_one("img")
+                    else None,
                     "title": i.select_one(".spaceit > a > strong").get_text(),
-                    "content": i.select_one(".clearfix > .clearfix > p > a").previous_sibling.strip(),
+                    "content": i.select_one(
+                        ".clearfix > .clearfix > p > a"
+                    ).previous_sibling.strip(),
                     "author": i.select_one(".lightLink > a:first-child").get_text(),
                     "author_profile": f"{self.base_url}{i.select_one('.lightLink > a:first-child').get('href')}".strip(),
-                    "comments": self.__comments(i.select_one(".lightLink > a:last-child").get_text()),
-                    "forum_url": f"{self.base_url}{i.select_one('.lightLink > a:last-child').get('href')}".strip()
-                } for i in self.soup.select(".js-scrollfix-bottom-rel > .clearfix")
+                    "comments": self.__comments(
+                        i.select_one(".lightLink > a:last-child").get_text()
+                    ),
+                    "forum_url": f"{self.base_url}{i.select_one('.lightLink > a:last-child').get('href')}".strip(),
+                }
+                for i in self.soup.select(".js-scrollfix-bottom-rel > .clearfix")
             ]
         }
 

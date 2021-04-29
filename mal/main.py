@@ -5,8 +5,12 @@ from requests import Session
 
 from mal.config import CACHE
 from mal.database import Database
-from mal.middlewares import (CacheMiddleware, DisabledRoutesMiddleware,
-                             MalCheckerMiddleware, RequireJsonMiddleware)
+from mal.middlewares import (
+    CacheMiddleware,
+    DisabledRoutesMiddleware,
+    MalCheckerMiddleware,
+    RequireJsonMiddleware,
+)
 from mal.routes import anime_router, search_router, top_router
 
 
@@ -15,16 +19,16 @@ def startup(app: FastAPI) -> None:
     if CACHE:
         Database.connect()
 
+
 def shutdown(app: FastAPI) -> None:
     app.state.session.close()
     if CACHE:
         Database.close()
 
+
 def create_app() -> FastAPI:
     app = FastAPI(
-        title="MyAnimeList REST API (Unofficial)",
-        docs_url=None,
-        redoc_url=None
+        title="MyAnimeList REST API (Unofficial)", docs_url=None, redoc_url=None
     )
 
     cache = CacheMiddleware()
@@ -40,20 +44,8 @@ def create_app() -> FastAPI:
     app.add_event_handler("startup", partial(startup, app))
     app.add_event_handler("shutdown", partial(shutdown, app))
 
-    app.include_router(
-        anime_router,
-        prefix="/anime",
-        tags=["anime"]
-    )
-    app.include_router(
-        search_router,
-        prefix="/search",
-        tags=["search"]
-    )
-    app.include_router(
-        top_router,
-        prefix="/top",
-        tags=["top"]
-    )
+    app.include_router(anime_router, prefix="/anime", tags=["anime"])
+    app.include_router(search_router, prefix="/search", tags=["search"])
+    app.include_router(top_router, prefix="/top", tags=["top"])
 
     return app
