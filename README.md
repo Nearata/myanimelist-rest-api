@@ -64,7 +64,7 @@ See the complete documentation [here](https://vonnearata.gitbook.io/docs/)
 
 ## License
 
-Distributed under the MIT license. See `LICENSE` for more information.
+Distributed under the MIT license. See [LICENSE](LICENSE) for details.
 
 ## Contributing
 
