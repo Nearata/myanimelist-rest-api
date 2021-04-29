@@ -1,13 +1,17 @@
 from fastapi import APIRouter, Depends
+from requests import Session
 
 from mal.scrapers.anime.search import Search as AnimeSearch
 from mal.validators import SearchParameters
+from mal.session import get_session
+
 
 router = APIRouter()
 
 @router.get("/{request}")
-def anime_search(params: SearchParameters = Depends()) -> dict:
+def anime_search(params: SearchParameters = Depends(), session: Session = Depends(get_session)) -> dict:
     search = AnimeSearch(
+        session,
         query=params.query,
         type=params.type,
         score=params.score,

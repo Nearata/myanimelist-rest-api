@@ -36,7 +36,7 @@ class AnimeParameters(BaseModel):
         if v in ("episodes", "reviews"):
             raise MissingParameter("page_number")
 
-        if v not in dir(AnimeScrapers()):
+        if v not in dir(AnimeScrapers):
             raise ParameterNotValid("mal_request")
 
         return v

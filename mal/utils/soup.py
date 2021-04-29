@@ -5,9 +5,10 @@ from mal.utils import RequestsUtil
 
 
 class SoupUtil:
-    @staticmethod
-    def get_soup(url: str, params: dict = None) -> BeautifulSoup:
-        with Session() as s:
-            response = s.get(url, params=params, headers=RequestsUtil.HEADERS)
+    def __init__(self, session: Session) -> None:
+        self.session = session
+
+    def get_soup(self, url: str, params: dict = None) -> BeautifulSoup:
+        response = self.session.get(url, params=params, headers=RequestsUtil.HEADERS)
 
         return BeautifulSoup(response.content, "html5lib")

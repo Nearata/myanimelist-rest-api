@@ -1,4 +1,5 @@
 import uvicorn
+from requests import Session
 
 from mal.main import create_app
 from mal.database import Database
@@ -6,16 +7,6 @@ from mal.config import CACHE
 
 
 app = create_app()
-
-@app.on_event("startup")
-def startup() -> None:
-    if CACHE:
-        Database.connect()
-
-@app.on_event("shutdown")
-def shutdown() -> None:
-    if CACHE:
-        Database.close()
 
 def main() -> None:
     uvicorn.run(

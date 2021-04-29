@@ -2,12 +2,15 @@ from re import match
 from typing import Any, Union
 
 from bs4 import BeautifulSoup
+from requests import Session
 
 from mal.utils import SoupUtil
 
 
 class Search:
-    def __init__(self, **kwargs: Any) -> None:
+    def __init__(self, session: Session, **kwargs: Any) -> None:
+        self.session = session
+        self.soup_util = SoupUtil(session)
         self.query = kwargs["query"]
         self.type = kwargs["type"]
         self.score = kwargs["score"]
@@ -51,7 +54,7 @@ class Search:
         else:
             params.update({"c":0})
 
-        soup = SoupUtil.get_soup("https://myanimelist.net/anime.php", params=params)
+        soup = self.soup_util.get_soup("https://myanimelist.net/anime.php", params=params)
         selector = soup.select_one(".js-categories-seasonal")
         if selector is None:
             return {
