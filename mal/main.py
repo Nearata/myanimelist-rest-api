@@ -3,7 +3,7 @@ from functools import partial
 from fastapi import FastAPI
 from requests import Session
 
-from mal.config import CACHE
+from mal.config import CACHE, DEBUG
 from mal.database import Database
 from mal.middlewares import (
     CacheMiddleware,
@@ -28,7 +28,10 @@ def shutdown(app: FastAPI) -> None:
 
 def create_app() -> FastAPI:
     app = FastAPI(
-        title="MyAnimeList REST API (Unofficial)", docs_url=None, redoc_url=None
+        debug=DEBUG,
+        title="MyAnimeList REST API (Unofficial)",
+        docs_url=None,
+        redoc_url=None,
     )
 
     cache = CacheMiddleware()

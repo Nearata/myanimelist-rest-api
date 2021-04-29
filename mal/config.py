@@ -5,3 +5,4 @@ config = Config(".env")
 
 CACHE = config("CACHE", cast=bool, default=False)
 DISABLED_ROUTES = config("DISABLED_ROUTES", cast=CommaSeparatedStrings, default=[])
+DEBUG = config("DEBUG", cast=bool, default=False)
