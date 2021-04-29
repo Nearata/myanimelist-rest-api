@@ -1,6 +1,7 @@
 from uvicorn import run
 
 from mal.main import create_app
+from mal.config import DEBUG
 
 app = create_app()
 
@@ -9,7 +10,7 @@ def main() -> None:
         "app:app",
         host="0.0.0.0",
         port=8765,
-        reload=True
+        reload=DEBUG
     )
 
 
