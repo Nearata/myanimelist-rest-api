@@ -31,7 +31,7 @@ class AnimeScrapers:
         return characters()
 
     def clubs(self) -> dict:
-        soup = SoupUtil.get_soup(f"{self.base_url}/anime/{self.mal_id}/_/clubs", parser="html.parser")
+        soup = SoupUtil.get_soup(f"{self.base_url}/anime/{self.mal_id}/_/clubs")
         clubs = Clubs(soup, self.base_url)
         return clubs()
 

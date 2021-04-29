@@ -12,10 +12,10 @@ isort = "*"
 [packages]
 beautifulsoup4 = "*"
 requests = "*"
-lxml = "*"
 fastapi = "*"
 uvicorn = "*"
 peewee = "*"
+html5lib = "*"
 
 [requires]
 python_version = "3.9"
