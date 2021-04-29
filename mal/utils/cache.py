@@ -1,5 +1,5 @@
-from json import dumps
 from datetime import date, datetime, timedelta
+from json import dumps
 
 from mal.database import Cache
 

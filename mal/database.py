@@ -1,6 +1,5 @@
 from peewee import DateField, Model, SqliteDatabase, TextField
 
-
 db = SqliteDatabase("cache.db", pragmas={
     "journal_mode": "wal",
     "cache_size": -1 * 64000,

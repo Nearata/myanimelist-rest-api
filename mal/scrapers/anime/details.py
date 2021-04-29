@@ -2,6 +2,7 @@ from datetime import datetime
 from typing import Union
 
 from bs4 import BeautifulSoup
+
 from mal.scrapers.anime._helpers import AnimeHelpers
 
 

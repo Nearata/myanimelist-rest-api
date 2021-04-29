@@ -2,9 +2,9 @@ from http import HTTPStatus
 from typing import Any
 
 from fastapi import Request
-from starlette.responses import JSONResponse
 from requests import Session
 from requests.exceptions import ReadTimeout
+from starlette.responses import JSONResponse
 
 from mal.utils import RequestsUtil
 

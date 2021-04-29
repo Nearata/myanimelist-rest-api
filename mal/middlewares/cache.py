@@ -4,8 +4,8 @@ from typing import Any
 from fastapi import Request
 from starlette.responses import JSONResponse
 
-from mal.utils import CacheUtil
 from mal.config import Config
+from mal.utils import CacheUtil
 
 
 class CacheMiddleware:

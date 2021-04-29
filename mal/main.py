@@ -1,12 +1,8 @@
 from fastapi import FastAPI
 
-from mal.middlewares import CacheMiddleware
-from mal.middlewares import DisabledRoutesMiddleware
-from mal.middlewares import MalCheckerMiddleware
-from mal.middlewares import RequireJsonMiddleware
-from mal.routes import anime_router
-from mal.routes import search_router
-from mal.routes import top_router
+from mal.middlewares import (CacheMiddleware, DisabledRoutesMiddleware,
+                             MalCheckerMiddleware, RequireJsonMiddleware)
+from mal.routes import anime_router, search_router, top_router
 
 
 def create_app() -> FastAPI:

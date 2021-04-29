@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
-from mal.validators import SearchParameters
 from mal.scrapers.anime.search import Search as AnimeSearch
+from mal.validators import SearchParameters
 
 router = APIRouter()
 

@@ -6,6 +6,7 @@ from starlette.responses import JSONResponse
 
 from mal.config import Config
 
+
 class DisabledRoutesMiddleware:
     async def __call__(self, request: Request, call_next: Any) -> Any:
         path: str = request.scope["path"]
