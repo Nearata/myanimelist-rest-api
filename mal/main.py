@@ -1,12 +1,13 @@
 from functools import partial
+
 from fastapi import FastAPI
 from requests import Session
 
+from mal.config import CACHE
+from mal.database import Database
 from mal.middlewares import (CacheMiddleware, DisabledRoutesMiddleware,
                              MalCheckerMiddleware, RequireJsonMiddleware)
 from mal.routes import anime_router, search_router, top_router
-from mal.config import CACHE
-from mal.database import Database
 
 
 def startup(app: FastAPI) -> None:

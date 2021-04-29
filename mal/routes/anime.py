@@ -3,10 +3,9 @@ from requests import Session
 
 from mal.config import CACHE
 from mal.scrapers import AnimeScrapers
+from mal.session import get_session
 from mal.utils import CacheUtil
 from mal.validators import Anime2Parameters, AnimeParameters
-from mal.session import get_session
-
 
 router = APIRouter()
 

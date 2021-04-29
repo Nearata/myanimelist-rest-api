@@ -1,15 +1,11 @@
-import uvicorn
-from requests import Session
+from uvicorn import run
 
 from mal.main import create_app
-from mal.database import Database
-from mal.config import CACHE
-
 
 app = create_app()
 
 def main() -> None:
-    uvicorn.run(
+    run(
         "app:app",
         host="0.0.0.0",
         port=8765,

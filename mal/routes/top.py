@@ -2,9 +2,8 @@ from fastapi import APIRouter, Depends
 from requests import Session
 
 from mal.scrapers import AnimeScrapers
-from mal.validators import TopPathValidator
 from mal.session import get_session
-
+from mal.validators import TopPathValidator
 
 router = APIRouter()
 
