@@ -20,7 +20,14 @@
 
 This project uses `SQLite` to store JSON responses for `7 days` (manually checked). We use `Peewee` as driver to comunicate with SQLite database.
 
-If you do not want to cache the responses, you can disable it by editing the `CACHE` constant in `config.py` to `False`.
+## Configuration
+
+This application uses [Starlette Configuration](https://www.starlette.io/config/).
+
+### Options
+
+- CACHE - Default: False
+- DISABLED_ROUTES - Default: []
 
 ## Production
 

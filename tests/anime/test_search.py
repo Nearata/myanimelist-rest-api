@@ -8,8 +8,6 @@ app = create_app()
 client = TestClient(app)
 
 def test_search() -> None:
-    Config.CACHE = False
-
     response = client.get("/search/anime?query=kimetsu no yaiba&columns=a,b,c,d,e,f,g")
     result = response.json()["results"][0]
 

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 
-from mal.config import Config
+from mal.config import CACHE
 from mal.scrapers import AnimeScrapers
 from mal.utils import CacheUtil
 from mal.validators import Anime2Parameters, AnimeParameters
@@ -12,7 +12,7 @@ def anime(params: AnimeParameters = Depends()) -> dict:
     scrapers = AnimeScrapers(params.mal_id)
     data = getattr(scrapers, params.mal_request)()
 
-    if Config.CACHE:
+    if CACHE:
         CacheUtil.save(f"anime{params.mal_id}{params.mal_request}", data)
 
     return data
@@ -22,7 +22,7 @@ def anime_2(params: Anime2Parameters = Depends()) -> dict:
     scrapers = AnimeScrapers(params.mal_id)
     data = getattr(scrapers, params.mal_request)(params.page_number)
 
-    if Config.CACHE:
+    if CACHE:
         CacheUtil.save(f"anime{params.mal_id}{params.mal_request}", data)
 
     return data

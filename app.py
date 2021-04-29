@@ -2,19 +2,19 @@ import uvicorn
 
 from mal.main import create_app
 from mal.database import Database
-from mal.config import Config
+from mal.config import CACHE
 
 
 app = create_app()
 
 @app.on_event("startup")
 def startup() -> None:
-    if Config.CACHE:
+    if CACHE:
         Database.connect()
 
 @app.on_event("shutdown")
 def shutdown() -> None:
-    if Config.CACHE:
+    if CACHE:
         Database.close()
 
 def main() -> None:

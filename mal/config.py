@@ -1,6 +1,8 @@
-from typing import List
+from starlette.config import Config
+from starlette.datastructures import CommaSeparatedStrings
 
 
-class Config:
-    CACHE: bool = True
-    DISABLED_ROUTES: List[str] = []
+config = Config(".env")
+
+CACHE = config('CACHE', cast=bool, default=False)
+DISABLED_ROUTES = config('DISABLED_ROUTES', cast=CommaSeparatedStrings, default=[])

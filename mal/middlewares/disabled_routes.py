@@ -4,7 +4,7 @@ from typing import Any
 from fastapi import Request
 from starlette.responses import JSONResponse
 
-from mal.config import Config
+from mal.config import DISABLED_ROUTES
 
 
 class DisabledRoutesMiddleware:
@@ -15,7 +15,7 @@ class DisabledRoutesMiddleware:
         phrase = http_status.phrase
         description = http_status.description
 
-        if any(i in path for i in Config.DISABLED_ROUTES):
+        if any(i in path for i in DISABLED_ROUTES):
             return JSONResponse({
                 "title": f"404 {phrase}",
                 "description": description

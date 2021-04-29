@@ -4,13 +4,13 @@ from typing import Any
 from fastapi import Request
 from starlette.responses import JSONResponse
 
-from mal.config import Config
+from mal.config import CACHE
 from mal.utils import CacheUtil
 
 
 class CacheMiddleware:
     async def __call__(self, request: Request, call_next: Any) -> Any:
-        if not Config.CACHE:
+        if not CACHE:
             return await call_next(request)
 
         path: str = request.scope["path"]

@@ -1,15 +1,12 @@
 from fastapi.testclient import TestClient
 
 from mal.main import create_app
-from mal.config import Config
 
 
 app = create_app()
 client = TestClient(app)
 
 def test_details() -> None:
-    Config.CACHE = False
-
     response = client.get("/anime/1/details")
     details = response.json()["details"]
 
