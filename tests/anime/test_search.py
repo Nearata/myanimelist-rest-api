@@ -1,10 +1,8 @@
 from fastapi.testclient import TestClient
 
-from mal.main import create_app
-from mal.config import Config
+from . import app
 
 
-app = create_app()
 client = TestClient(app)
 
 def test_search() -> None:
