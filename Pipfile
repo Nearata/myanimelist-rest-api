@@ -9,6 +9,7 @@ pytest = "*"
 coverage = "*"
 isort = "*"
 black = "==21.4b2"
+requests = "*"
 
 [packages]
 beautifulsoup4 = "*"
@@ -17,6 +18,8 @@ uvicorn = "*"
 peewee = "*"
 html5lib = "*"
 httpx = "==0.18.*"
+orm = "*"
+aiosqlite = "*"
 
 [requires]
 python_version = "3.9"

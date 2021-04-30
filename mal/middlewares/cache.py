@@ -18,15 +18,17 @@ class CacheMiddleware:
         if path.startswith(("/search", "/top/")):
             return await call_next(request)
 
-        cache: CacheUtil = request.app.state.cache
+        cache_util: CacheUtil = request.app.state.cache
         cache_key = path.replace("/", "")
-        get_cache = cache.get_or_none(cache_key)
+        query = cache_util.query(cache_key)
 
-        if not get_cache:
+        exists = await query.exists()
+        if not exists:
             return await call_next(request)
 
-        if cache.is_expired(get_cache.expire):
-            cache.delete(cache_key)
+        cache = await query.get()
+        if cache_util.is_expired(cache):
+            await cache.delete()
             return await call_next(request)
 
-        return JSONResponse(loads(get_cache.json))
+        return JSONResponse(loads(cache.json))

@@ -9,7 +9,7 @@ router = APIRouter()
 
 
 @router.get("/{mal_id}/{mal_request}")
-def anime(
+async def anime(
     params: AnimeParameters = Depends(),
     cache: CacheUtil = Depends(get_cache),
     scrapers: AnimeScrapers = Depends(get_anime),
@@ -19,23 +19,23 @@ def anime(
     data = getattr(scrapers, request)(mal_id)
 
     if CACHE:
-        cache.save(f"anime{mal_id}{request}", data)
+        await cache.save(f"anime{mal_id}{request}", data)
 
     return data
 
 
 @router.get("/{mal_id}/{mal_request}/{page_number}")
-def anime_2(
+async def anime_2(
     params: Anime2Parameters = Depends(),
     cache: CacheUtil = Depends(get_cache),
     scrapers: AnimeScrapers = Depends(get_anime),
 ) -> dict:
     request = params.mal_request
     mal_id = params.mal_id
-    page = params.page_number
-    data = getattr(scrapers, request)(mal_id, page)
+    page_number = params.page_number
+    data = getattr(scrapers, request)(mal_id, page_number)
 
     if CACHE:
-        cache.save(f"anime{params.mal_id}{params.mal_request}", data)
+        await cache.save(f"anime{mal_id}{request}{page_number}", data)
 
     return data

@@ -1,20 +1,20 @@
-from peewee import DateField, Model, SqliteDatabase, TextField
+from databases import Database
+from orm import JSON, Date, Model, Text
+from sqlalchemy import MetaData, create_engine
 
-db = SqliteDatabase(
-    "cache.db",
-    pragmas={
-        "journal_mode": "wal",
-        "cache_size": -1 * 64000,
-        "foreign_keys": 1,
-        "synchronous": 1,
-    },
-)
+database = Database("sqlite:///cache.sqlite")
+metadata = MetaData()
 
 
 class Cache(Model):
-    anime_key = TextField(unique=True)
-    json = TextField()
-    expire = DateField()
+    __tablename__ = "cache"
+    __database__ = database
+    __metadata__ = metadata
 
-    class Meta:
-        database = db
+    id = Text(primary_key=True, unique=True)
+    json = JSON()
+    expire = Date()
+
+
+engine = create_engine(str(database.url))
+metadata.create_all(engine)
