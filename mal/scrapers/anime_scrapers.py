@@ -1,4 +1,4 @@
-from requests import Session
+from httpx import Client
 
 from mal.utils.soup import SoupUtil
 
@@ -18,7 +18,7 @@ from .anime.top import Top
 
 
 class AnimeScrapers:
-    def __init__(self, session: Session) -> None:
+    def __init__(self, session: Client) -> None:
         self.session = session
         self.base_url = "https://myanimelist.net"
 

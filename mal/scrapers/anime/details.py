@@ -1,4 +1,5 @@
 from datetime import datetime
+from re import match
 from typing import Union
 
 from bs4 import BeautifulSoup
@@ -38,8 +39,8 @@ class Details:
                         "span", string="Status:"
                     ).next_sibling.strip(),
                     "aired": {
-                        "from": self.__information_aired_helper(0),
-                        "to": self.__information_aired_helper(1),
+                        "from": self.__information_aired_helper("from"),
+                        "to": self.__information_aired_helper("to"),
                     },
                     "premiered": AnimeHelpers.premiered_helper(self.soup),
                     "producers": AnimeHelpers.producers_helper(
@@ -115,22 +116,29 @@ class Details:
         field = self.soup.find("span", string=field_name)
         return str(field.next_sibling.strip()) if field else None
 
-    def __information_aired_helper(self, index: int) -> Union[str, None]:
-        aired = self.soup.find("span", string="Aired:").next_sibling
+    def __information_aired_helper(self, index: str) -> Union[str, None]:
+        aired: str = self.soup.find("span", string="Aired:").next_sibling.strip()
 
-        if aired.strip() == "Not available":
+        found = match(
+            r"(?P<month1>\w+)\s(?P<day1>\d+),\s(?P<year1>\d+)\sto\s(?P<month2>\w+)\s(?P<day2>\d+),\s(?P<year2>\d+)",
+            aired,
+        )
+
+        if not found:
             return None
 
-        if index == 1 and (
-            "to" not in aired or aired.split("to")[index].strip() == "?"
-        ):
-            return None
+        month1 = found.group("month1")
+        day1 = found.group("day1")
+        year1 = found.group("year1")
+        date_from = f"{month1} {day1}, {year1}"
 
-        try:
-            return str(
-                datetime.strptime(aired.split("to")[index].strip(), "%b %d, %Y").date()
-            )
-        except ValueError:
-            return str(
-                datetime.strptime(aired.split("to")[index].strip(), "%b, %Y").date()
-            )
+        month2 = found.group("month2")
+        day2 = found.group("day2")
+        year2 = found.group("year2")
+        date_to = f"{month2} {day2}, {year2}"
+
+        return str(
+            datetime.strptime(
+                date_from if index == "from" else date_to, "%b %d, %Y"
+            ).date()
+        )

@@ -2,8 +2,7 @@ from http import HTTPStatus
 from typing import Any
 
 from fastapi import Request
-from requests import Session
-from requests.exceptions import ReadTimeout
+from httpx import Client, ReadTimeout
 from starlette.responses import JSONResponse
 
 from mal.utils.requests import RequestsUtil
@@ -13,7 +12,7 @@ class MalCheckerMiddleware:
     async def __call__(self, request: Request, call_next: Any) -> Any:
         path: str = request.scope["path"]
 
-        session: Session = request.app.state.session
+        session: Client = request.app.state.session
 
         try:
             response = session.head(

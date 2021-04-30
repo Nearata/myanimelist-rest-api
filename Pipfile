@@ -12,11 +12,11 @@ black = "==21.4b2"
 
 [packages]
 beautifulsoup4 = "*"
-requests = "*"
 fastapi = "*"
 uvicorn = "*"
 peewee = "*"
 html5lib = "*"
+httpx = "==0.18.*"
 
 [requires]
 python_version = "3.9"

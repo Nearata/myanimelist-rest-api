@@ -2,13 +2,13 @@ from re import match
 from typing import Any, Union
 
 from bs4 import BeautifulSoup
-from requests import Session
+from httpx import Client
 
 from mal.utils.soup import SoupUtil
 
 
 class Search:
-    def __init__(self, session: Session, **kwargs: Any) -> None:
+    def __init__(self, session: Client, **kwargs: Any) -> None:
         self.session = session
         self.soup_util = SoupUtil(session)
         self.query = kwargs["query"]

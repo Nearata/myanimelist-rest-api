@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from requests import Session
+from httpx import Client
 
 from .config import CACHE
 from .database import Cache, db
@@ -8,7 +8,7 @@ from .utils.cache import CacheUtil
 
 
 def startup(app: FastAPI) -> None:
-    app.state.session = Session()
+    app.state.session = Client()
     app.state.cache = CacheUtil()
     app.state.animescrapers = AnimeScrapers(app.state.session)
     if CACHE:
