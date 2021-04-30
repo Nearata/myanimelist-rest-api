@@ -1,10 +1,9 @@
 from functools import partial
 
 from fastapi import FastAPI
-from requests import Session
 
-from mal.config import CACHE, DEBUG
-from mal.database import Cache, db
+from mal.config import DEBUG
+from mal.events import shutdown, startup
 from mal.middlewares import (
     CacheMiddleware,
     DisabledRoutesMiddleware,
@@ -12,21 +11,6 @@ from mal.middlewares import (
     RequireJsonMiddleware,
 )
 from mal.routes import anime_router, search_router, top_router
-from mal.utils import CacheUtil
-
-
-def startup(app: FastAPI) -> None:
-    app.state.session = Session()
-    app.state.cache = CacheUtil()
-    if CACHE:
-        db.connect()
-        db.create_tables([Cache])
-
-
-def shutdown(app: FastAPI) -> None:
-    app.state.session.close()
-    if CACHE:
-        db.close()
 
 
 def create_app() -> FastAPI:
