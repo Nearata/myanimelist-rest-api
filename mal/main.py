@@ -12,10 +12,12 @@ from mal.middlewares import (
     RequireJsonMiddleware,
 )
 from mal.routes import anime_router, search_router, top_router
+from mal.utils import CacheUtil
 
 
 def startup(app: FastAPI) -> None:
     app.state.session = Session()
+    app.state.cache = CacheUtil()
     if CACHE:
         db.connect()
         db.create_tables([Cache])
