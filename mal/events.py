@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 from requests import Session
 
-from mal.config import CACHE
-from mal.database import Cache, db
-from mal.scrapers import AnimeScrapers
-from mal.utils import CacheUtil
+from .config import CACHE
+from .database import Cache, db
+from .scrapers.anime_scrapers import AnimeScrapers
+from .utils.cache import CacheUtil
 
 
 def startup(app: FastAPI) -> None:

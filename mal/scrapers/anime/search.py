@@ -4,7 +4,7 @@ from typing import Any, Union
 from bs4 import BeautifulSoup
 from requests import Session
 
-from mal.utils import SoupUtil
+from mal.utils.soup import SoupUtil
 
 
 class Search:

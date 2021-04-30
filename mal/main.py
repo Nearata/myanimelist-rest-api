@@ -2,15 +2,15 @@ from functools import partial
 
 from fastapi import FastAPI
 
-from mal.config import DEBUG
-from mal.events import shutdown, startup
-from mal.middlewares import (
-    CacheMiddleware,
-    DisabledRoutesMiddleware,
-    MalCheckerMiddleware,
-    RequireJsonMiddleware,
-)
-from mal.routes import anime_router, search_router, top_router
+from .config import DEBUG
+from .events import shutdown, startup
+from .middlewares.cache import CacheMiddleware
+from .middlewares.disabled_routes import DisabledRoutesMiddleware
+from .middlewares.mal_checker import MalCheckerMiddleware
+from .middlewares.require_json import RequireJsonMiddleware
+from .routes.anime import router as anime_router
+from .routes.search import router as search_router
+from .routes.top import router as top_router
 
 
 def create_app() -> FastAPI:

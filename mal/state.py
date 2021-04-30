@@ -1,8 +1,8 @@
 from fastapi import Request
 from requests import Session
 
-from mal.scrapers import AnimeScrapers
-from mal.utils import CacheUtil
+from .scrapers.anime_scrapers import AnimeScrapers
+from .utils.cache import CacheUtil
 
 
 def get_cache(request: Request) -> CacheUtil:

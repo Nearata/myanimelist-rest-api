@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from requests import Session
 
-from mal.utils import RequestsUtil
+from .requests import RequestsUtil
 
 
 class SoupUtil:

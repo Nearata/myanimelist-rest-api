@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from mal.config import CACHE
-from mal.scrapers import AnimeScrapers
+from mal.scrapers.anime_scrapers import AnimeScrapers
 from mal.state import CacheUtil, get_anime, get_cache
 from mal.validators import Anime2Parameters, AnimeParameters
 

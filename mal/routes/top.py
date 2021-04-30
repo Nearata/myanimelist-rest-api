@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 
-from mal.scrapers import AnimeScrapers
+from mal.scrapers.anime_scrapers import AnimeScrapers
 from mal.state import get_anime
 from mal.validators import TopPathValidator
 

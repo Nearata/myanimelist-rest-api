@@ -6,7 +6,7 @@ from requests import Session
 from requests.exceptions import ReadTimeout
 from starlette.responses import JSONResponse
 
-from mal.utils import RequestsUtil
+from mal.utils.requests import RequestsUtil
 
 
 class MalCheckerMiddleware:

@@ -5,7 +5,7 @@ from fastapi import Request
 from starlette.responses import JSONResponse
 
 from mal.config import CACHE
-from mal.utils import CacheUtil
+from mal.utils.cache import CacheUtil
 
 
 class CacheMiddleware:

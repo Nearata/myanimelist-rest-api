@@ -1,7 +1,20 @@
 from requests import Session
 
-from mal.scrapers.anime import *
 from mal.utils.soup import SoupUtil
+
+from .anime.characters import Characters
+from .anime.clubs import Clubs
+from .anime.details import Details
+from .anime.episodes import Episodes
+from .anime.featured import Featured
+from .anime.moreinfo import MoreInfo
+from .anime.news import News
+from .anime.pictures import Pictures
+from .anime.recommendations import Recommendations
+from .anime.reviews import Reviews
+from .anime.staff import Staff
+from .anime.stats import Stats
+from .anime.top import Top
 
 
 class AnimeScrapers:

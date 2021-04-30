@@ -3,8 +3,8 @@ from typing import Union
 from fastapi import Path, Query
 from pydantic import BaseModel, validator
 
-from mal.exceptions import MissingParameter, ParameterNotValid
-from mal.scrapers import AnimeScrapers
+from .exceptions import MissingParameter, ParameterNotValid
+from .scrapers.anime_scrapers import AnimeScrapers
 
 
 class TopPathValidator(BaseModel):

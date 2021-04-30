@@ -1,8 +1,9 @@
 from requests import Session
 
-from mal.utils import CacheUtil
+from mal.utils.cache import CacheUtil
 from mal.main import create_app
-from mal.scrapers import AnimeScrapers
+from mal.scrapers.anime_scrapers import AnimeScrapers
+
 
 app = create_app()
 app.state.session = Session()
