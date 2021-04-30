@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from requests import Session
 
 from mal.config import CACHE, DEBUG
-from mal.database import Database
+from mal.database import Cache, db
 from mal.middlewares import (
     CacheMiddleware,
     DisabledRoutesMiddleware,
@@ -17,13 +17,14 @@ from mal.routes import anime_router, search_router, top_router
 def startup(app: FastAPI) -> None:
     app.state.session = Session()
     if CACHE:
-        Database.connect()
+        db.connect()
+        db.create_tables([Cache])
 
 
 def shutdown(app: FastAPI) -> None:
     app.state.session.close()
     if CACHE:
-        Database.close()
+        db.close()
 
 
 def create_app() -> FastAPI:

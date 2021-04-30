@@ -18,14 +18,3 @@ class Cache(Model):
 
     class Meta:
         database = db
-
-
-class Database:
-    @staticmethod
-    def connect() -> None:
-        db.connect()
-        db.create_tables([Cache])
-
-    @staticmethod
-    def close() -> None:
-        db.close()
