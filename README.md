@@ -18,7 +18,7 @@
 
 ## Caching
 
-This project uses `SQLite` to store JSON responses for `7 days` (manually checked). We use `Peewee` as driver to comunicate with SQLite database.
+This project uses `SQLite` to store JSON responses for `7 days` (manually checked). We use [ORM](https://github.com/encode/orm) as driver to comunicate with SQLite database.
 
 ## Configuration
 
