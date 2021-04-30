@@ -2,8 +2,8 @@ from fastapi.testclient import TestClient
 
 from . import app
 
-
 client = TestClient(app)
+
 
 def test_reviews() -> None:
     response = client.get("/anime/1/reviews/1")

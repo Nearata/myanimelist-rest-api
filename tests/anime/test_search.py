@@ -2,8 +2,8 @@ from fastapi.testclient import TestClient
 
 from . import app
 
-
 client = TestClient(app)
+
 
 def test_search() -> None:
     response = client.get("/search/anime?query=kimetsu no yaiba&columns=a,b,c,d,e,f,g")

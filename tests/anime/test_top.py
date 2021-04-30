@@ -2,8 +2,8 @@ from fastapi.testclient import TestClient
 
 from . import app
 
-
 client = TestClient(app)
+
 
 def test_top() -> None:
     response = client.get("/top/anime/all/1")
