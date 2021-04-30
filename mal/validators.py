@@ -46,11 +46,24 @@ class AnimeParameters(BaseModel):
     def validate_mal_request(
         cls, v: str
     ) -> Union[str, MissingParameter, ParameterNotValid]:
+        if v not in (
+            "characters",
+            "clubs",
+            "details",
+            "episodes",
+            "featured",
+            "moreinfo",
+            "news",
+            "pictures",
+            "recommendations",
+            "reviews",
+            "staff",
+            "stats",
+        ):
+            raise ParameterNotValid("mal_request")
+
         if v in ("episodes", "reviews"):
             raise MissingParameter("page_number")
-
-        if v not in dir(AnimeScrapers):
-            raise ParameterNotValid("mal_request")
 
         return v
 

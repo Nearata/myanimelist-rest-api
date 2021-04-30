@@ -24,22 +24,6 @@ class AnimeScrapers:
 
         self.soup_util = SoupUtil(session)
 
-    def __dir__(self) -> list:
-        return [
-            "characters",
-            "clubs",
-            "details",
-            "episodes",
-            "featured",
-            "moreinfo",
-            "news",
-            "pictures",
-            "recommendations",
-            "reviews",
-            "staff",
-            "stats",
-        ]
-
     def characters(self, mal_id: int) -> dict:
         soup = self.soup_util.get_soup(f"{self.base_url}/anime/{mal_id}/_/characters")
         characters = Characters(soup)
