@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends
 from requests import Session
 
 from mal.cache import get_cache
