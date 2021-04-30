@@ -1,6 +1,6 @@
 from requests import Session
 
-from mal.cache import CacheUtil
+from mal.utils import CacheUtil
 from mal.main import create_app
 from mal.scrapers import AnimeScrapers
 
