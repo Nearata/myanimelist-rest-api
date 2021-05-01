@@ -126,7 +126,7 @@ class AnimeHelpers:
     @staticmethod
     def synopsis_helper(soup: BeautifulSoup) -> Union[str, None]:
         synopsis = soup.select_one("[itemprop=description]")
-        return str(synopsis.get_text(strip=True)) if synopsis else None
+        return str(synopsis.get_text()).strip() if synopsis else None
 
     @staticmethod
     def trailer_helper(soup: BeautifulSoup) -> Union[str, None]:
