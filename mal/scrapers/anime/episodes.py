@@ -3,6 +3,7 @@ from re import findall, match, sub
 from typing import Union
 
 from bs4 import BeautifulSoup
+from bs4.element import Tag
 
 
 class Episodes:
@@ -12,6 +13,7 @@ class Episodes:
     def __call__(self) -> dict:
         episode_title = ".episode-title > span"
         return {
+            "links": self.__links(),
             "episodes": [
                 {
                     "title": i.select_one(".episode-title > a").get_text(),
@@ -33,7 +35,7 @@ class Episodes:
                     ),
                 }
                 for i in self.soup.select("table.ascend .episode-list-data")
-            ]
+            ],
         }
 
     def __title_romanji(self, string: str) -> Union[str, None]:
@@ -61,3 +63,24 @@ class Episodes:
     def __filler_recap(self, string: str) -> bool:
         regex = match(r"(filler|recap)", string.lower())
         return True if regex else False
+
+    def __links(self) -> dict:
+        pagination = self.soup.select_one(".pagination")
+
+        links = {"hasPrevious": False, "hasNext": False}
+
+        if not pagination:
+            return links
+
+        tag: Tag = pagination.select_one(".link.current")
+
+        if not tag:
+            return {}
+
+        if tag.previous_sibling:
+            links.update({"hasPrevious": True})
+
+        if tag.next_sibling:
+            links.update({"hasNext": True})
+
+        return links

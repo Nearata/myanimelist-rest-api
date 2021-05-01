@@ -43,7 +43,7 @@ class AnimeScrapers:
         page_url = (
             f"{self.base_url}/anime/{mal_id}/_/episode"
             if page_number == 1
-            else f"{self.base_url}/anime/{mal_id}/_/episode?offset={page_number}00"
+            else f"{self.base_url}/anime/{mal_id}/_/episode?offset={100*page_number-100}"
         )
         soup = self.soup_util.get_soup(page_url)
         episodes = Episodes(soup)
