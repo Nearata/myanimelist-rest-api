@@ -29,6 +29,7 @@ This application uses [Starlette Configuration](https://www.starlette.io/config/
 - CACHE - Default: False
 - DISABLED_ROUTES - Default: []
 - DEBUG - Default: False
+- HTTP2 - Default: False
 
 ## Production
 

@@ -16,7 +16,7 @@ async def anime(
 ) -> dict:
     request = params.mal_request
     mal_id = params.mal_id
-    data = getattr(scrapers, request)(mal_id)
+    data = await getattr(scrapers, request)(mal_id)
 
     if CACHE:
         await cache.save(f"anime{mal_id}{request}", data)
@@ -33,7 +33,7 @@ async def anime_2(
     request = params.mal_request
     mal_id = params.mal_id
     page_number = params.page_number
-    data = getattr(scrapers, request)(mal_id, page_number)
+    data = await getattr(scrapers, request)(mal_id, page_number)
 
     if CACHE:
         await cache.save(f"anime{mal_id}{request}{page_number}", data)

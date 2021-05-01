@@ -2,7 +2,7 @@ from http import HTTPStatus
 from typing import Any
 
 from fastapi import Request
-from httpx import Client, ReadTimeout
+from httpx import AsyncClient, ReadTimeout
 from starlette.responses import JSONResponse
 
 from mal.utils.requests import RequestsUtil
@@ -12,10 +12,10 @@ class MalCheckerMiddleware:
     async def __call__(self, request: Request, call_next: Any) -> Any:
         path: str = request.scope["path"]
 
-        session: Client = request.app.state.session
+        session: AsyncClient = request.app.state.session
 
         try:
-            response = session.head(
+            response = await session.head(
                 f"https://myanimelist.net{path}",
                 timeout=15,
                 headers=RequestsUtil.HEADERS,

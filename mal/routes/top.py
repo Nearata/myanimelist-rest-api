@@ -8,9 +8,9 @@ router = APIRouter()
 
 
 @router.get("/{request}/{ttype}/{page_number}")
-def anime_top(
+async def anime_top(
     params: TopPathValidator = Depends(),
     scrapers: AnimeScrapers = Depends(get_anime),
 ) -> dict:
-    data = scrapers.top(params.ttype, params.page_number)
+    data = await scrapers.top(params.ttype, params.page_number)
     return data

@@ -2,13 +2,13 @@ from re import match
 from typing import Any, Union
 
 from bs4 import BeautifulSoup
-from httpx import Client
+from httpx import AsyncClient
 
 from mal.utils.soup import SoupUtil
 
 
 class Search:
-    def __init__(self, session: Client, **kwargs: Any) -> None:
+    def __init__(self, session: AsyncClient, **kwargs: Any) -> None:
         self.session = session
         self.soup_util = SoupUtil(session)
         self.query = kwargs["query"]
@@ -27,7 +27,7 @@ class Search:
         self.genres_exclude = kwargs["genres_exclude"]
         self.columns = kwargs["columns"]
 
-    def __call__(self) -> dict:
+    async def __call__(self) -> dict:
         params = {
             "q": self.query,
             "type": self.type if self.type else 0,
@@ -54,7 +54,7 @@ class Search:
         else:
             params.update({"c": 0})
 
-        soup = self.soup_util.get_soup(
+        soup = await self.soup_util.get_soup(
             "https://myanimelist.net/anime.php", params=params
         )
         selector = soup.select_one(".js-categories-seasonal")

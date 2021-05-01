@@ -1,12 +1,13 @@
 from fastapi import FastAPI
-from httpx import Client
+from httpx import AsyncClient
 
+from .config import HTTP2
 from .scrapers.anime_scrapers import AnimeScrapers
 from .utils.cache import CacheUtil
 
 
 def startup(app: FastAPI) -> None:
-    app.state.session = Client()
+    app.state.session = AsyncClient(http2=HTTP2)
     app.state.cache = CacheUtil()
     app.state.animescrapers = AnimeScrapers(app.state.session)
 
