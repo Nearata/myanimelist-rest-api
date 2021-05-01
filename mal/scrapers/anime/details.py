@@ -1,6 +1,6 @@
 from datetime import datetime
 from re import match
-from typing import Union
+from typing import Optional, Union
 
 from bs4 import BeautifulSoup
 
@@ -16,7 +16,7 @@ class Details:
 
     def __call__(self) -> dict:
         anime_title: str = self.soup.select_one("h1.title-name").get_text()
-        image: str = self.soup.find("img", alt=anime_title).get("data-src")
+        image = self.__get_image(anime_title)
 
         return {
             "details": {
@@ -142,3 +142,11 @@ class Details:
                 date_from if index == "from" else date_to, "%b %d, %Y"
             ).date()
         )
+
+    def __get_image(self, title: str) -> Optional[str]:
+        image = self.soup.find("img", alt=title)
+
+        if image is None:
+            return None
+
+        return image.get("data-src")
