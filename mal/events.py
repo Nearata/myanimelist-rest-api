@@ -13,4 +13,4 @@ def startup(app: FastAPI) -> None:
 
 
 async def shutdown(app: FastAPI) -> None:
-    await app.state.session.close()
+    await app.state.session.aclose()
