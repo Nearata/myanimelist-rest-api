@@ -5,7 +5,7 @@ from fastapi import Request
 from httpx import AsyncClient, TimeoutException
 from starlette.responses import JSONResponse
 
-from mal.utils.requests import RequestsUtil
+from ..config import USER_AGENT
 
 
 class MalCheckerMiddleware:
@@ -18,7 +18,7 @@ class MalCheckerMiddleware:
             response = await session.head(
                 f"https://myanimelist.net{path}",
                 timeout=15,
-                headers=RequestsUtil.HEADERS,
+                headers={"User-Agent": USER_AGENT},
             )
             status_code = response.status_code
         except TimeoutException:

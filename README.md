@@ -30,6 +30,7 @@ This application uses [Starlette Configuration](https://www.starlette.io/config/
 - DISABLED_ROUTES - Default: []
 - DEBUG - Default: False
 - HTTP2 - Default: False
+- USER_AGENT - Default: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0
 
 ## Production
 

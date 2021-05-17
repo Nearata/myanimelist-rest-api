@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from httpx import AsyncClient
 
-from .requests import RequestsUtil
+from ..config import USER_AGENT
 
 
 class SoupUtil:
@@ -10,7 +10,9 @@ class SoupUtil:
 
     async def get_soup(self, url: str, params: dict = None) -> BeautifulSoup:
         response = await self.session.get(
-            url, params=params, headers=RequestsUtil.HEADERS
+            url, params=params, headers={
+                "User-Agent": USER_AGENT
+            }
         )
 
         return BeautifulSoup(response.content, "html5lib")
