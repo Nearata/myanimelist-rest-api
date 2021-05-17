@@ -2,7 +2,7 @@ from http import HTTPStatus
 from typing import Any
 
 from fastapi import Request
-from httpx import AsyncClient, ReadTimeout
+from httpx import AsyncClient, TimeoutException
 from starlette.responses import JSONResponse
 
 from mal.utils.requests import RequestsUtil
@@ -21,12 +21,11 @@ class MalCheckerMiddleware:
                 headers=RequestsUtil.HEADERS,
             )
             status_code = response.status_code
-        except ReadTimeout:
+        except TimeoutException:
             http_status = HTTPStatus(504)
-            phrase = http_status.phrase
             return JSONResponse(
                 {
-                    "title": f"504 {phrase}",
+                    "title": f"504 {http_status.phrase}",
                     "description": "May be offline or just slow to load",
                 },
                 504,
