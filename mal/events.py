@@ -12,5 +12,5 @@ def startup(app: FastAPI) -> None:
     app.state.animescrapers = AnimeScrapers(app.state.session)
 
 
-def shutdown(app: FastAPI) -> None:
-    app.state.session.close()
+async def shutdown(app: FastAPI) -> None:
+    await app.state.session.close()
