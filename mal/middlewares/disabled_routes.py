@@ -2,7 +2,6 @@ from http import HTTPStatus
 from typing import Any
 
 from fastapi import Request
-from fastapi.routing import APIRoute
 from starlette.responses import JSONResponse
 
 from mal.config import DISABLED_ROUTES
