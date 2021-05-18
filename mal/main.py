@@ -23,15 +23,10 @@ def create_app() -> FastAPI:
         swagger_ui_oauth2_redirect_url=None,
     )
 
-    cache = CacheMiddleware()
-    mal_checker = MalCheckerMiddleware()
-    require_json = RequireJsonMiddleware()
-    disabled_routes = DisabledRoutesMiddleware()
-
-    app.middleware("http")(mal_checker)
-    app.middleware("http")(cache)
-    app.middleware("http")(disabled_routes)
-    app.middleware("http")(require_json)
+    app.add_middleware(MalCheckerMiddleware)
+    app.add_middleware(CacheMiddleware)
+    app.add_middleware(DisabledRoutesMiddleware)
+    app.add_middleware(RequireJsonMiddleware)
 
     app.add_event_handler("startup", partial(startup, app))
     app.add_event_handler("shutdown", partial(shutdown, app))

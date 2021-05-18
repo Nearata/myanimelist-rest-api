@@ -3,13 +3,14 @@ from typing import Any
 
 from fastapi import Request
 from httpx import AsyncClient, TimeoutException
+from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import JSONResponse
 
 from ..config import USER_AGENT
 
 
-class MalCheckerMiddleware:
-    async def __call__(self, request: Request, call_next: Any) -> Any:
+class MalCheckerMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next: Any) -> Any:
         path: str = request.scope.get("path", "")
 
         if not request.query_params.keys():

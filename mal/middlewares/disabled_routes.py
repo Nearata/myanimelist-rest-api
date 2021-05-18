@@ -2,13 +2,14 @@ from http import HTTPStatus
 from typing import Any
 
 from fastapi import Request
+from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import JSONResponse
 
 from mal.config import DISABLED_ROUTES
 
 
-class DisabledRoutesMiddleware:
-    async def __call__(self, request: Request, call_next: Any) -> Any:
+class DisabledRoutesMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next: Any) -> Any:
         path: str = request.scope.get("path", "")
         routes: list[str] = [i.path for i in request.app.routes]
 

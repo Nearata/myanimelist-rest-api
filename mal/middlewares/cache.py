@@ -2,14 +2,15 @@ from json import loads
 from typing import Any
 
 from fastapi import Request
+from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import JSONResponse
 
 from mal.config import CACHE
 from mal.utils.cache import CacheUtil
 
 
-class CacheMiddleware:
-    async def __call__(self, request: Request, call_next: Any) -> Any:
+class CacheMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next: Any) -> Any:
         if not CACHE:
             return await call_next(request)
 
