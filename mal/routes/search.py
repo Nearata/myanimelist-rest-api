@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends
 from httpx import AsyncClient
 
-from mal.scrapers.anime.search import Search as AnimeSearch
-from mal.state import get_session
-from mal.validators import SearchParameters
+from ..scrapers.anime.search import Search as AnimeSearch
+from ..state import get_session
+from ..validators import SearchParameters
 
 router = APIRouter()
 
 
-@router.get("/{request}")
+@router.get("/search")
 async def anime_search(
     params: SearchParameters = Depends(), session: AsyncClient = Depends(get_session)
 ) -> dict:

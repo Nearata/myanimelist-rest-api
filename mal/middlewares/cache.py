@@ -13,13 +13,22 @@ class CacheMiddleware:
         if not CACHE:
             return await call_next(request)
 
-        path: str = request.scope["path"]
+        path: str = request.scope.get("path", "")
 
-        if path.startswith(("/search", "/top/")):
+        if path.startswith(("/search", "/top")):
             return await call_next(request)
 
         cache_util: CacheUtil = request.app.state.cache
-        cache_key = path.replace("/", "")
+
+        mal_id = request.query_params.get("mal_id", "")
+        mal_request = request.query_params.get("mal_request", "")
+
+        cache_key = path.strip("/")
+        cache_key += f"{mal_id}{mal_request}"
+
+        if page_number := request.query_params.get("page_number"):
+            cache_key += f"{page_number}"
+
         query = cache_util.query(cache_key)
 
         exists = await query.exists()

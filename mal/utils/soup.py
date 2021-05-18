@@ -10,9 +10,7 @@ class SoupUtil:
 
     async def get_soup(self, url: str, params: dict = None) -> BeautifulSoup:
         response = await self.session.get(
-            url, params=params, headers={
-                "User-Agent": USER_AGENT
-            }
+            url, params=params, headers={"User-Agent": USER_AGENT}
         )
 
         return BeautifulSoup(response.content, "html5lib")

@@ -19,6 +19,8 @@ def create_app() -> FastAPI:
         title="MyAnimeList REST API (Unofficial)",
         docs_url=None,
         redoc_url=None,
+        openapi_url=None,
+        swagger_ui_oauth2_redirect_url=None,
     )
 
     cache = CacheMiddleware()
@@ -34,8 +36,8 @@ def create_app() -> FastAPI:
     app.add_event_handler("startup", partial(startup, app))
     app.add_event_handler("shutdown", partial(shutdown, app))
 
-    app.include_router(anime_router, prefix="/anime", tags=["anime"])
-    app.include_router(search_router, prefix="/search", tags=["search"])
-    app.include_router(top_router, prefix="/top", tags=["top"])
+    app.include_router(anime_router)
+    app.include_router(search_router)
+    app.include_router(top_router)
 
     return app

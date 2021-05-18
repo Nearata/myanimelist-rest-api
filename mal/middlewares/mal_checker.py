@@ -10,13 +10,18 @@ from ..config import USER_AGENT
 
 class MalCheckerMiddleware:
     async def __call__(self, request: Request, call_next: Any) -> Any:
-        path: str = request.scope["path"]
+        path: str = request.scope.get("path", "")
+
+        if not request.query_params.keys():
+            return await call_next(request)
+
+        mal_id = request.query_params.get("mal_id", "")
+        mal_request = request.query_params.get("mal_request", "")
 
         session: AsyncClient = request.app.state.session
-
         try:
             response = await session.head(
-                f"https://myanimelist.net{path}",
+                f"https://myanimelist.net{path}/{mal_id}/_/{mal_request}",
                 timeout=15,
                 headers={"User-Agent": USER_AGENT},
             )

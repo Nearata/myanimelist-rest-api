@@ -1,27 +1,22 @@
-from typing import Union
-
-from fastapi import Path, Query
+from fastapi import Query
 from pydantic import BaseModel, validator
+from pydantic.class_validators import root_validator
 
 from .exceptions import MissingParameter, ParameterNotValid
-from .scrapers.anime_scrapers import AnimeScrapers
 
 
-class TopPathValidator(BaseModel):
-    request: str = Path(...)
-    ttype: str = Path(...)
-    page_number: int = Path(..., gt=0)
+class TopParameters(BaseModel):
+    request: str = Query(...)
+    type: str = Query(...)
+    page_number: int = Query(..., gt=0)
 
-    @validator("request")
-    def validate_request(cls, v: str) -> Union[str, ParameterNotValid]:
-        if not any(i == v for i in ["anime"]):
+    @root_validator
+    def validate_root(cls, values: dict) -> dict:
+        mal_request = values.get("request", "")
+        if mal_request not in ("anime"):
             raise ParameterNotValid("request")
 
-        return v
-
-    @validator("ttype")
-    def validate_ttype(cls, v: str) -> Union[str, ParameterNotValid]:
-        if v not in (
+        valid_types = (
             "all",
             "airing",
             "upcoming",
@@ -32,21 +27,23 @@ class TopPathValidator(BaseModel):
             "special",
             "bypopularity",
             "favorite",
-        ):
+        )
+        _type = values.get("type", "")
+        if _type not in valid_types:
             raise ParameterNotValid("type")
 
-        return v
+        return values
 
 
 class AnimeParameters(BaseModel):
-    mal_id: int = Path(..., gt=0)
-    mal_request: str = Path(...)
+    mal_id: int = Query(..., gt=0)
+    mal_request: str = Query(...)
+    page_number: int = Query(None, gt=0)
 
-    @validator("mal_request")
-    def validate_mal_request(
-        cls, v: str
-    ) -> Union[str, MissingParameter, ParameterNotValid]:
-        if v not in (
+    @root_validator
+    def validate_root(cls, values: dict) -> dict:
+        mal_request = values.get("mal_request", "")
+        valid_requests = (
             "characters",
             "clubs",
             "details",
@@ -59,38 +56,23 @@ class AnimeParameters(BaseModel):
             "reviews",
             "staff",
             "stats",
-        ):
+        )
+
+        if mal_request not in valid_requests:
             raise ParameterNotValid("mal_request")
 
-        if v in ("episodes", "reviews"):
+        page_number = values.get("page_number")
+
+        if mal_request not in ("episodes", "reviews") and page_number:
+            raise ParameterNotValid("page_number")
+        elif mal_request in ("episodes", "reviews") and not page_number:
             raise MissingParameter("page_number")
 
-        return v
-
-
-class Anime2Parameters(BaseModel):
-    mal_id: int = Path(..., gt=0)
-    mal_request: str = Path(...)
-    page_number: int = Path(..., gt=0)
-
-    @validator("mal_request")
-    def validate_mal_request(cls, v: str) -> Union[str, ParameterNotValid]:
-        if v not in ("episodes", "reviews"):
-            raise ParameterNotValid("mal_request")
-
-        return v
+        return values
 
 
 class SearchParameters(BaseModel):
-    request: str = Path(...)
-
-    @validator("request")
-    def validate_request(cls, v: str) -> Union[str, ParameterNotValid]:
-        if not any(i == v for i in ["anime"]):
-            raise ParameterNotValid("request")
-
-        return v
-
+    request: str = Query(...)
     query: str = Query(..., min_length=3)
     type: int = Query(None, gt=0, lt=7)
     score: int = Query(None, gt=0, lt=11)
@@ -106,3 +88,10 @@ class SearchParameters(BaseModel):
     genres: str = Query(None)
     genres_exclude: int = Query(None, gt=0, lt=2)
     columns: str = Query(None)
+
+    @validator("request")
+    def validate_request(cls, v: str) -> str:
+        if v not in ("anime"):
+            raise ParameterNotValid("request")
+
+        return v

@@ -1,16 +1,16 @@
 from fastapi import APIRouter, Depends
 
-from mal.scrapers.anime_scrapers import AnimeScrapers
-from mal.state import get_anime
-from mal.validators import TopPathValidator
+from ..scrapers.anime_scrapers import AnimeScrapers
+from ..state import get_anime
+from ..validators import TopParameters
 
 router = APIRouter()
 
 
-@router.get("/{request}/{ttype}/{page_number}")
+@router.get("/top")
 async def anime_top(
-    params: TopPathValidator = Depends(),
+    params: TopParameters = Depends(),
     scrapers: AnimeScrapers = Depends(get_anime),
 ) -> dict:
-    data = await scrapers.top(params.ttype, params.page_number)
+    data = await scrapers.top(params.type, params.page_number)
     return data
