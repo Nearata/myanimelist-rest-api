@@ -17,12 +17,11 @@ class MalCheckerMiddleware(BaseHTTPMiddleware):
             return await call_next(request)
 
         mal_id = request.query_params.get("mal_id", "")
-        mal_request = request.query_params.get("mal_request", "")
 
         session: AsyncClient = request.app.state.session
         try:
             response = await session.head(
-                f"https://myanimelist.net{path}/{mal_id}/_/{mal_request}",
+                f"https://myanimelist.net{path}/{mal_id}",
                 timeout=15,
                 headers={"User-Agent": USER_AGENT},
             )

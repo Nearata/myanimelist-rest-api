@@ -1,4 +1,4 @@
-.vscode/*
+.vscode/
 cache.sqlite
 
 # Byte-compiled / optimized / DLL files
