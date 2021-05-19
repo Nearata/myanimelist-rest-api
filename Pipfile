@@ -9,7 +9,8 @@ pytest = "*"
 coverage = "*"
 isort = "*"
 black = "==21.4b2"
-requests = "*"
+pytest-asyncio = "*"
+asgi-lifespan = "*"
 
 [packages]
 beautifulsoup4 = "*"

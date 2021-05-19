@@ -1,12 +1,13 @@
-from fastapi.testclient import TestClient
+import pytest
+from httpx import AsyncClient
 
-from . import app
-
-client = TestClient(app)
+from ..util import DEFAULT_PARAMS
 
 
-def test_recommendations() -> None:
-    response = client.get("/anime/1/recommendations")
+@pytest.mark.asyncio
+async def test_recommendations(client: AsyncClient) -> None:
+    params = DEFAULT_PARAMS | {"mal_request": "recommendations"}
+    response = await client.get("/anime", params=params)
     recommendation = response.json()["recommendations"][0]
 
     assert type(recommendation["image_url"]) == str

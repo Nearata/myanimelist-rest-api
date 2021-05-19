@@ -1,12 +1,13 @@
-from fastapi.testclient import TestClient
+import pytest
+from httpx import AsyncClient
 
-from . import app
-
-client = TestClient(app)
+from ..util import DEFAULT_PARAMS
 
 
-def test_news() -> None:
-    response = client.get("/anime/1/news")
+@pytest.mark.asyncio
+async def test_news(client: AsyncClient) -> None:
+    params = DEFAULT_PARAMS | {"mal_request": "news"}
+    response = await client.get("/anime", params=params)
     news = response.json()["news"][0]
 
     assert type(news["url"]) == str

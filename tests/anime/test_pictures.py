@@ -1,12 +1,13 @@
-from fastapi.testclient import TestClient
+import pytest
+from httpx import AsyncClient
 
-from . import app
-
-client = TestClient(app)
+from ..util import DEFAULT_PARAMS
 
 
-def test_pictures() -> None:
-    response = client.get("/anime/1/pictures")
+@pytest.mark.asyncio
+async def test_pictures(client: AsyncClient) -> None:
+    params = DEFAULT_PARAMS | {"mal_request": "pictures"}
+    response = await client.get("/anime", params=params)
     picture = response.json()["pictures"][0]
 
     assert type(picture["large"]) == str

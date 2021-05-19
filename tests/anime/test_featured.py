@@ -1,12 +1,13 @@
-from fastapi.testclient import TestClient
+import pytest
+from httpx import AsyncClient
 
-from . import app
-
-client = TestClient(app)
+from ..util import DEFAULT_PARAMS
 
 
-def test_featured() -> None:
-    response = client.get("/anime/1/featured")
+@pytest.mark.asyncio
+async def test_featured(client: AsyncClient) -> None:
+    params = DEFAULT_PARAMS | {"mal_request": "featured"}
+    response = await client.get("/anime", params=params)
     featured = response.json()["featured"][0]
 
     assert type(featured["image"]) == str

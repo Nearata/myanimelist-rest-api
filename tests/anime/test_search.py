@@ -1,12 +1,17 @@
-from fastapi.testclient import TestClient
+import pytest
+from httpx import AsyncClient
 
-from . import app
-
-client = TestClient(app)
+from ..util import DEFAULT_PARAMS
 
 
-def test_search() -> None:
-    response = client.get("/search/anime?query=kimetsu no yaiba&columns=a,b,c,d,e,f,g")
+@pytest.mark.asyncio
+async def test_search(client: AsyncClient) -> None:
+    params = {
+        "request": "anime",
+        "query": "kimetsu no yaiba",
+        "columns": "a,b,c,d,e,f,g"
+    }
+    response = await client.get("/search", params=params)
     result = response.json()["results"][0]
 
     assert type(result["mal_id"]) == int

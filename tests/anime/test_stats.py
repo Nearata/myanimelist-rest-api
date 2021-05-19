@@ -1,12 +1,13 @@
-from fastapi.testclient import TestClient
+import pytest
+from httpx import AsyncClient
 
-from . import app
-
-client = TestClient(app)
+from ..util import DEFAULT_PARAMS
 
 
-def test_stats() -> None:
-    response = client.get("/anime/1/stats")
+@pytest.mark.asyncio
+async def test_stats(client: AsyncClient) -> None:
+    params = DEFAULT_PARAMS | {"mal_request": "stats"}
+    response = await client.get("/anime", params=params)
     stats = response.json()
 
     summary = stats["summary"]

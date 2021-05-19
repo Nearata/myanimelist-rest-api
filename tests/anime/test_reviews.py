@@ -1,12 +1,13 @@
-from fastapi.testclient import TestClient
+import pytest
+from httpx import AsyncClient
 
-from . import app
-
-client = TestClient(app)
+from ..util import DEFAULT_PARAMS
 
 
-def test_reviews() -> None:
-    response = client.get("/anime/1/reviews/1")
+@pytest.mark.asyncio
+async def test_reviews(client: AsyncClient) -> None:
+    params = DEFAULT_PARAMS | {"mal_request": "reviews", "page_number": 1}
+    response = await client.get("/anime", params=params)
     review = response.json()["reviews"][0]
 
     assert type(review["date"]) == str

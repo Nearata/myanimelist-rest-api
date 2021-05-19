@@ -1,12 +1,17 @@
-from fastapi.testclient import TestClient
+import pytest
+from httpx import AsyncClient
 
-from . import app
-
-client = TestClient(app)
+from ..util import DEFAULT_PARAMS
 
 
-def test_top() -> None:
-    response = client.get("/top/anime/all/1")
+@pytest.mark.asyncio
+async def test_top(client: AsyncClient) -> None:
+    params = {
+        "request": "anime",
+        "type": "all",
+        "page_number": "1"
+    }
+    response = await client.get("/top", params=params)
     top = response.json()["results"][0]
 
     assert type(top["rank"]) == int
