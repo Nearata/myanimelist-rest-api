@@ -5,9 +5,7 @@ from fastapi import FastAPI
 from .config import DEBUG
 from .events import shutdown, startup
 from .exceptions import ValidationException, validation_exception_handler
-from .middlewares.cache import CacheMiddleware
 from .middlewares.disabled_routes import DisabledRoutesMiddleware
-from .middlewares.mal_checker import MalCheckerMiddleware
 from .middlewares.require_json import RequireJsonMiddleware
 from .routes.anime import router as anime_router
 from .routes.search import router as search_router
@@ -24,8 +22,6 @@ def create_app() -> FastAPI:
         swagger_ui_oauth2_redirect_url=None,
     )
 
-    app.add_middleware(MalCheckerMiddleware)
-    app.add_middleware(CacheMiddleware)
     app.add_middleware(DisabledRoutesMiddleware)
     app.add_middleware(RequireJsonMiddleware)
 

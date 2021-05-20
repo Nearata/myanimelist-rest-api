@@ -1,24 +1,33 @@
 from fastapi import APIRouter, Depends
+from httpx import AsyncClient
 from starlette.responses import JSONResponse
 
-from mal.config import CACHE
-from mal.scrapers.anime_scrapers import AnimeScrapers
-from mal.state import CacheUtil, get_anime, get_cache
-from mal.validators import AnimeParameters
+from ..config import CACHE
+from ..dependencies import cached_response, mal_response
+from ..scrapers.anime_scrapers import AnimeScrapers
+from ..state import CacheUtil, get_anime, get_cache, get_session
+from ..validators import AnimeParameters
 
-router = APIRouter()
+router = APIRouter(prefix="/anime")
 
 
-@router.get("/anime")
+@router.get("")
 async def anime(
     params: AnimeParameters = Depends(),
     cache: CacheUtil = Depends(get_cache),
     scrapers: AnimeScrapers = Depends(get_anime),
+    session: AsyncClient = Depends(get_session),
 ) -> JSONResponse:
     mal_id = params.mal_id
     mal_request = params.mal_request
 
     cache_key = f"anime{mal_id}{mal_request}"
+
+    if cached := await cached_response(params, cache, cache_key):
+        return cached
+
+    if response := await mal_response(mal_id, session, router.prefix):
+        return response
 
     if page_number := params.page_number:
         cache_key += str(page_number)

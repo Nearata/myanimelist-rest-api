@@ -3,7 +3,7 @@ from json import dumps
 
 from orm.models import QuerySet
 
-from mal.database import Cache
+from ..database import Cache
 
 
 class CacheUtil:
