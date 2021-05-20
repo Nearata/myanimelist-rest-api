@@ -2,7 +2,7 @@ from fastapi import Query
 from pydantic import BaseModel, validator
 from pydantic.class_validators import root_validator
 
-from .exceptions import MissingParameter, ParameterNotValid
+from .exceptions import InvalidParameter, MissingParameter
 
 
 class TopParameters(BaseModel):
@@ -14,7 +14,7 @@ class TopParameters(BaseModel):
     def validate_root(cls, values: dict) -> dict:
         mal_request = values.get("request", "")
         if mal_request not in ("anime"):
-            raise ParameterNotValid("request")
+            raise InvalidParameter("request")
 
         valid_types = (
             "all",
@@ -30,7 +30,7 @@ class TopParameters(BaseModel):
         )
         _type = values.get("type", "")
         if _type not in valid_types:
-            raise ParameterNotValid("type")
+            raise InvalidParameter("type")
 
         return values
 
@@ -59,12 +59,12 @@ class AnimeParameters(BaseModel):
         )
 
         if mal_request not in valid_requests:
-            raise ParameterNotValid("mal_request")
+            raise InvalidParameter("mal_request")
 
         page_number = values.get("page_number")
 
         if mal_request not in ("episodes", "reviews") and page_number:
-            raise ParameterNotValid("page_number")
+            raise InvalidParameter("page_number")
         elif mal_request in ("episodes", "reviews") and not page_number:
             raise MissingParameter("page_number")
 
@@ -92,6 +92,6 @@ class SearchParameters(BaseModel):
     @validator("request")
     def validate_request(cls, v: str) -> str:
         if v not in ("anime"):
-            raise ParameterNotValid("request")
+            raise InvalidParameter("request")
 
         return v

@@ -4,6 +4,7 @@ from fastapi import FastAPI
 
 from .config import DEBUG
 from .events import shutdown, startup
+from .exceptions import ValidationException, validation_exception_handler
 from .middlewares.cache import CacheMiddleware
 from .middlewares.disabled_routes import DisabledRoutesMiddleware
 from .middlewares.mal_checker import MalCheckerMiddleware
@@ -27,6 +28,8 @@ def create_app() -> FastAPI:
     app.add_middleware(CacheMiddleware)
     app.add_middleware(DisabledRoutesMiddleware)
     app.add_middleware(RequireJsonMiddleware)
+
+    app.add_exception_handler(ValidationException, validation_exception_handler)
 
     app.add_event_handler("startup", partial(startup, app))
     app.add_event_handler("shutdown", partial(shutdown, app))
