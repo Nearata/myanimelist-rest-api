@@ -1,12 +1,11 @@
-from http import HTTPStatus
 from typing import Any
 
 from fastapi import Request
 from httpx import AsyncClient, TimeoutException
 from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.responses import JSONResponse
 
 from ..config import USER_AGENT
+from ..responses import HTTPErrorResponse
 
 
 class MalCheckerMiddleware(BaseHTTPMiddleware):
@@ -27,35 +26,15 @@ class MalCheckerMiddleware(BaseHTTPMiddleware):
             )
             status_code = response.status_code
         except TimeoutException:
-            http_status = HTTPStatus(504)
-            return JSONResponse(
-                {
-                    "title": f"504 {http_status.phrase}",
-                    "description": "May be offline or just slow to load",
-                },
-                504,
-            )
+            return HTTPErrorResponse(504)
 
         if path.startswith(("/search", "/top")):
             return await call_next(request)
 
         if status_code == 404:
-            return JSONResponse(
-                {
-                    "title": "404 Not Found",
-                    "description": "The anime you are looking doesn't exists on MyAnimeList.",
-                },
-                404,
-            )
+            return HTTPErrorResponse(404)
 
         if not str(status_code).startswith("2"):
-            http_status = HTTPStatus(status_code)
-            status_code = http_status.value
-            phrase = http_status.phrase
-            description = http_status.description
-            return JSONResponse(
-                {"title": f"{status_code} {phrase}", "description": description},
-                status_code,
-            )
+            return HTTPErrorResponse(status_code)
 
         return await call_next(request)
