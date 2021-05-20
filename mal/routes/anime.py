@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends
+from starlette.responses import JSONResponse
 
 from mal.config import CACHE
 from mal.scrapers.anime_scrapers import AnimeScrapers
@@ -13,7 +14,7 @@ async def anime(
     params: AnimeParameters = Depends(),
     cache: CacheUtil = Depends(get_cache),
     scrapers: AnimeScrapers = Depends(get_anime),
-) -> dict:
+) -> JSONResponse:
     mal_id = params.mal_id
     mal_request = params.mal_request
 
@@ -28,4 +29,4 @@ async def anime(
     if CACHE:
         await cache.save(cache_key, data)
 
-    return data
+    return JSONResponse(data, status_code=201)
