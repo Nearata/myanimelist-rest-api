@@ -34,11 +34,17 @@ async def cached_response(
 
 
 async def mal_response(
-    mal_id: int, session: AsyncClient, path: str
+    session: AsyncClient, path: str, mal_id: Optional[int] = None
 ) -> Optional[HTTPErrorResponse]:
+    excluded_routes = ("/search", "/top")
+    url = f"https://myanimelist.net"
+
+    if path not in excluded_routes:
+        url += f"{path}/{mal_id}"
+
     try:
         response = await session.head(
-            f"https://myanimelist.net{path}/{mal_id}",
+            url,
             timeout=15,
             headers={"User-Agent": USER_AGENT},
         )
@@ -46,7 +52,7 @@ async def mal_response(
     except TimeoutException:
         return HTTPErrorResponse(504)
 
-    if path.startswith(("/search", "/top")):
+    if path in excluded_routes:
         return None
 
     if status_code == 404:

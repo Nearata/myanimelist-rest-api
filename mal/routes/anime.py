@@ -26,7 +26,9 @@ async def anime(
     if cached := await cached_response(params, cache, cache_key):
         return cached
 
-    if response := await mal_response(mal_id, session, router.prefix):
+    if response := await mal_response(
+        mal_id=mal_id, session=session, path=router.prefix
+    ):
         return response
 
     if page_number := params.page_number:

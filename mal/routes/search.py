@@ -1,17 +1,23 @@
 from fastapi import APIRouter, Depends
 from httpx import AsyncClient
+from starlette.responses import JSONResponse
+
+from mal.dependencies import mal_response
 
 from ..scrapers.anime.search import Search as AnimeSearch
 from ..state import get_session
 from ..validators import SearchParameters
 
-router = APIRouter()
+router = APIRouter(prefix="/search")
 
 
-@router.get("/search")
+@router.get("")
 async def anime_search(
     params: SearchParameters = Depends(), session: AsyncClient = Depends(get_session)
-) -> dict:
+) -> JSONResponse:
+    if response := await mal_response(session=session, path=router.prefix):
+        return response
+
     search = AnimeSearch(
         session,
         query=params.query,
@@ -31,4 +37,4 @@ async def anime_search(
         columns=params.columns,
     )
     data = await search()
-    return data
+    return JSONResponse(data, status_code=201)
