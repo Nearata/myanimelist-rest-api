@@ -2,7 +2,7 @@ from fastapi import Request
 from httpx import AsyncClient
 
 from .scrapers.anime_scrapers import AnimeScrapers
-from .utils.cache import CacheUtil
+from .utils import CacheUtil
 
 
 def get_cache(request: Request) -> CacheUtil:

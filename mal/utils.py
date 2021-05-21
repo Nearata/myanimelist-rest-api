@@ -1,9 +1,12 @@
 from datetime import datetime, timedelta
 from json import dumps
 
+from bs4 import BeautifulSoup
+from httpx import AsyncClient
 from orm.models import QuerySet
 
-from ..database import Cache
+from .config import USER_AGENT
+from .database import Cache
 
 
 class CacheUtil:
@@ -19,3 +22,15 @@ class CacheUtil:
 
     def is_expired(self, cache: Cache) -> bool:
         return datetime.utcnow().date() >= cache.expire
+
+
+class SoupUtil:
+    def __init__(self, session: AsyncClient) -> None:
+        self.session = session
+
+    async def get_soup(self, url: str, params: dict = None) -> BeautifulSoup:
+        response = await self.session.get(
+            url, params=params, headers={"User-Agent": USER_AGENT}
+        )
+
+        return BeautifulSoup(response.content, "html5lib")

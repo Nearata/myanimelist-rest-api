@@ -1,6 +1,6 @@
 from httpx import AsyncClient
 
-from ..utils.soup import SoupUtil
+from ..utils import SoupUtil
 from .anime.characters import Characters
 from .anime.clubs import Clubs
 from .anime.details import Details

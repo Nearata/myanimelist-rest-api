@@ -3,7 +3,7 @@ from httpx import AsyncClient
 
 from .config import HTTP2
 from .scrapers.anime_scrapers import AnimeScrapers
-from .utils.cache import CacheUtil
+from .utils import CacheUtil
 
 
 def startup(app: FastAPI) -> None:

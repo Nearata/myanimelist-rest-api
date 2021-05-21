@@ -6,7 +6,7 @@ from starlette.responses import JSONResponse
 
 from .config import CACHE, USER_AGENT
 from .responses import HTTPErrorResponse
-from .utils.cache import CacheUtil
+from .utils import CacheUtil
 from .validators import AnimeParameters
 
 

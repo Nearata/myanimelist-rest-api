@@ -4,7 +4,7 @@ from typing import Any, Union
 from bs4 import BeautifulSoup
 from httpx import AsyncClient
 
-from ...utils.soup import SoupUtil
+from ...utils import SoupUtil
 
 
 class Search:
