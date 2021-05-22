@@ -6,7 +6,9 @@ from ..responses import HTTPErrorResponse
 
 
 class RequireJsonMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
+    async def dispatch(
+        self, request: Request, call_next: RequestResponseEndpoint
+    ) -> Response:
         accept = request.headers.get("accept", [])
 
         if any(i in accept for i in ("application/json", "*/*")):

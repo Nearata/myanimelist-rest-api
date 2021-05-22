@@ -7,7 +7,9 @@ from ..responses import HTTPErrorResponse
 
 
 class DisabledRoutesMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
+    async def dispatch(
+        self, request: Request, call_next: RequestResponseEndpoint
+    ) -> Response:
         path: str = request.scope.get("path", "")
         routes: list[str] = [i.path for i in request.app.routes]
 
