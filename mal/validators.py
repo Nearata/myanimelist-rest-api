@@ -10,13 +10,16 @@ class TopParameters(BaseModel):
     type: str = Query(...)
     page_number: int = Query(..., gt=0)
 
-    @root_validator
-    def validate_root(cls, values: dict) -> dict:
-        mal_request = values.get("request", "")
-        if mal_request not in ("anime"):
+    @validator("request")
+    def validate_request(cls, v: str) -> str:
+        if v not in ("anime"):
             raise InvalidParameter("request")
 
-        valid_types = (
+        return v
+
+    @validator("type")
+    def validate_type(cls, v: str) -> str:
+        valid = (
             "all",
             "airing",
             "upcoming",
@@ -28,11 +31,11 @@ class TopParameters(BaseModel):
             "bypopularity",
             "favorite",
         )
-        _type = values.get("type", "")
-        if _type not in valid_types:
+
+        if v not in valid:
             raise InvalidParameter("type")
 
-        return values
+        return v
 
 
 class AnimeParameters(BaseModel):
