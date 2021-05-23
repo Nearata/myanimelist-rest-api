@@ -1,5 +1,5 @@
 from re import match
-from typing import Any, Union
+from typing import Any, Optional
 
 from bs4 import BeautifulSoup
 from httpx import AsyncClient
@@ -216,12 +216,10 @@ class Search:
             )
         )
 
-    @staticmethod
-    def __episodes(string: str) -> Union[int, None]:
+    def __episodes(self, string: str) -> Optional[int]:
         regex = match(r"\d+", string)
         return int(regex.group()) if regex else None
 
-    @staticmethod
-    def __score(string: str) -> Union[float, None]:
+    def __score(self, string: str) -> Optional[float]:
         regex = match(r"\d\.\d+", string)
         return float(regex.group()) if regex else None

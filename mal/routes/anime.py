@@ -4,7 +4,7 @@ from starlette.responses import JSONResponse
 
 from ..config import CACHE
 from ..dependencies import cached_response, mal_response
-from ..scrapers.anime_scrapers import AnimeScrapers
+from ..scrapers import AnimeScrapers
 from ..state import CacheUtil, get_anime, get_cache, get_session
 from ..validators import AnimeParameters
 

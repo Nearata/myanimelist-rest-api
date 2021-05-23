@@ -4,7 +4,7 @@ from typing import Optional, Union
 
 from bs4 import BeautifulSoup
 
-from ...scrapers.anime._helpers import AnimeHelpers
+from ._helpers import AnimeHelpers
 
 
 class Details:

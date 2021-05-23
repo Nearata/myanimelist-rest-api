@@ -1,6 +1,6 @@
 from datetime import datetime
 from re import findall, match, sub
-from typing import Union
+from typing import Optional
 
 from bs4 import BeautifulSoup
 from bs4.element import Tag
@@ -38,20 +38,20 @@ class Episodes:
             ],
         }
 
-    def __title_romanji(self, string: str) -> Union[str, None]:
+    def __title_romanji(self, string: str) -> Optional[str]:
         regex = sub(r"\s\(.*?\)", "", string)
         return str(regex) if regex else None
 
-    def __title_japanese(self, string: str) -> Union[str, None]:
+    def __title_japanese(self, string: str) -> Optional[str]:
         pattern = r"[^a-zA-Z!-@#$%^&*(),.?\":{}|<>\s].*[^)]"
         regex = findall(pattern, string)
         return "".join(regex) if regex else None
 
-    def __number(self, string: str) -> Union[int, None]:
+    def __number(self, string: str) -> Optional[int]:
         regex = match(r"\d+", string)
         return int(regex.group()) if regex else None
 
-    def __aired(self, string: str) -> Union[str, None]:
+    def __aired(self, string: str) -> Optional[str]:
         regex = match(
             r"(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s?(\d{1,2})?(,)\s(\d{4})",
             string,

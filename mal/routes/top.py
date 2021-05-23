@@ -4,7 +4,7 @@ from starlette.responses import JSONResponse
 
 from mal.dependencies import mal_response
 
-from ..scrapers.anime_scrapers import AnimeScrapers
+from ..scrapers import AnimeScrapers
 from ..state import get_anime, get_session
 from ..validators import TopParameters
 

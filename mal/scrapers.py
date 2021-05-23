@@ -1,19 +1,19 @@
 from httpx import AsyncClient
 
-from ..utils import SoupUtil
-from .anime.characters import Characters
-from .anime.clubs import Clubs
-from .anime.details import Details
-from .anime.episodes import Episodes
-from .anime.featured import Featured
-from .anime.moreinfo import MoreInfo
-from .anime.news import News
-from .anime.pictures import Pictures
-from .anime.recommendations import Recommendations
-from .anime.reviews import Reviews
-from .anime.staff import Staff
-from .anime.stats import Stats
-from .anime.top import Top
+from .utils import SoupUtil
+from .parsers.anime.characters import Characters
+from .parsers.anime.clubs import Clubs
+from .parsers.anime.details import Details
+from .parsers.anime.episodes import Episodes
+from .parsers.anime.featured import Featured
+from .parsers.anime.moreinfo import MoreInfo
+from .parsers.anime.news import News
+from .parsers.anime.pictures import Pictures
+from .parsers.anime.recommendations import Recommendations
+from .parsers.anime.reviews import Reviews
+from .parsers.anime.staff import Staff
+from .parsers.anime.stats import Stats
+from .parsers.anime.top import Top
 
 
 class AnimeScrapers:

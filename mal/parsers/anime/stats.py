@@ -1,5 +1,5 @@
 from re import search
-from typing import Union
+from typing import Optional
 
 from bs4 import BeautifulSoup
 
@@ -31,12 +31,12 @@ class Stats:
             ).next_sibling.replace(",", "")
         )
 
-    def __percentage(self, string: BeautifulSoup) -> Union[float, None]:
+    def __percentage(self, string: BeautifulSoup) -> Optional[float]:
         return (
             float(string.previous_sibling.replace("%", "").strip()) if string else None
         )
 
-    def __votes(self, string: BeautifulSoup) -> Union[int, None]:
+    def __votes(self, string: BeautifulSoup) -> Optional[int]:
         if string:
             regex = search(r"\d+", string.get_text())
             return int(regex.group()) if regex else None

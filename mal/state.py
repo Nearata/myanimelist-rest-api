@@ -1,7 +1,7 @@
 from fastapi import Request
 from httpx import AsyncClient
 
-from .scrapers.anime_scrapers import AnimeScrapers
+from .scrapers import AnimeScrapers
 from .utils import CacheUtil
 
 
