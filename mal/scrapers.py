@@ -1,6 +1,5 @@
 from httpx import AsyncClient
 
-from .utils import SoupUtil
 from .parsers.anime.characters import Characters
 from .parsers.anime.clubs import Clubs
 from .parsers.anime.details import Details
@@ -14,6 +13,7 @@ from .parsers.anime.reviews import Reviews
 from .parsers.anime.staff import Staff
 from .parsers.anime.stats import Stats
 from .parsers.anime.top import Top
+from .utils import SoupUtil
 
 
 class AnimeScrapers:

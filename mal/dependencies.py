@@ -7,16 +7,17 @@ from starlette.responses import JSONResponse
 from .config import CACHE, USER_AGENT
 from .responses import HTTPErrorResponse
 from .utils import CacheUtil
-from .validators import AnimeParameters
 
 
 async def cached_response(
-    params: AnimeParameters, cache_util: CacheUtil, cache_key: str
+    cache_util: CacheUtil,
+    cache_key: str,
+    page_number: Optional[int] = None,
 ) -> Optional[JSONResponse]:
     if not CACHE:
         return None
 
-    if page_number := params.page_number:
+    if page_number:
         cache_key += str(page_number)
 
     query = cache_util.query(cache_key)
