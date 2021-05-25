@@ -3,10 +3,12 @@ from typing import Optional
 
 from httpx import AsyncClient, TimeoutException
 from starlette.responses import JSONResponse
+from starlette.requests import Request
 
 from .config import CACHE, USER_AGENT
 from .responses import HTTPErrorResponse
 from .utils import CacheUtil
+from .scrapers import AnimeScrapers
 
 
 async def cached_response(
@@ -32,7 +34,6 @@ async def cached_response(
         return None
 
     return JSONResponse(loads(cache.json))
-
 
 async def mal_response(
     session: AsyncClient, path: str, mal_id: Optional[int] = None
@@ -63,3 +64,14 @@ async def mal_response(
         return HTTPErrorResponse(status_code)
 
     return None
+
+def get_cache(request: Request) -> CacheUtil:
+    return request.app.state.cache
+
+
+def get_anime(request: Request) -> AnimeScrapers:
+    return request.app.state.animescrapers
+
+
+def get_session(request: Request) -> AsyncClient:
+    return request.app.state.session

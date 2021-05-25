@@ -2,10 +2,9 @@ from fastapi import APIRouter, Depends
 from httpx import AsyncClient
 from starlette.responses import JSONResponse
 
-from mal.dependencies import mal_response
+from ..dependencies import mal_response, get_anime, get_session
 
 from ..scrapers import AnimeScrapers
-from ..state import get_anime, get_session
 from ..validators import TopParameters
 
 router = APIRouter(prefix="/top")

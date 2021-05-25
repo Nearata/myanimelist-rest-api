@@ -2,10 +2,9 @@ from fastapi import APIRouter, Depends
 from httpx import AsyncClient
 from starlette.responses import JSONResponse
 
-from mal.dependencies import mal_response
+from ..dependencies import mal_response, get_session
 
 from ..parsers.anime.search import Search as AnimeSearch
-from ..state import get_session
 from ..validators import SearchParameters
 
 router = APIRouter(prefix="/search")
