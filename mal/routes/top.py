@@ -2,8 +2,7 @@ from fastapi import APIRouter, Depends
 from httpx import AsyncClient
 from starlette.responses import JSONResponse
 
-from ..dependencies import mal_response, get_anime, get_session
-
+from ..dependencies import get_anime, get_session, mal_response
 from ..scrapers import AnimeScrapers
 from ..validators import TopParameters
 

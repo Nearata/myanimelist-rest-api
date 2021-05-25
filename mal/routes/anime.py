@@ -3,9 +3,15 @@ from httpx import AsyncClient
 from starlette.responses import JSONResponse
 
 from ..config import CACHE
-from ..dependencies import cached_response, mal_response
+from ..dependencies import (
+    cached_response,
+    get_anime,
+    get_cache,
+    get_session,
+    mal_response,
+)
 from ..scrapers import AnimeScrapers
-from ..state import CacheUtil, get_anime, get_cache, get_session
+from ..utils import CacheUtil
 from ..validators import AnimeParameters
 
 router = APIRouter(prefix="/anime")
