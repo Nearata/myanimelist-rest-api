@@ -11,7 +11,7 @@ async def test_top(client: AsyncClient) -> None:
         "type": "all",
         "page_number": "1"
     }
-    response = await client.get("/top", params=params)
+    response = await client.get("/top/anime", params=params)
     top = response.json()["results"][0]
 
     assert type(top["rank"]) == int

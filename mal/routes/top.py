@@ -9,8 +9,8 @@ from ..validators import TopParameters
 router = APIRouter(prefix="/top")
 
 
-@router.get("")
-async def anime_top(
+@router.get("/anime")
+async def anime(
     params: TopParameters = Depends(),
     scrapers: AnimeScrapers = Depends(get_anime),
     session: AsyncClient = Depends(get_session),

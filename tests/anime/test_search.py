@@ -11,7 +11,7 @@ async def test_search(client: AsyncClient) -> None:
         "query": "kimetsu no yaiba",
         "columns": "a,b,c,d,e,f,g"
     }
-    response = await client.get("/search", params=params)
+    response = await client.get("/search/anime", params=params)
     result = response.json()["results"][0]
 
     assert type(result["mal_id"]) == int

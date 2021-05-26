@@ -10,8 +10,8 @@ from ..validators import SearchParameters
 router = APIRouter(prefix="/search")
 
 
-@router.get("")
-async def anime_search(
+@router.get("/anime")
+async def anime(
     params: SearchParameters = Depends(), session: AsyncClient = Depends(get_session)
 ) -> JSONResponse:
     if response := await mal_response(session=session, path=router.prefix):
