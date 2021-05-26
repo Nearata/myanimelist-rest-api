@@ -5,7 +5,7 @@ from .config import HTTP2
 from .scrapers import AnimeScrapers
 
 
-def startup(app: FastAPI) -> None:
+async def startup(app: FastAPI) -> None:
     app.state.session = AsyncClient(http2=HTTP2)
     app.state.animescrapers = AnimeScrapers(app.state.session)
 
