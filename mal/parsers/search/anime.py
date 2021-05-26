@@ -7,7 +7,7 @@ from ...const import MAL_URL
 from ...utils import SoupUtil
 
 
-class Search:
+class SearchAnimeParser:
     def __init__(self, soup_util: SoupUtil, **kwargs: Any) -> None:
         self.soup_util = soup_util
         self.query = kwargs["query"]

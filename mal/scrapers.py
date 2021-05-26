@@ -11,7 +11,7 @@ from .parsers.anime.recommendations import Recommendations
 from .parsers.anime.reviews import Reviews
 from .parsers.anime.staff import Staff
 from .parsers.anime.stats import Stats
-from .parsers.anime.top import Top
+from .parsers.top.anime import TopAnimeParser
 from .utils import SoupUtil
 
 
@@ -98,7 +98,12 @@ class AnimeScrapers:
         stats = Stats(soup)
         return stats()
 
-    async def top(self, _type: str, page: int) -> dict:
+
+class TopScrapers:
+    def __init__(self, soup_util: SoupUtil) -> None:
+        self.soup_util = soup_util
+
+    async def anime(self, _type: str, page: int) -> dict:
         params = {"type": "all", "limit": 0}
 
         if _type != "all":
@@ -109,8 +114,6 @@ class AnimeScrapers:
         elif page > 2:
             params["limit"] = 50 * page - 50
 
-        soup = await self.soup_util.get_soup(
-            f"{self.base_url}/topanime.php", params=params
-        )
-        top = Top(soup)
+        soup = await self.soup_util.get_soup(f"{MAL_URL}/topanime.php", params=params)
+        top = TopAnimeParser(soup)
         return top()

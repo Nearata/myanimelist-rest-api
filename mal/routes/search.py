@@ -1,10 +1,11 @@
-from mal.utils import SoupUtil
 from fastapi import APIRouter, Depends
-from httpx import AsyncClient
+from starlette.requests import Request
 from starlette.responses import JSONResponse
 
-from ..dependencies import get_session, mal_response
-from ..parsers.anime.search import Search as AnimeSearch
+from mal.utils import SoupUtil
+
+from ..dependencies import get_request, mal_response
+from ..parsers.search.anime import SearchAnimeParser
 from ..validators import SearchParameters
 
 router = APIRouter(prefix="/search")
@@ -12,14 +13,15 @@ router = APIRouter(prefix="/search")
 
 @router.get("/anime")
 async def anime(
-    params: SearchParameters = Depends(), session: AsyncClient = Depends(get_session)
+    params: SearchParameters = Depends(), request: Request = Depends(get_request)
 ) -> JSONResponse:
+    session = request.app.state.session
     if response := await mal_response(session=session, path=router.prefix):
         return response
 
     soup_util = SoupUtil(session)
 
-    search = AnimeSearch(
+    search = SearchAnimeParser(
         soup_util,
         query=params.query,
         type=params.type,

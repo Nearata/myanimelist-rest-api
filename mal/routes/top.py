@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
-from httpx import AsyncClient
+from starlette.requests import Request
 from starlette.responses import JSONResponse
 
-from ..dependencies import get_anime, get_session, mal_response
-from ..scrapers import AnimeScrapers
+from ..dependencies import get_request, mal_response
+from ..scrapers import TopScrapers
 from ..validators import TopParameters
 
 router = APIRouter(prefix="/top")
@@ -12,11 +12,13 @@ router = APIRouter(prefix="/top")
 @router.get("/anime")
 async def anime(
     params: TopParameters = Depends(),
-    scrapers: AnimeScrapers = Depends(get_anime),
-    session: AsyncClient = Depends(get_session),
+    request: Request = Depends(get_request),
 ) -> JSONResponse:
+    session = request.app.state.session
     if response := await mal_response(session=session, path=router.prefix):
         return response
 
-    data = await scrapers.top(params.type, params.page_number)
+    scrapers: TopScrapers = request.app.state.top_scrapers
+
+    data = await scrapers.anime(params.type, params.page_number)
     return JSONResponse(data, status_code=201)

@@ -8,7 +8,6 @@ from starlette.responses import JSONResponse
 from .config import CACHE, USER_AGENT
 from .const import MAL_URL
 from .responses import HTTPErrorResponse
-from .scrapers import AnimeScrapers
 from .utils import CacheUtil
 
 
@@ -69,9 +68,5 @@ async def mal_response(
     return None
 
 
-def get_anime(request: Request) -> AnimeScrapers:
-    return request.app.state.animescrapers
-
-
-def get_session(request: Request) -> AsyncClient:
-    return request.app.state.session
+def get_request(request: Request) -> Request:
+    return request

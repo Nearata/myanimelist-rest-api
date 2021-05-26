@@ -4,7 +4,7 @@ from typing import Optional
 from bs4 import BeautifulSoup
 
 
-class Top:
+class TopAnimeParser:
     def __init__(self, soup: BeautifulSoup) -> None:
         self.soup = soup
 
