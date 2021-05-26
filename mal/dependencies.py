@@ -12,12 +12,13 @@ from .utils import CacheUtil
 
 
 async def cached_response(
-    cache_util: CacheUtil,
     cache_key: str,
     page_number: Optional[int] = None,
 ) -> Optional[JSONResponse]:
     if not CACHE:
         return None
+
+    cache_util = CacheUtil()
 
     if page_number:
         cache_key += str(page_number)
@@ -65,10 +66,6 @@ async def mal_response(
         return HTTPErrorResponse(status_code)
 
     return None
-
-
-def get_cache(request: Request) -> CacheUtil:
-    return request.app.state.cache
 
 
 def get_anime(request: Request) -> AnimeScrapers:
