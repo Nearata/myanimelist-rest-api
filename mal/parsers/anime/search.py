@@ -2,16 +2,14 @@ from re import match
 from typing import Any, Optional
 
 from bs4 import BeautifulSoup
-from httpx import AsyncClient
 
 from ...const import MAL_URL
 from ...utils import SoupUtil
 
 
 class Search:
-    def __init__(self, session: AsyncClient, **kwargs: Any) -> None:
-        self.session = session
-        self.soup_util = SoupUtil(session)
+    def __init__(self, soup_util: SoupUtil, **kwargs: Any) -> None:
+        self.soup_util = soup_util
         self.query = kwargs["query"]
         self.type = kwargs["type"]
         self.score = kwargs["score"]

@@ -1,3 +1,4 @@
+from mal.utils import SoupUtil
 from fastapi import APIRouter, Depends
 from httpx import AsyncClient
 from starlette.responses import JSONResponse
@@ -16,8 +17,10 @@ async def anime_search(
     if response := await mal_response(session=session, path=router.prefix):
         return response
 
+    soup_util = SoupUtil(session)
+
     search = AnimeSearch(
-        session,
+        soup_util,
         query=params.query,
         type=params.type,
         score=params.score,
