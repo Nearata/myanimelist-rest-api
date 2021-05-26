@@ -6,6 +6,7 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 
 from .config import CACHE, USER_AGENT
+from .const import MAL_URL
 from .responses import HTTPErrorResponse
 from .scrapers import AnimeScrapers
 from .utils import CacheUtil
@@ -41,7 +42,7 @@ async def mal_response(
     session: AsyncClient, path: str, mal_id: Optional[int] = None
 ) -> Optional[HTTPErrorResponse]:
     excluded_routes = ("/search", "/top")
-    url = f"https://myanimelist.net"
+    url = MAL_URL
 
     if path not in excluded_routes:
         url += f"{path}/{mal_id}"

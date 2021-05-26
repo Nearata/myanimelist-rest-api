@@ -4,6 +4,7 @@ from typing import Any, Optional
 from bs4 import BeautifulSoup
 from httpx import AsyncClient
 
+from ...const import MAL_URL
 from ...utils import SoupUtil
 
 
@@ -54,9 +55,7 @@ class Search:
         else:
             params.update({"c": 0})
 
-        soup = await self.soup_util.get_soup(
-            "https://myanimelist.net/anime.php", params=params
-        )
+        soup = await self.soup_util.get_soup(f"{MAL_URL}/anime.php", params=params)
         selector = soup.select_one(".js-categories-seasonal")
         if selector is None:
             return {"results": "There are no results."}

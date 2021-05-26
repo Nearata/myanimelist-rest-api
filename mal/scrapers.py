@@ -1,5 +1,6 @@
 from httpx import AsyncClient
 
+from .const import MAL_URL
 from .parsers.anime.characters import Characters
 from .parsers.anime.clubs import Clubs
 from .parsers.anime.details import Details
@@ -17,10 +18,10 @@ from .utils import SoupUtil
 
 
 class AnimeScrapers:
+    base_url = MAL_URL
+
     def __init__(self, session: AsyncClient) -> None:
         self.session = session
-        self.base_url = "https://myanimelist.net"
-
         self.soup_util = SoupUtil(session)
 
     async def characters(self, mal_id: int) -> dict:

@@ -2,6 +2,8 @@ from re import compile
 
 from bs4 import BeautifulSoup
 
+from ...const import MAL_CDN_URL
+
 
 class Characters:
     def __init__(self, soup: BeautifulSoup) -> None:
@@ -49,4 +51,4 @@ class Characters:
 
     def __image_url(self, string: str) -> str:
         regex = compile(r"\b\/images\/characters\/\d{1,}\/\d{1,}.jpg\b")
-        return f"https://cdn.myanimelist.net{''.join(regex.findall(string))}"
+        return f"{MAL_CDN_URL}{''.join(regex.findall(string))}"
