@@ -15,11 +15,11 @@ asgi-lifespan = "*"
 [packages]
 beautifulsoup4 = "*"
 fastapi = "*"
-uvicorn = "*"
 html5lib = "*"
 httpx = {extras = ["http2"], version = "==0.18.*"}
 orm = "*"
 aiosqlite = "*"
+uvicorn = {extras = ["standard"], version = "*"}
 
 [requires]
 python_version = "3.9"
