@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends
+from httpx import AsyncClient
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
@@ -15,7 +16,7 @@ router = APIRouter(prefix="/search")
 async def anime(
     params: SearchParameters = Depends(), request: Request = Depends(get_request)
 ) -> JSONResponse:
-    session = request.app.state.session
+    session: AsyncClient = request.app.state.session
     if response := await mal_response(session=session, path=router.prefix):
         return response
 

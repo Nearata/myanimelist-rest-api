@@ -1,38 +1,20 @@
+from inspect import getmembers, iscoroutinefunction
+
 from fastapi import Query
 from pydantic import BaseModel, validator
 from pydantic.class_validators import root_validator
 
 from .exceptions import InvalidParameter, MissingParameter
+from .scrapers import AnimeScrapers, TopScrapers
 
 
 class TopParameters(BaseModel):
-    request: str = Query(...)
     type: str = Query(...)
     page_number: int = Query(..., gt=0)
 
-    @validator("request")
-    def validate_request(cls, v: str) -> str:
-        if v not in ("anime"):
-            raise InvalidParameter("request")
-
-        return v
-
     @validator("type")
     def validate_type(cls, v: str) -> str:
-        valid = (
-            "all",
-            "airing",
-            "upcoming",
-            "tv",
-            "movie",
-            "ova",
-            "ona",
-            "special",
-            "bypopularity",
-            "favorite",
-        )
-
-        if v not in valid:
+        if v not in TopScrapers.anime_types():
             raise InvalidParameter("type")
 
         return v
@@ -46,22 +28,13 @@ class AnimeParameters(BaseModel):
     @root_validator
     def validate_root(cls, values: dict) -> dict:
         mal_request = values.get("mal_request", "")
-        valid_requests = (
-            "characters",
-            "clubs",
-            "details",
-            "episodes",
-            "featured",
-            "moreinfo",
-            "news",
-            "pictures",
-            "recommendations",
-            "reviews",
-            "staff",
-            "stats",
-        )
+        methods = getmembers(AnimeScrapers, iscoroutinefunction)
 
-        if mal_request not in valid_requests:
+        if not any(
+            (method_name, method)
+            for method_name, method in methods
+            if method_name == mal_request
+        ):
             raise InvalidParameter("mal_request")
 
         page_number = values.get("page_number")

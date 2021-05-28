@@ -103,6 +103,21 @@ class TopScrapers:
     def __init__(self, soup_util: SoupUtil) -> None:
         self.soup_util = soup_util
 
+    @staticmethod
+    def anime_types() -> list[str]:
+        return [
+            "all",
+            "airing",
+            "upcoming",
+            "tv",
+            "movie",
+            "ova",
+            "ona",
+            "special",
+            "bypopularity",
+            "favorite",
+        ]
+
     async def anime(self, _type: str, page: int) -> dict:
         params = {"type": "all", "limit": 0}
 
