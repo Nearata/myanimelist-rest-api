@@ -14,8 +14,7 @@ async def anime(
     params: TopParameters = Depends(),
     request: Request = Depends(get_request),
 ) -> JSONResponse:
-    session = request.app.state.session
-    if response := await mal_response(session=session, path=router.prefix):
+    if response := await mal_response(request):
         return response
 
     scrapers: TopScrapers = request.app.state.top_scrapers

@@ -32,7 +32,7 @@ async def cached_response(request: Request) -> Optional[JSONResponse]:
 
 
 async def mal_response(request: Request) -> Optional[HTTPErrorResponse]:
-    excluded_routes = ("/search", "/top")
+    excluded_routes = ("/search/anime", "/top/anime")
     url = MAL_URL
     path = request.url.path
     mal_id = request.query_params.get("mal_id", "")

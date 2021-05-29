@@ -16,10 +16,10 @@ router = APIRouter(prefix="/search")
 async def anime(
     params: SearchParameters = Depends(), request: Request = Depends(get_request)
 ) -> JSONResponse:
-    session: AsyncClient = request.app.state.session
-    if response := await mal_response(session=session, path=router.prefix):
+    if response := await mal_response(request):
         return response
 
+    session: AsyncClient = request.app.state.session
     soup_util = SoupUtil(session)
 
     search = SearchAnimeParser(
