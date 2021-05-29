@@ -5,7 +5,7 @@ from starlette.responses import JSONResponse
 from ..config import CACHE
 from ..dependencies import cached_response, get_request, mal_response
 from ..scrapers import AnimeScrapers
-from ..utils import CacheUtil
+from ..utils import CacheUtil, get_cache_key
 from ..validators import AnimeParameters
 
 router = APIRouter(prefix="/anime")
@@ -19,25 +19,21 @@ async def anime(
     mal_id = params.mal_id
     mal_request = params.mal_request
     page_number = params.page_number
-    prefix = router.prefix
-    cache_key = f"{prefix.strip('/')}{mal_id}{mal_request}"
 
-    if cached := await cached_response(cache_key=cache_key, page_number=page_number):
+    if cached := await cached_response(request):
         return cached
 
-    session = request.app.state.session
-
-    if response := await mal_response(mal_id=mal_id, session=session, path=prefix):
+    if response := await mal_response(request):
         return response
 
     scrapers: AnimeScrapers = request.app.state.anime_scrapers
 
     if page_number:
-        cache_key += str(page_number)
         data = await getattr(scrapers, mal_request)(mal_id, page_number)
     else:
         data = await getattr(scrapers, mal_request)(mal_id)
 
+    cache_key = get_cache_key(request)
     if CACHE:
         await CacheUtil().save(cache_key, data)
 

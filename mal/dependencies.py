@@ -8,21 +8,15 @@ from starlette.responses import JSONResponse
 from .config import CACHE, USER_AGENT
 from .const import MAL_URL
 from .responses import HTTPErrorResponse
-from .utils import CacheUtil
+from .utils import CacheUtil, get_cache_key
 
 
-async def cached_response(
-    cache_key: str,
-    page_number: Optional[int] = None,
-) -> Optional[JSONResponse]:
+async def cached_response(request: Request) -> Optional[JSONResponse]:
     if not CACHE:
         return None
 
+    cache_key = get_cache_key(request)
     cache_util = CacheUtil()
-
-    if page_number:
-        cache_key += str(page_number)
-
     query = cache_util.query(cache_key)
 
     exists = await query.exists()
@@ -37,14 +31,16 @@ async def cached_response(
     return JSONResponse(loads(cache.json))
 
 
-async def mal_response(
-    session: AsyncClient, path: str, mal_id: Optional[int] = None
-) -> Optional[HTTPErrorResponse]:
+async def mal_response(request: Request) -> Optional[HTTPErrorResponse]:
     excluded_routes = ("/search", "/top")
     url = MAL_URL
+    path = request.url.path
+    mal_id = request.query_params.get("mal_id", "")
 
     if path not in excluded_routes:
         url += f"{path}/{mal_id}"
+
+    session: AsyncClient = request.app.state.session
 
     try:
         response = await session.head(

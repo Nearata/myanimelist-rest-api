@@ -4,6 +4,7 @@ from json import dumps
 from bs4 import BeautifulSoup
 from httpx import AsyncClient
 from orm.models import QuerySet
+from starlette.requests import Request
 
 from .config import USER_AGENT
 from .database import Cache
@@ -34,3 +35,12 @@ class SoupUtil:
         )
 
         return BeautifulSoup(response.content, "html5lib")
+
+
+def get_cache_key(request: Request) -> str:
+    path = request.url.path.strip("/")
+    mal_id = request.query_params.get("mal_id")
+    mal_request = request.query_params.get("mal_request")
+    page = request.query_params.get("page_number", "")
+
+    return f"{path}{mal_id}{mal_request}{page}"
