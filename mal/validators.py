@@ -63,3 +63,14 @@ class AnimeSearchParameters(BaseModel):
     genres: str = Query(None)
     genres_exclude: int = Query(None, gt=0, lt=2)
     columns: str = Query(None)
+
+    @root_validator
+    def validate_root(cls, values: dict) -> dict:
+        for k, v in values.items():
+            if k in ["query", "genres", "columns"]:
+                continue
+
+            if v is None:
+                values[k] = 0
+
+        return values

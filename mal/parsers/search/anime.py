@@ -29,18 +29,18 @@ class SearchAnimeParser:
     async def __call__(self) -> dict:
         params = {
             "q": self.query,
-            "type": self.type if self.type else 0,
-            "score": self.score if self.score else 0,
-            "status": self.status if self.status else 0,
-            "p": self.producer if self.producer else 0,
-            "r": self.rated if self.rated else 0,
-            "sy": self.start_year if self.start_year else 0,
-            "sm": self.start_month if self.start_month else 0,
-            "sd": self.start_day if self.start_day else 0,
-            "ey": self.end_year if self.end_year else 0,
-            "em": self.end_month if self.end_month else 0,
-            "ed": self.end_day if self.end_day else 0,
-            "gx": self.genres_exclude if self.genres_exclude else 0,
+            "type": self.type,
+            "score": self.score,
+            "status": self.status,
+            "p": self.producer,
+            "r": self.rated,
+            "sy": self.start_year,
+            "sm": self.start_month,
+            "sd": self.start_day,
+            "ey": self.end_year,
+            "em": self.end_month,
+            "ed": self.end_day,
+            "gx": self.genres_exclude,
         }
 
         if self.genres:
