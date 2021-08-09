@@ -47,8 +47,7 @@ class AnimeParameters(BaseModel):
         return values
 
 
-class SearchParameters(BaseModel):
-    request: str = Query(...)
+class AnimeSearchParameters(BaseModel):
     query: str = Query(..., min_length=3)
     type: int = Query(None, gt=0, lt=7)
     score: int = Query(None, gt=0, lt=11)
@@ -64,10 +63,3 @@ class SearchParameters(BaseModel):
     genres: str = Query(None)
     genres_exclude: int = Query(None, gt=0, lt=2)
     columns: str = Query(None)
-
-    @validator("request")
-    def validate_request(cls, v: str) -> str:
-        if v not in ("anime"):
-            raise InvalidParameter("request")
-
-        return v

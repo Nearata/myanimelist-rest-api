@@ -38,7 +38,7 @@ Just read the `Deployment` section on [Uvicorn](https://www.uvicorn.org/deployme
 
 ## Usage Example
 
-Examples can be found on the [Documentation](#Documentation)
+Examples can be found on the [Documentation](#Documentation).
 
 ## Features
 
@@ -63,18 +63,11 @@ Currently supported features:
 
 ## Documentation
 
-See the complete documentation [here](https://vonnearata.gitbook.io/docs/)
+See the complete documentation [here](https://vonnearata.gitbook.io/docs/).
 
 ## License
 
 Distributed under the MIT license. See [LICENSE](LICENSE) for details.
-
-## Contributing
-
-1. Fork it
-2. Commit your changes
-3. Push to the branch
-4. Create a new Pull Request
 
 ## Disclaimer
 
