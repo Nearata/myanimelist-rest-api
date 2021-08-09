@@ -23,7 +23,7 @@ async def root() -> dict[Any, Any]:
         "servers": {"url": "/", "description": None, "variables": None},
         "paths": {"/anime": {}, "/search": {}, "/top": {}},
         "externalDocs": {
-            "description": None,
-            "url": "https://vonnearata.gitbook.io/docs/",
+            "description": "Official Documentation",
+            "url": "https://github.com/Nearata/myanimelist-rest-api/wiki",
         },
     }

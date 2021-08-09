@@ -63,7 +63,7 @@ Currently supported features:
 
 ## Documentation
 
-See the complete documentation [here](https://vonnearata.gitbook.io/docs/).
+The [documentation](https://github.com/Nearata/myanimelist-rest-api/wiki) is available here on this repo, under `Wiki`.
 
 ## License
 
