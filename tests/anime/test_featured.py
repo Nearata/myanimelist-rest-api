@@ -8,7 +8,7 @@ from ..util import DEFAULT_PARAMS
 async def test_featured(client: AsyncClient) -> None:
     params = DEFAULT_PARAMS | {"mal_request": "featured"}
     response = await client.get("/anime", params=params)
-    featured = response.json()["featured"][0]
+    featured = response.json()["data"][0]
 
     assert type(featured["image"]) == str
     assert type(featured["url"]) == str

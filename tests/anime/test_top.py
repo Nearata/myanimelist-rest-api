@@ -12,12 +12,12 @@ async def test_top(client: AsyncClient) -> None:
         "page": "1"
     }
     response = await client.get("/top/anime", params=params)
-    top = response.json()["results"][0]
+    top = response.json()["data"][0]
 
     assert type(top["rank"]) == int
-    assert type(top["mal_id"]) == int
+    assert type(top["malId"]) == int
     assert type(top["url"]) == str
-    assert type(top["image_url"]) == str
+    assert type(top["imageUrl"]) == str
     assert type(top["title"]) == str
     assert type(top["episodes"]) == int
     assert type(top["members"]) == int

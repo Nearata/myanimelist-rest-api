@@ -8,13 +8,13 @@ from ..util import DEFAULT_PARAMS
 async def test_news(client: AsyncClient) -> None:
     params = DEFAULT_PARAMS | {"mal_request": "news"}
     response = await client.get("/anime", params=params)
-    news = response.json()["news"][0]
+    news = response.json()["data"][0]
 
     assert type(news["url"]) == str
-    assert type(news["image_url"]) == str
+    assert type(news["imageUrl"]) == str
     assert type(news["title"]) == str
     assert type(news["content"]) == str
     assert type(news["author"]) == str
-    assert type(news["author_profile"]) == str
+    assert type(news["authorProfile"]) == str
     assert type(news["comments"]) == int
-    assert type(news["forum_url"]) == str
+    assert type(news["forumUrl"]) == str

@@ -8,7 +8,7 @@ from ..util import DEFAULT_PARAMS
 async def test_clubs(client: AsyncClient) -> None:
     params = DEFAULT_PARAMS | {"mal_request": "clubs"}
     response = await client.get("/anime", params=params)
-    clubs = response.json()["clubs"][0]
+    clubs = response.json()["data"][0]
 
     assert type(clubs["name"]) == str
     assert type(clubs["url"]) == str

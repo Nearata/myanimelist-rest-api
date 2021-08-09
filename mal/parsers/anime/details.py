@@ -64,7 +64,7 @@ class Details:
                     "members": self.__statistics_helper("Members:"),
                     "favorites": self.__statistics_helper("Favorites:"),
                 },
-                "related_anime": {
+                "relatedAnime": {
                     "adaptation": self.__related_anime_helper("Adaptation:"),
                     "sideStory": self.__related_anime_helper("Side story:"),
                     "summary": self.__related_anime_helper("Summary:"),

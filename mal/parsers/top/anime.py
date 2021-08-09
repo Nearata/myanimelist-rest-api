@@ -10,14 +10,14 @@ class TopAnimeParser:
 
     def __call__(self) -> dict:
         return {
-            "results": [
+            "data": [
                 {
                     "rank": int(i.select_one("td.rank>span").get_text()),
-                    "mal_id": int(
+                    "malId": int(
                         i.select_one("td.title>a").get("id").replace("#area", "")
                     ),
                     "url": i.select_one("td.title>a").get("href"),
-                    "image_url": i.select_one("td.title>a>img")
+                    "imageUrl": i.select_one("td.title>a>img")
                     .get("data-src")
                     .replace("r/50x70/", ""),
                     "title": i.select_one("td.title>.detail h3").get_text(),

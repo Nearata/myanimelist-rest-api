@@ -56,7 +56,7 @@ class SearchAnimeParser:
         soup = await self.soup_util.get_soup(f"{MAL_URL}/anime.php", params=params)
         selector = soup.select_one(".js-categories-seasonal")
         if selector is None:
-            return {"results": "There are no results."}
+            return {"data": "No results."}
 
         columns_enabled = {}
         for index, i in enumerate(
@@ -136,11 +136,11 @@ class SearchAnimeParser:
         results = []
         for i in selector.select("tr:not(:first-child)"):
             anime = {
-                "mal_id": int(
+                "malId": int(
                     i.select_one("td:nth-child(2)>div>div").get("rel").replace("a", "")
                 ),
                 "url": i.select_one("td:nth-child(1)>.picSurround>a").get("href"),
-                "image_url": i.select_one("td:nth-child(1)>.picSurround>a>img")
+                "imageUrl": i.select_one("td:nth-child(1)>.picSurround>a>img")
                 .get("data-src")
                 .replace("r/50x70/", ""),
                 "title": i.select_one("td:nth-child(2)>a>strong").get_text(),
@@ -171,12 +171,12 @@ class SearchAnimeParser:
                     date = self.__column_enabled_soup(columns_enabled, i, k).replace(
                         "??", "01"
                     )
-                    anime.update({"start_date": date} if len(date) > 1 else {})
+                    anime.update({"startDate": date} if len(date) > 1 else {})
                 if k == "end_date":
                     date = self.__column_enabled_soup(columns_enabled, i, k).replace(
                         "??", "01"
                     )
-                    anime.update({"end_date": date} if len(date) > 1 else {})
+                    anime.update({"endDate": date} if len(date) > 1 else {})
                 if k == "members":
                     anime.update(
                         {

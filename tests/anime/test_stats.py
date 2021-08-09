@@ -10,11 +10,11 @@ async def test_stats(client: AsyncClient) -> None:
     response = await client.get("/anime", params=params)
     stats = response.json()
 
-    summary = stats["summary"]
+    summary = stats["data"]["summary"]
     for i in summary.keys():
         assert type(summary[i]) == int
 
-    scores = stats["scores"]
+    scores = stats["data"]["scores"]
     for i in scores.keys():
         assert type(scores[i]["percentage"]) == float
         assert type(scores[i]["votes"]) == int

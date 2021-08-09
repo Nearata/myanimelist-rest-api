@@ -33,7 +33,7 @@ class AnimeHelpers:
             [
                 {
                     "name": i.get_text(),
-                    "mal_id": cls.__str_to_int(i.get("href").split("/")),
+                    "malId": cls.__str_to_int(i.get("href").split("/")),
                 }
                 for i in genres.find_next_siblings("a")
             ]
@@ -51,7 +51,7 @@ class AnimeHelpers:
                 {
                     "name": i.get_text(),
                     "url": f"{base_url}{i.get('href')}",
-                    "mal_id": cls.__str_to_int(i.get("href").split("/")),
+                    "malId": cls.__str_to_int(i.get("href").split("/")),
                 }
                 for i in soup.find("span", string="Licensors:").find_next_siblings("a")
             ]
@@ -78,7 +78,7 @@ class AnimeHelpers:
                 {
                     "name": i.get_text(),
                     "url": f"{base_url}{i.get('href')}",
-                    "mal_id": cls.__str_to_int(i.get("href").split("/")),
+                    "malId": cls.__str_to_int(i.get("href").split("/")),
                 }
                 for i in producers.find_next_siblings("a")
             ]
@@ -106,7 +106,7 @@ class AnimeHelpers:
                 {
                     "name": i.get_text(),
                     "url": f"{base_url}{i.get('href')}",
-                    "mal_id": cls.__str_to_int(i.get("href").split("/")),
+                    "malId": cls.__str_to_int(i.get("href").split("/")),
                 }
                 for i in studios.find_next_siblings("a")
             ]
