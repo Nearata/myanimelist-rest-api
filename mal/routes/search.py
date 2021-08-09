@@ -7,14 +7,14 @@ from mal.utils import SoupUtil
 
 from ..dependencies import get_request, mal_response
 from ..parsers.search.anime import SearchAnimeParser
-from ..validators import AnimeSearchParameters
+from ..validators import SearchAnimeParameters
 
 router = APIRouter(prefix="/search")
 
 
 @router.get("/anime")
 async def anime(
-    params: AnimeSearchParameters = Depends(), request: Request = Depends(get_request)
+    params: SearchAnimeParameters = Depends(), request: Request = Depends(get_request)
 ) -> JSONResponse:
     if response := await mal_response(request):
         return response

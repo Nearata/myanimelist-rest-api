@@ -7,7 +7,7 @@ class Pictures:
 
     def __call__(self) -> dict:
         return {
-            "pictures": [
+            "data": [
                 {
                     "large": i.select_one("img")
                     .get("data-src")

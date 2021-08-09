@@ -8,9 +8,9 @@ from .exceptions import InvalidParameter, MissingParameter
 from .scrapers import AnimeScrapers, TopScrapers
 
 
-class TopParameters(BaseModel):
+class TopAnimeParameters(BaseModel):
     type: str = Query(...)
-    page_number: int = Query(..., gt=0)
+    page: int = Query(..., gt=0)
 
     @validator("type")
     def validate_type(cls, v: str) -> str:
@@ -23,7 +23,7 @@ class TopParameters(BaseModel):
 class AnimeParameters(BaseModel):
     mal_id: int = Query(..., gt=0)
     mal_request: str = Query(...)
-    page_number: int = Query(None, gt=0)
+    page: int = Query(None, gt=0)
 
     @root_validator
     def validate_root(cls, values: dict) -> dict:
@@ -37,17 +37,18 @@ class AnimeParameters(BaseModel):
         ):
             raise InvalidParameter("mal_request")
 
-        page_number = values.get("page_number")
+        page = values.get("page")
 
-        if mal_request not in ("episodes", "reviews") and page_number:
-            raise InvalidParameter("page_number")
-        elif mal_request in ("episodes", "reviews") and not page_number:
-            raise MissingParameter("page_number")
+        if mal_request not in ("episodes", "reviews") and page:
+            raise InvalidParameter("page")
+
+        if mal_request in ("episodes", "reviews") and not page:
+            raise MissingParameter("page")
 
         return values
 
 
-class AnimeSearchParameters(BaseModel):
+class SearchAnimeParameters(BaseModel):
     query: str = Query(..., min_length=3)
     type: int = Query(None, gt=0, lt=7)
     score: int = Query(None, gt=0, lt=11)

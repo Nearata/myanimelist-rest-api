@@ -7,7 +7,7 @@ class Staff:
 
     def __call__(self) -> dict:
         return {
-            "staff": [
+            "data": [
                 {
                     "url": i.select_one("td:first-child > .picSurround > a").get(
                         "href"

@@ -11,7 +11,7 @@ class Clubs:
 
     def __call__(self) -> dict:
         return {
-            "clubs": [
+            "data": [
                 {
                     "name": i.select_one("a").get_text(strip=True),
                     "url": f"{self.base_url}{i.select_one('a').get('href')}",

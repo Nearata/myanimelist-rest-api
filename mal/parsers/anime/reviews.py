@@ -9,7 +9,7 @@ class Reviews:
 
     def __call__(self) -> dict:
         return {
-            "reviews": [
+            "data": [
                 {
                     "date": str(
                         datetime.strptime(
@@ -19,17 +19,17 @@ class Reviews:
                             "%b %d, %Y",
                         ).date()
                     ),
-                    "helpful_count": int(
+                    "helpfulCount": int(
                         i.select_one(
                             ".spaceit:first-child > div:nth-child(2) td:last-child > div span"
                         ).get_text()
                     ),
                     "url": i.select_one("div:last-child > div > div > a").get("href"),
                     "reviewer": {
-                        "profile_url": i.select_one(
+                        "profileUrl": i.select_one(
                             ".spaceit:first-child > div:last-child .picSurround > a"
                         ).get("href"),
-                        "image_url": i.select_one(
+                        "imageUrl": i.select_one(
                             ".spaceit:first-child > div:last-child .picSurround > a > img"
                         ).get("data-src"),
                         "username": i.select_one(

@@ -6,7 +6,7 @@ from ..util import DEFAULT_PARAMS
 
 @pytest.mark.asyncio
 async def test_episodes(client: AsyncClient) -> None:
-    params = DEFAULT_PARAMS | {"mal_request": "episodes", "page_number": 1}
+    params = DEFAULT_PARAMS | {"mal_request": "episodes", "page": 1}
     response = await client.get("/anime", params=params)
     episode = response.json()["episodes"][0]
 

@@ -8,9 +8,9 @@ class Recommendations:
 
     def __call__(self) -> dict:
         return {
-            "recommendations": [
+            "data": [
                 {
-                    "image_url": i.select_one(
+                    "imageUrl": i.select_one(
                         "td:first-child > .picSurround > a > img"
                     ).get("data-src"),
                     "title": i.select_one(
@@ -19,8 +19,8 @@ class Recommendations:
                     "url": i.select_one("td:last-child > div:nth-child(2) > a").get(
                         "href"
                     ),
-                    "recommendation_url": f"{self.base_url}{i.select_one('td:last-child > div:nth-child(2) > span > a').get('href')}".strip(),
-                    "mal_id": int(
+                    "recommendationUrl": f"{self.base_url}{i.select_one('td:last-child > div:nth-child(2) > span > a').get('href')}".strip(),
+                    "malId": int(
                         i.select_one("td:last-child > div > div")
                         .get("rel")
                         .replace("a", "")

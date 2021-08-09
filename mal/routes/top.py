@@ -4,14 +4,14 @@ from starlette.responses import JSONResponse
 
 from ..dependencies import get_request, mal_response
 from ..scrapers import TopScrapers
-from ..validators import TopParameters
+from ..validators import TopAnimeParameters
 
 router = APIRouter(prefix="/top")
 
 
 @router.get("/anime")
 async def anime(
-    params: TopParameters = Depends(),
+    params: TopAnimeParameters = Depends(),
     request: Request = Depends(get_request),
 ) -> JSONResponse:
     if response := await mal_response(request):
@@ -19,5 +19,5 @@ async def anime(
 
     scrapers: TopScrapers = request.app.state.top_scrapers
 
-    data = await scrapers.anime(params.type, params.page_number)
+    data = await scrapers.anime(params.type, params.page)
     return JSONResponse(data, status_code=201)

@@ -14,13 +14,13 @@ class Episodes:
         episode_title = ".episode-title > span"
         return {
             "links": self.__links(),
-            "episodes": [
+            "data": [
                 {
                     "title": i.select_one(".episode-title > a").get_text(),
-                    "title_romanji": self.__title_romanji(
+                    "titleRomanji": self.__title_romanji(
                         i.select_one(episode_title).get_text()
                     ),
-                    "title_japanese": self.__title_japanese(
+                    "titleJapanese": self.__title_japanese(
                         i.select_one(episode_title).get_text()
                     ),
                     "number": self.__number(

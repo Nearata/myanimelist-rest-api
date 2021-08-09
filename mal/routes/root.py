@@ -16,7 +16,7 @@ async def root() -> dict[Any, Any]:
             "contact": None,
             "license": {
                 "name": "MIT",
-                "url": "https://github.com/Nearata/myanimelist-rest-api/blob/main/LICENSE",
+                "url": "https://raw.githubusercontent.com/Nearata/myanimelist-rest-api/main/LICENSE",
             },
             "version": "1.0.0",
         },

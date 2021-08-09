@@ -11,19 +11,19 @@ class Characters:
 
     def __call__(self) -> dict:
         return {
-            "characters": [
+            "data": [
                 {
                     "url": i.select_one("td:nth-of-type(1) > div.picSurround > a").get(
                         "href"
                     ),
-                    "image_url": self.__image_url(
+                    "imageUrl": self.__image_url(
                         i.select_one(
                             "td:nth-of-type(1) > div.picSurround > a > img"
                         ).get("data-src")
                     ),
                     "name": i.select_one("td:nth-of-type(2) > a").get_text(),
                     "role": i.select_one("td:nth-of-type(2) > div > small").get_text(),
-                    "voice_actors": [
+                    "voiceActors": [
                         {
                             "name": actor.select_one(
                                 "td:nth-of-type(1) > a"

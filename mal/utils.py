@@ -41,6 +41,6 @@ def get_cache_key(request: Request) -> str:
     path = request.url.path.strip("/")
     mal_id = request.query_params.get("mal_id")
     mal_request = request.query_params.get("mal_request")
-    page = request.query_params.get("page_number", "")
+    page = request.query_params.get("page", "")
 
     return f"{path}{mal_id}{mal_request}{page}"

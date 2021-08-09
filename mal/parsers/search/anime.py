@@ -194,7 +194,7 @@ class SearchAnimeParser:
 
             results.append(anime)
 
-        return {"results": results}
+        return {"data": results}
 
     def __columns_helper(self, **kwargs: Any) -> dict:
         return (

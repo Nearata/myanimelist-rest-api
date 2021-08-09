@@ -19,13 +19,13 @@ class Details:
         image = self.__get_image(anime_title)
 
         return {
-            "details": {
+            "data": {
                 "title": anime_title,
                 "image": image,
                 "trailer": AnimeHelpers.trailer_helper(self.soup),
                 "synopsis": AnimeHelpers.synopsis_helper(self.soup),
                 "background": AnimeHelpers.background_helper(self.soup),
-                "alternative_titles": {
+                "alternativeTitles": {
                     "english": self.__alternative_titles_helper("English:"),
                     "japanese": self.__alternative_titles_helper("Japanese:"),
                     "synonyms": AnimeHelpers.synonyms_helper(self.soup),
@@ -66,16 +66,16 @@ class Details:
                 },
                 "related_anime": {
                     "adaptation": self.__related_anime_helper("Adaptation:"),
-                    "side_story": self.__related_anime_helper("Side story:"),
+                    "sideStory": self.__related_anime_helper("Side story:"),
                     "summary": self.__related_anime_helper("Summary:"),
-                    "spin_off": self.__related_anime_helper("Spin-off:"),
+                    "spinOff": self.__related_anime_helper("Spin-off:"),
                     "other": self.__related_anime_helper("Other:"),
                     "prequel": self.__related_anime_helper("Prequel:"),
                     "character": self.__related_anime_helper("Character:"),
                     "sequel": self.__related_anime_helper("Sequel:"),
                 },
-                "opening_theme": self.__theme_song_helper("opnening"),
-                "ending_theme": self.__theme_song_helper("ending"),
+                "openingTheme": self.__theme_song_helper("opnening"),
+                "endingTheme": self.__theme_song_helper("ending"),
             }
         }
 
@@ -86,7 +86,7 @@ class Details:
                 {
                     "title": i.get_text(),
                     "type": i.get("href").split("/")[1],
-                    "mal_id": int(i.get("href").split("/")[2]),
+                    "malId": int(i.get("href").split("/")[2]),
                 }
                 for i in related_anime.next_sibling.select("a")
             ]

@@ -7,7 +7,7 @@ class Featured:
 
     def __call__(self) -> dict:
         return {
-            "featured": [
+            "data": [
                 {
                     "image": i.select_one("a > img").get("data-src"),
                     "url": i.select_one("div > p.title > a").get("href"),

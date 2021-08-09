@@ -6,7 +6,7 @@ from ..util import DEFAULT_PARAMS
 
 @pytest.mark.asyncio
 async def test_reviews(client: AsyncClient) -> None:
-    params = DEFAULT_PARAMS | {"mal_request": "reviews", "page_number": 1}
+    params = DEFAULT_PARAMS | {"mal_request": "reviews", "page": 1}
     response = await client.get("/anime", params=params)
     review = response.json()["reviews"][0]
 

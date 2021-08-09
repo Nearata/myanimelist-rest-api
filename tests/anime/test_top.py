@@ -9,7 +9,7 @@ async def test_top(client: AsyncClient) -> None:
     params = {
         "request": "anime",
         "type": "all",
-        "page_number": "1"
+        "page": "1"
     }
     response = await client.get("/top/anime", params=params)
     top = response.json()["results"][0]

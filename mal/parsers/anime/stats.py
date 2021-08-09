@@ -10,15 +10,17 @@ class Stats:
 
     def __call__(self) -> dict:
         return {
-            "summary": {
-                "watching": self.__find_string("Watching:"),
-                "completed": self.__find_string("Completed:"),
-                "on_hold": self.__find_string("On-Hold:"),
-                "dropped": self.__find_string("Dropped:"),
-                "plan_to_watch": self.__find_string("Plan to Watch:"),
-                "total": self.__find_string("Total:"),
-            },
-            "scores": self.__scores(),
+            "data": {
+                "summary": {
+                    "watching": self.__find_string("Watching:"),
+                    "completed": self.__find_string("Completed:"),
+                    "onHold": self.__find_string("On-Hold:"),
+                    "dropped": self.__find_string("Dropped:"),
+                    "planToWatch": self.__find_string("Plan to Watch:"),
+                    "total": self.__find_string("Total:"),
+                },
+                "scores": self.__scores(),
+            }
         }
 
     def __find_string(self, string: str) -> int:

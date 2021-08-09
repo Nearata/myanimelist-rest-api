@@ -18,7 +18,7 @@ async def anime(
 ) -> JSONResponse:
     mal_id = params.mal_id
     mal_request = params.mal_request
-    page_number = params.page_number
+    page = params.page
 
     if cached := await cached_response(request):
         return cached
@@ -28,8 +28,8 @@ async def anime(
 
     scrapers: AnimeScrapers = request.app.state.anime_scrapers
 
-    if page_number:
-        data = await getattr(scrapers, mal_request)(mal_id, page_number)
+    if page:
+        data = await getattr(scrapers, mal_request)(mal_id, page)
     else:
         data = await getattr(scrapers, mal_request)(mal_id)
 
