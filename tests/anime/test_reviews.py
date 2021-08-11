@@ -10,15 +10,15 @@ async def test_reviews(client: AsyncClient) -> None:
     response = await client.get("/anime", params=params)
     review = response.json()["data"][0]
 
-    assert type(review["date"]) == str
-    assert type(review["helpfulCount"]) == int
-    assert type(review["url"]) == str
+    assert isinstance(review["date"], str)
+    assert isinstance(review["helpfulCount"], int)
+    assert isinstance(review["url"], str)
 
     reviewer = review["reviewer"]
-    assert type(reviewer["profileUrl"]) == str
-    assert type(reviewer["imageUrl"]) == str
-    assert type(reviewer["username"]) == str
+    assert isinstance(reviewer["profileUrl"], str)
+    assert isinstance(reviewer["imageUrl"], str)
+    assert isinstance(reviewer["username"], str)
 
     reviewer_scores = reviewer["scores"]
     for i in reviewer_scores.keys():
-        assert type(reviewer_scores[i]) == int
+        assert isinstance(reviewer_scores[i], int)

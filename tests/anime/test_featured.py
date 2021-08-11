@@ -10,9 +10,9 @@ async def test_featured(client: AsyncClient) -> None:
     response = await client.get("/anime", params=params)
     featured = response.json()["data"][0]
 
-    assert type(featured["image"]) == str
-    assert type(featured["url"]) == str
-    assert type(featured["title"]) == str
-    assert type(featured["content"]) == str
-    assert type(featured["writer"]) == str
-    assert type(featured["tags"][0]["name"]) == str
+    assert isinstance(featured["image"], str)
+    assert isinstance(featured["url"], str)
+    assert isinstance(featured["title"], str)
+    assert isinstance(featured["content"], str)
+    assert isinstance(featured["writer"], str)
+    assert isinstance(featured["tags"][0]["name"], str)

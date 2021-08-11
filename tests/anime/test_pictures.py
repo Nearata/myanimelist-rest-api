@@ -10,5 +10,5 @@ async def test_pictures(client: AsyncClient) -> None:
     response = await client.get("/anime", params=params)
     picture = response.json()["data"][0]
 
-    assert type(picture["large"]) == str
-    assert type(picture["small"]) == str
+    assert isinstance(picture["large"], str)
+    assert isinstance(picture["small"], str)

@@ -11,4 +11,4 @@ async def test_staff(client: AsyncClient) -> None:
     staff = response.json()["data"][0]
 
     for i in staff.keys():
-        assert type(staff[i]) == str
+        assert isinstance(staff[i], str)

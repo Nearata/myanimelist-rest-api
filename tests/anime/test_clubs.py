@@ -10,6 +10,6 @@ async def test_clubs(client: AsyncClient) -> None:
     response = await client.get("/anime", params=params)
     clubs = response.json()["data"][0]
 
-    assert type(clubs["name"]) == str
-    assert type(clubs["url"]) == str
-    assert type(clubs["members"]) == int
+    assert isinstance(clubs["name"], str)
+    assert isinstance(clubs["url"], str)
+    assert isinstance(clubs["members"], int)

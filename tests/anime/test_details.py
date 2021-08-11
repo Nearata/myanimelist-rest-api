@@ -10,61 +10,60 @@ async def test_details(client: AsyncClient) -> None:
     response = await client.get("/anime", params=params)
     details = response.json()["data"]
 
-    assert type(details["title"]) == str
-    assert type(details["image"]) == str
-    assert type(details["trailer"]) == str
-    assert type(details["synopsis"]) == str
-    assert type(details["background"]) == str
+    assert isinstance(details["title"], str)
+    assert isinstance(details["image"], str)
+    assert isinstance(details["trailer"], str)
+    assert isinstance(details["synopsis"], str)
+    assert isinstance(details["background"], str)
 
     alternative_titles = details["alternativeTitles"]
-    assert type(alternative_titles["english"]) == str
-    assert type(alternative_titles["japanese"]) == str
-    assert type(alternative_titles["synonyms"]) == list
+    assert isinstance(alternative_titles["english"], str)
+    assert isinstance(alternative_titles["japanese"], str)
+    assert isinstance(alternative_titles["synonyms"], list)
 
     information = details["information"]
-    assert type(information["type"]) == str
-    assert type(information["episodes"]) == int
-    assert type(information["status"]) == str
-    assert type(information["aired"]["from"]) == str
-    assert type(information["aired"]["to"]) == str
-    assert type(information["premiered"]) == str
+    assert isinstance(information["type"], str)
+    assert isinstance(information["episodes"], int)
+    assert isinstance(information["status"], str)
+    assert isinstance(information["aired"]["from"], str)
+    assert isinstance(information["aired"]["to"], str)
+    assert isinstance(information["premiered"], str)
 
     producer = information["producers"][0]
-    assert type(producer["name"]) == str
-    assert type(producer["url"]) == str
-    assert type(producer["malId"]) == int
+    assert isinstance(producer["name"], str)
+    assert isinstance(producer["url"], str)
+    assert isinstance(producer["malId"], int)
 
     licensor = information["licensors"][0]
-    assert type(licensor["name"]) == str
-    assert type(licensor["url"]) == str
-    assert type(licensor["malId"]) == int
+    assert isinstance(licensor["name"], str)
+    assert isinstance(licensor["url"], str)
+    assert isinstance(licensor["malId"], int)
 
     studio = information["studios"][0]
-    assert type(studio["name"]) == str
-    assert type(studio["url"]) == str
-    assert type(studio["malId"]) == int
+    assert isinstance(studio["name"], str)
+    assert isinstance(studio["url"], str)
+    assert isinstance(studio["malId"], int)
 
-    assert type(information["source"]) == str
+    assert isinstance(information["source"], str)
 
     genre = information["genres"][0]
-    assert type(genre["name"]) == str
-    assert type(genre["malId"]) == int
+    assert isinstance(genre["name"], str)
+    assert isinstance(genre["malId"], int)
 
-    assert type(information["duration"]) == int
-    assert type(information["rating"]) == str
+    assert isinstance(information["duration"], int)
+    assert isinstance(information["rating"], str)
 
     statistics = details["statistics"]
-    assert type(statistics["score"]) == float
-    assert type(statistics["ranked"]) == int
-    assert type(statistics["popularity"]) == int
-    assert type(statistics["members"]) == int
-    assert type(statistics["favorites"]) == int
+    assert isinstance(statistics["score"], float)
+    assert isinstance(statistics["ranked"], int)
+    assert isinstance(statistics["popularity"], int)
+    assert isinstance(statistics["members"], int)
+    assert isinstance(statistics["favorites"], int)
 
-    related_anime = details["relatedAnime"]
-    adaptation = related_anime["adaptation"][0]
-    assert type(adaptation["title"]) == str
-    assert type(adaptation["type"]) == str
-    assert type(adaptation["malId"]) == int
+    adaptation = details["relatedAnime"]["adaptation"][0]
+    assert isinstance(adaptation["title"], str)
+    assert isinstance(adaptation["type"], str)
+    assert isinstance(adaptation["malId"], int)
 
-    assert type(details["openingTheme"][0]["title"]) == str
-    assert type(details["endingTheme"][0]["title"]) == str
+    assert isinstance(details["openingTheme"][0]["title"], str)
+    assert isinstance(details["endingTheme"][0]["title"], str)

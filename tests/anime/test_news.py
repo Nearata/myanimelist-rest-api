@@ -10,11 +10,11 @@ async def test_news(client: AsyncClient) -> None:
     response = await client.get("/anime", params=params)
     news = response.json()["data"][0]
 
-    assert type(news["url"]) == str
-    assert type(news["imageUrl"]) == str
-    assert type(news["title"]) == str
-    assert type(news["content"]) == str
-    assert type(news["author"]) == str
-    assert type(news["authorProfile"]) == str
-    assert type(news["comments"]) == int
-    assert type(news["forumUrl"]) == str
+    assert isinstance(news["url"], str)
+    assert isinstance(news["imageUrl"], str)
+    assert isinstance(news["title"], str)
+    assert isinstance(news["content"], str)
+    assert isinstance(news["author"], str)
+    assert isinstance(news["authorProfile"], str)
+    assert isinstance(news["comments"], int)
+    assert isinstance(news["forumUrl"], str)

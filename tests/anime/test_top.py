@@ -14,11 +14,11 @@ async def test_top(client: AsyncClient) -> None:
     response = await client.get("/top/anime", params=params)
     top = response.json()["data"][0]
 
-    assert type(top["rank"]) == int
-    assert type(top["malId"]) == int
-    assert type(top["url"]) == str
-    assert type(top["imageUrl"]) == str
-    assert type(top["title"]) == str
-    assert type(top["episodes"]) == int
-    assert type(top["members"]) == int
-    assert type(top["score"]) == float
+    assert isinstance(top["rank"], int)
+    assert isinstance(top["malId"], int)
+    assert isinstance(top["url"], str)
+    assert isinstance(top["imageUrl"], str)
+    assert isinstance(top["title"], str)
+    assert isinstance(top["episodes"], int)
+    assert isinstance(top["members"], int)
+    assert isinstance(top["score"], float)

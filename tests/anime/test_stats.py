@@ -12,9 +12,9 @@ async def test_stats(client: AsyncClient) -> None:
 
     summary = stats["data"]["summary"]
     for i in summary.keys():
-        assert type(summary[i]) == int
+        assert isinstance(summary[i], int)
 
     scores = stats["data"]["scores"]
     for i in scores.keys():
-        assert type(scores[i]["percentage"]) == float
-        assert type(scores[i]["votes"]) == int
+        assert isinstance(scores[i]["percentage"], float)
+        assert isinstance(scores[i]["votes"], int)

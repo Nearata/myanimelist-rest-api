@@ -10,8 +10,8 @@ async def test_recommendations(client: AsyncClient) -> None:
     response = await client.get("/anime", params=params)
     recommendation = response.json()["data"][0]
 
-    assert type(recommendation["imageUrl"]) == str
-    assert type(recommendation["title"]) == str
-    assert type(recommendation["url"]) == str
-    assert type(recommendation["recommendationUrl"]) == str
-    assert type(recommendation["malId"]) == int
+    assert isinstance(recommendation["imageUrl"], str)
+    assert isinstance(recommendation["title"], str)
+    assert isinstance(recommendation["url"], str)
+    assert isinstance(recommendation["recommendationUrl"], str)
+    assert isinstance(recommendation["malId"], int)

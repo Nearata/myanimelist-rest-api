@@ -10,4 +10,4 @@ async def test_moreinfo(client: AsyncClient) -> None:
     response = await client.get("/anime", params=params)
     moreinfo = response.json()["data"]
 
-    assert type(moreinfo) == str
+    assert isinstance(moreinfo, str)

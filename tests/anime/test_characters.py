@@ -10,14 +10,14 @@ async def test_characters(client: AsyncClient) -> None:
     response = await client.get("/anime", params=params)
     characters = response.json()["data"][0]
 
-    assert type(characters["url"]) == str
-    assert type(characters["imageUrl"]) == str
-    assert type(characters["name"]) == str
-    assert type(characters["role"]) == str
+    assert isinstance(characters["url"], str)
+    assert isinstance(characters["imageUrl"], str)
+    assert isinstance(characters["name"], str)
+    assert isinstance(characters["role"], str)
 
     va = characters["voiceActors"][0]
 
-    assert type(va["name"]) == str
-    assert type(va["language"]) == str
-    assert type(va["url"]) == str
-    assert type(va["image"]) == str
+    assert isinstance(va["name"], str)
+    assert isinstance(va["language"], str)
+    assert isinstance(va["url"], str)
+    assert isinstance(va["image"], str)

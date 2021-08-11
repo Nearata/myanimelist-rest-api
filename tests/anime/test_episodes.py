@@ -10,10 +10,10 @@ async def test_episodes(client: AsyncClient) -> None:
     response = await client.get("/anime", params=params)
     episode = response.json()["data"][0]
 
-    assert type(episode["title"]) == str
-    assert type(episode["titleRomanji"]) == str
-    assert type(episode["titleJapanese"]) == str
-    assert type(episode["number"]) == int
-    assert type(episode["aired"]) == str
-    assert type(episode["filler"]) == bool
-    assert type(episode["recap"]) == bool
+    assert isinstance(episode["title"], str)
+    assert isinstance(episode["titleRomanji"], str)
+    assert isinstance(episode["titleJapanese"], str)
+    assert isinstance(episode["number"], int)
+    assert isinstance(episode["aired"], str)
+    assert isinstance(episode["filler"], bool)
+    assert isinstance(episode["recap"], bool)
