@@ -1,4 +1,4 @@
-from re import compile
+from re import compile as re_compile
 
 from bs4 import BeautifulSoup
 
@@ -50,5 +50,5 @@ class Characters:
         }
 
     def __image_url(self, string: str) -> str:
-        regex = compile(r"\b\/images\/characters\/\d{1,}\/\d{1,}.jpg\b")
+        regex = re_compile(r"\b\/images\/characters\/\d{1,}\/\d{1,}.jpg\b")
         return f"{MAL_CDN_URL}{''.join(regex.findall(string))}"
