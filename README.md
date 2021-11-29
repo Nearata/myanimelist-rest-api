@@ -65,12 +65,12 @@ Currently supported features:
 
 The [documentation](https://github.com/Nearata/myanimelist-rest-api/wiki) is available here on this repo, under `Wiki`.
 
-## License
-
-Distributed under the MIT license. See [LICENSE](LICENSE) for details.
-
 ## Disclaimer
 
 `MyAnimeList REST API` is independent. We are not affiliated, associated, authorized, endorsed by, or in any way officially connected with MyAnimeList, LLC ([Website](https://myanimelist.net/)).
 
 All product and company names are trademarks™ or registered® trademarks of their respective holders. Use of them does not imply any affiliation with or endorsement by them.
+
+## Unlicense
+
+See [UNLICENSE](UNLICENSE) for details.
