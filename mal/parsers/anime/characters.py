@@ -22,10 +22,7 @@ class Characters:
                 "voiceActors": [],
             }
 
-            if not i.has_attr("class"):
-                continue
-
-            classes = i.get("class")
+            classes = i.get("class", [])
 
             if "js-anime-character-table" not in classes:
                 continue
