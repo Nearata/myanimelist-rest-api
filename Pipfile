@@ -8,7 +8,7 @@ mypy = "*"
 pytest = "*"
 coverage = "*"
 isort = "*"
-black = "==21.7b0"
+black = "*"
 pytest-asyncio = "*"
 asgi-lifespan = "*"
 
@@ -16,7 +16,7 @@ asgi-lifespan = "*"
 beautifulsoup4 = "*"
 fastapi = "*"
 html5lib = "*"
-httpx = {extras = ["http2"], version = "==0.18.*"}
+httpx = {extras = ["http2"], version = "*"}
 orm = "*"
 aiosqlite = "*"
 uvicorn = {extras = ["standard"], version = "*"}
