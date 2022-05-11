@@ -11,7 +11,7 @@ async def test_characters(client: AsyncClient) -> None:
     characters = response.json()["data"][0]
 
     assert isinstance(characters["url"], str)
-    assert isinstance(characters["imageUrl"], str)
+    assert isinstance(characters["pictureUrl"], str)
     assert isinstance(characters["name"], str)
     assert isinstance(characters["role"], str)
 
@@ -20,4 +20,4 @@ async def test_characters(client: AsyncClient) -> None:
     assert isinstance(va["name"], str)
     assert isinstance(va["language"], str)
     assert isinstance(va["url"], str)
-    assert isinstance(va["image"], str)
+    assert isinstance(va["pictureUrl"], str)
