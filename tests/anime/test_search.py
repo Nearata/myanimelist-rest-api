@@ -1,27 +1,23 @@
 import pytest
 from httpx import AsyncClient
 
-from ..util import DEFAULT_PARAMS
-
 
 @pytest.mark.asyncio
 async def test_search(client: AsyncClient) -> None:
     params = {
-        "request": "anime",
-        "query": "kimetsu no yaiba",
+        "query": "tokyo",
         "columns": "a,b,c,d,e,f,g"
     }
     response = await client.get("/search/anime", params=params)
-    result = response.json()["data"][0]
+    data = response.json()["data"][0]
 
-    assert isinstance(result["malId"], int)
-    assert isinstance(result["url"], str)
-    assert isinstance(result["imageUrl"], str)
-    assert isinstance(result["title"], str)
-    assert isinstance(result["type"], str)
-    assert isinstance(result["episodes"], int)
-    assert isinstance(result["score"], float)
-    assert isinstance(result["startDate"], str)
-    assert isinstance(result["endDate"], str)
-    assert isinstance(result["members"], int)
-    assert isinstance(result["rated"], str)
+    assert isinstance(data["pictureUrl"], str)
+    assert isinstance(data["id"], int)
+    assert isinstance(data["title"], str)
+    assert isinstance(data["type"], str)
+    assert isinstance(data["episodes"], int)
+    assert isinstance(data["score"], float)
+    assert isinstance(data["startDate"], str)
+    assert isinstance(data["endDate"], str)
+    assert isinstance(data["members"], int)
+    assert isinstance(data["rated"], str)
