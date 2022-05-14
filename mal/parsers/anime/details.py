@@ -269,7 +269,11 @@ class Details:
                     )
 
         opening_theme = self.soup.find("h2", string="Opening Theme")
-        if opening_theme and (parent := opening_theme.parent) and (sibling := parent.next_sibling):
+        if (
+            opening_theme
+            and (parent := opening_theme.parent)
+            and (sibling := parent.next_sibling)
+        ):
             songs = []
             for i in sibling.find_all_next("tr"):
                 s = {}
@@ -291,7 +295,11 @@ class Details:
             details.update({"openingTheme": songs})
 
         ending_theme = self.soup.find("h2", string="Ending Theme")
-        if ending_theme and (parent := ending_theme.parent) and (sibling := parent.next_sibling):
+        if (
+            ending_theme
+            and (parent := ending_theme.parent)
+            and (sibling := parent.next_sibling)
+        ):
             songs = []
             for i in sibling.find_all_next("tr"):
                 s = {}
