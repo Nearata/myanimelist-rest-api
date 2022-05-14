@@ -8,8 +8,10 @@ from ..util import DEFAULT_PARAMS
 async def test_clubs(client: AsyncClient) -> None:
     params = DEFAULT_PARAMS | {"mal_request": "clubs"}
     response = await client.get("/anime", params=params)
-    data = response.json()["data"][0]
+    data = response.json()["data"]
 
-    assert isinstance(data["name"], str)
-    assert isinstance(data["url"], str)
-    assert isinstance(data["members"], int)
+    assert len(data) > 0
+
+    assert isinstance(data[0]["name"], str)
+    assert isinstance(data[0]["url"], str)
+    assert isinstance(data[0]["members"], int)
