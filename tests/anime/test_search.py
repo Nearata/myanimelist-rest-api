@@ -11,6 +11,17 @@ async def test_search(client: AsyncClient) -> None:
     response = await client.get("/search/anime", params=params)
     data = response.json()["data"][0]
 
+    assert "pictureUrl" in data
+    assert "id" in data
+    assert "title" in data
+    assert "type" in data
+    assert "episodes" in data
+    assert "score" in data
+    assert "startDate" in data
+    assert "endDate" in data
+    assert "members" in data
+    assert "rated" in data
+
     assert isinstance(data["pictureUrl"], str)
     assert isinstance(data["id"], int)
     assert isinstance(data["title"], str)

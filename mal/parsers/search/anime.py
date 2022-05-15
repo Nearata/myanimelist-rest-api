@@ -62,18 +62,53 @@ class SearchAnimeParser:
             and (sibling := parent.find_next_sibling())
             and (rows := sibling.select("table tr"))
         ):
-            mappings: dict[str, str] = {}
-
-            for index, r in enumerate(rows[0].select("td")):
-                mappings.update({f"{index}": r.get_text().strip()})
+            mappings: dict[str, str] = {
+                f"{index}": r.get_text().strip()
+                for index, r in enumerate(rows[0].select("td"))
+            }
 
             for r in rows[1:]:
                 obj: dict[str, Any] = {}
 
                 for index, c in enumerate(r.select("td")):
-                    if mappings.get(f"{index}", "") == "" and (
-                        picture := c.find_next("img")
-                    ):
+                    has_picture = mappings.get(f"{index}", "") == ""
+                    has_title = mappings.get(f"{index}", "") == "Title"
+                    has_type = mappings.get(f"{index}", "") == "Type"
+                    has_eps = mappings.get(f"{index}", "") == "Eps."
+                    has_score = mappings.get(f"{index}", "") == "Score"
+                    has_start_date = mappings.get(f"{index}", "") == "Start Date"
+                    has_end_date = mappings.get(f"{index}", "") == "End Date"
+                    has_members = mappings.get(f"{index}", "") == "Members"
+                    has_rated = mappings.get(f"{index}", "") == "Rated"
+
+                    if has_picture:
+                        obj.update({"pictureUrl": None})
+
+                    if has_title:
+                        obj.update({"title": None})
+
+                    if has_type:
+                        obj.update({"type": None})
+
+                    if has_eps:
+                        obj.update({"episodes": None})
+
+                    if has_score:
+                        obj.update({"score": None})
+
+                    if has_start_date:
+                        obj.update({"startDate": None})
+
+                    if has_end_date:
+                        obj.update({"endDate": None})
+
+                    if has_members:
+                        obj.update({"members": None})
+
+                    if has_rated:
+                        obj.update({"rated": None})
+
+                    if has_picture and (picture := c.find_next("img")):
                         obj.update(
                             {
                                 "pictureUrl": self.__format_picture(
@@ -92,9 +127,7 @@ class SearchAnimeParser:
                             }
                         )
 
-                    if mappings.get(f"{index}", "") == "Title" and (
-                        title := c.find_next(attrs={"class", "title"})
-                    ):
+                    if has_title and (title := c.find_next(attrs={"class", "title"})):
                         obj.update(
                             {
                                 "title": title_found.get_text().strip()
@@ -103,10 +136,10 @@ class SearchAnimeParser:
                             }
                         )
 
-                    if mappings.get(f"{index}", "") == "Type":
+                    if has_type:
                         obj.update({"type": c.get_text().strip()})
 
-                    if mappings.get(f"{index}", "") == "Eps.":
+                    if has_eps:
                         obj.update(
                             {
                                 "episodes": int(episodes.group())
@@ -115,7 +148,7 @@ class SearchAnimeParser:
                             }
                         )
 
-                    if mappings.get(f"{index}", "") == "Score":
+                    if has_score:
                         obj.update(
                             {
                                 "score": float(score.group())
@@ -124,7 +157,7 @@ class SearchAnimeParser:
                             }
                         )
 
-                    if mappings.get(f"{index}", "") == "Start Date":
+                    if has_start_date:
                         obj.update(
                             {
                                 "startDate": str(
@@ -141,7 +174,7 @@ class SearchAnimeParser:
                             }
                         )
 
-                    if mappings.get(f"{index}", "") == "End Date":
+                    if has_end_date:
                         obj.update(
                             {
                                 "endDate": str(
@@ -158,7 +191,7 @@ class SearchAnimeParser:
                             }
                         )
 
-                    if mappings.get(f"{index}", "") == "Members":
+                    if has_members:
                         obj.update(
                             {
                                 "members": int("".join(members))
@@ -167,7 +200,7 @@ class SearchAnimeParser:
                             }
                         )
 
-                    if mappings.get(f"{index}", "") == "Rated":
+                    if has_rated:
                         obj.update({"rated": c.get_text().strip()})
 
                 data.append(obj)
