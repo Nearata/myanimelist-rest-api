@@ -1,14 +1,18 @@
 from datetime import datetime
 from re import findall, match, search
 from typing import Any, Optional
+from urllib.parse import unquote
+
+from starlette.datastructures import URL
 
 from ...const import MAL_URL
 from ...utils import SoupUtil
 
 
 class SearchAnimeParser:
-    def __init__(self, soup_util: SoupUtil, **kwargs: Any) -> None:
+    def __init__(self, soup_util: SoupUtil, url: URL, **kwargs: Any) -> None:
         self.soup_util = soup_util
+        self.url = url
         self.query = kwargs["query"]
         self.type = kwargs["type"]
         self.score = kwargs["score"]
@@ -24,9 +28,11 @@ class SearchAnimeParser:
         self.genres = kwargs["genres"]
         self.genres_exclude = kwargs["genres_exclude"]
         self.columns = kwargs["columns"]
+        self.page = kwargs["page"]
 
     async def __call__(self) -> dict:
         params = {
+            "cat": "anime",
             "q": self.query,
             "type": self.type,
             "score": self.score,
@@ -40,6 +46,7 @@ class SearchAnimeParser:
             "em": self.end_month,
             "ed": self.end_day,
             "gx": self.genres_exclude,
+            "show": 50 * self.page - 50,
         }
 
         if self.genres:
@@ -205,7 +212,43 @@ class SearchAnimeParser:
 
                 data.append(obj)
 
-        return {"data": data}
+        links = {"self": str(self.url), "next": None, "previous": None, "last": None}
+
+        if (
+            elements
+            and (parent := elements.find_previous_sibling("div"))
+            and (span := parent.find("span"))
+            and (href := span.select_one("a:last-child"))
+        ):
+            max_pages = int(href.get_text().strip())
+
+            if max_pages > self.page:
+                links.update(
+                    {
+                        "next": unquote(
+                            str(self.url.include_query_params(page=self.page + 1))
+                        )
+                    }
+                )
+
+            if self.page >= 2:
+                links.update(
+                    {
+                        "previous": unquote(
+                            str(self.url.include_query_params(page=self.page - 1))
+                        )
+                    }
+                )
+
+            links.update(
+                {
+                    "last": unquote(str(self.url.include_query_params(page=self.page)))
+                    if self.page > max_pages
+                    else unquote(str(self.url.include_query_params(page=max_pages)))
+                }
+            )
+
+        return {"links": links, "data": data}
 
     def __format_picture(self, string: str) -> Optional[str]:
         if not string:

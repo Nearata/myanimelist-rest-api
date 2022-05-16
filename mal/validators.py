@@ -64,6 +64,7 @@ class SearchAnimeParameters(BaseModel):
     genres: str = Query(None)
     genres_exclude: int = Query(None, gt=0, lt=2)
     columns: str = Query(None)
+    page: int = Query(1)
 
     @root_validator
     def validate_root(cls, values: dict) -> dict:

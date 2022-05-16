@@ -24,6 +24,7 @@ async def anime(
 
     search = SearchAnimeParser(
         soup_util,
+        request.url,
         query=params.query,
         type=params.type,
         score=params.score,
@@ -39,6 +40,7 @@ async def anime(
         genres=params.genres,
         genres_exclude=params.genres_exclude,
         columns=params.columns,
+        page=params.page,
     )
     data = await search()
     return JSONResponse(data, status_code=201)
